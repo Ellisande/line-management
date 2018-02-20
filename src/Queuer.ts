@@ -1,5 +1,7 @@
 export interface Queuer {
-  skipped: boolean;
-  serviced: boolean;
+  numberPulledAt: string;
+  servicedAt?: string;
+  skippedAt?: string;
   userId: string;
+  number: number;
 }

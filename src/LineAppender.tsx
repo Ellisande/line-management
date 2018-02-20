@@ -16,10 +16,7 @@ class LineAppender extends React.Component<Props, {}> {
     return (
       <DataPusher path={this.props.path}>
        {
-         (addNumber: Appender) => {
-           console.log('I made it to the place', this.props.path, addNumber);
-           return this.props.children(addNumber);
-         }
+         (addNumber: Appender) => this.props.children(addNumber)
        }
       </DataPusher>
     );

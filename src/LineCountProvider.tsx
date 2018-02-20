@@ -9,7 +9,7 @@ interface Props {
 const LineCountProvider: React.SFC<Props> = ({ path, children }) => (
   <DataProvider path={path}>
     {(value: {}) => {
-      const lineCount = Object.keys(value).length;
+      const lineCount = Object.keys(value || {}).length;
       return children(lineCount);
     }}
   </DataProvider>

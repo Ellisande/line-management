@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as moment from 'moment';
 import LineCountProvider from './LineCountProvider';
 import LineAppender, { Appender } from './LineAppender';
 
@@ -18,13 +19,13 @@ const NumberDispenser: React.SFC<DispenserProps> = ({ nextNumber, onDispense }) 
               return (<button
                 onClick={() => {
                   addNumber({
-                    serviced: false,
-                    skipped: false,
+                    number: lineCount + 1,
                     userId: '1',
+                    numberPulledAt: moment().format(),
                   });
                 }}
               >
-                Take Number {lineCount + 1}
+                Take Number: {lineCount + 1}
               </button>);
             }}
         </LineCountProvider>
