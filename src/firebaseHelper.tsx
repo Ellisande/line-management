@@ -6,7 +6,16 @@ var config = {
   authDomain: 'line-manager.firebaseapp.com',
   databaseURL: 'https://line-manager.firebaseio.com/',
 };
-firebase.initializeApp(config);
+
+let initialized = false;
+const initialize = () => {
+  if (!initialized) {
+    firebase.initializeApp(config);
+    initialized = true;
+  }
+};
+
+initialize();
 
 interface DataProps {
   path: string;
@@ -28,6 +37,7 @@ interface DataState extends FirebaseRef {
 class DataProvider extends React.Component<DataProps, DataState> {
   constructor(props: DataProps) {
     super(props);
+    initialize();
     this.state = {
       value: '',
       ref: firebase.database().ref(this.props.path),
@@ -49,18 +59,20 @@ class DataProvider extends React.Component<DataProps, DataState> {
 class DataUpdater extends React.Component<DataProps, FirebaseRef> {
   constructor(props: DataProps) {
     super(props);
+    initialize();
     this.state = {
       ref: firebase.database().ref(this.props.path),
     };
   }
   render() {
-    return this.props.children(this.state.ref.set);
+    return this.props.children(this.state.ref.set.bind(this.state.ref));
   }
 }
 
 class DataPusher extends React.Component<DataProps, Update> {
   constructor(props: DataProps) {
     super(props);
+    initialize();
     const ref = firebase.database().ref(this.props.path);
     const updater = (valueToAdd: {}) => {
       const newRef = ref.push();
