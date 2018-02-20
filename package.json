@@ -1,0 +1,30 @@
+{
+  "name": "line-management",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/aphrodite": "^0.5.7",
+    "@types/firebase": "^3.2.1",
+    "@types/react-router-dom": "^4.2.4",
+    "aphrodite": "^1.2.5",
+    "firebase": "^4.10.0",
+    "moment": "^2.20.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts-ts": "2.13.0"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.1.2",
+    "@types/node": "^9.4.6",
+    "@types/react": "^16.0.38",
+    "@types/react-dom": "^16.0.4",
+    "typescript": "^2.7.1"
+  }
+}
