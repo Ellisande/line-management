@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { DataProvider } from './firebaseHelper';
+import { Queuer } from './Queuer';
+import { filter } from 'lodash';
 
 interface Props {
   path: string;
@@ -7,10 +9,10 @@ interface Props {
 }
 
 const LineCountProvider: React.SFC<Props> = ({ path, children }) => (
-  <DataProvider path={path}>
-    {(value: {}) => {
-      const lineCount = Object.keys(value || {}).length;
-      return children(lineCount);
+  <DataProvider path={`${path}/line`}>
+    {(numbersInLine: {}) => {
+      const notSkipped = filter(numbersInLine, (queuer: Queuer) => !queuer.skippedAt).length;
+      return children(notSkipped);
     }}
   </DataProvider>
 );

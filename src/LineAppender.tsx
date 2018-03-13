@@ -13,10 +13,11 @@ interface Props {
 
 class LineAppender extends React.Component<Props, {}> {
   render() {
+    const { path, children } = this.props;
     return (
-      <DataPusher path={this.props.path}>
+      <DataPusher path={`${path}/line`}>
        {
-         (addNumber: Appender) => this.props.children(addNumber)
+         (addNumber: Appender) => children(addNumber)
        }
       </DataPusher>
     );

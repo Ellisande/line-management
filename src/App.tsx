@@ -8,6 +8,7 @@ import UserWithNumber from './UserWithNumber';
 import UserWithOutNumber from './UserWithoutNumber';
 import NumberDispenser from './NumberDispenser';
 import SkipNumber from './SkipNumber';
+import CurrentNumberProvider from './CurrentNumberProvider';
 
 interface ServingProps {
   currentNumber: number;
@@ -30,12 +31,19 @@ interface ResetNumbersProps {
   onResetNumbers: () => void;
 }
 
-const Serving: React.SFC<ServingProps> = ({ currentNumber, estimatedWait }) => {
+const Serving: React.SFC<ServingProps> = ({ estimatedWait }) => {
   return (
-    <div>
-      <div>Currently Serving: {currentNumber}</div>
-      <EstimatedWait waitTime={estimatedWait} />
-    </div>
+    <CurrentNumberProvider path="/minefaire">
+      {
+        currentNumber => (
+          <div>
+            <div>Currently Serving: {currentNumber}</div>
+            <EstimatedWait waitTime={estimatedWait} />
+          </div>
+        )
+      }
+
+    </CurrentNumberProvider>
   );
 };
 
