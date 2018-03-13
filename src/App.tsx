@@ -9,6 +9,8 @@ import UserWithOutNumber from './UserWithoutNumber';
 import NumberDispenser from './NumberDispenser';
 import SkipNumber from './SkipNumber';
 import CurrentNumberProvider from './CurrentNumberProvider';
+import CurrentNumberUpdater from './CurrentNumberUpdater';
+import NextNumberProvider from './NextNumberProvider';
 
 interface ServingProps {
   currentNumber: number;
@@ -47,8 +49,22 @@ const Serving: React.SFC<ServingProps> = ({ estimatedWait }) => {
   );
 };
 
+/*
+<CurrentNumberUpdater path="/minefaire">
+  {(updater) => <button onClick={() => updater(nextNumber.number)}>Pull Number {nextNumber}</button>}
+</CurrentNumberUpdater>
+*/
 const PullNextNumber: React.SFC<PullNextNumberProps> =
-  ({ onPullNumber }) => <button onClick={onPullNumber}>Next Number</button>;
+  ({ onPullNumber }) => (
+    <CurrentNumberUpdater path="/minefaire">
+      {updater => (
+        <NextNumberProvider path="/minefaire">
+          {nextNumber => <button onClick={() => updater(nextNumber.number)}>Pull Number: {nextNumber.number}</button>}
+        </NextNumberProvider>
+      )}
+    </CurrentNumberUpdater>
+
+  );
 
 const StartAccepting: React.SFC<AcceptNumbersProps> =
   ({ onStartAccepting }) => <button onClick={onStartAccepting}>Start Accepting Numbers</button>;

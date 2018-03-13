@@ -56,16 +56,18 @@ class DataProvider extends React.Component<DataProps, DataState> {
   }
 }
 
-class DataUpdater extends React.Component<DataProps, FirebaseRef> {
+class DataUpdater extends React.Component<DataProps, Update> {
   constructor(props: DataProps) {
     super(props);
     initialize();
+    const ref = firebase.database().ref(this.props.path);
+    const updater = (nextValue: {}) => ref.set(nextValue);
     this.state = {
-      ref: firebase.database().ref(this.props.path),
+      updater,
     };
   }
   render() {
-    return this.props.children(this.state.ref.set.bind(this.state.ref));
+    return this.props.children(this.state.updater);
   }
 }
 
