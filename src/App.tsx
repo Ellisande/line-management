@@ -2,14 +2,16 @@ import * as React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import * as moment from 'moment';
 import { StyleSheet, css } from 'aphrodite';
+// import { merge } from 'lodash';
 
 import EstimatedWait from './EstimatedWait';
 import UserWithNumber from './UserWithNumber';
 import UserWithOutNumber from './UserWithoutNumber';
 import NumberDispenser from './NumberDispenser';
 import SkipNumber from './SkipNumber';
-import CurrentNumberProvider from './CurrentNumberProvider';
+import CurrentQueuerProvider from './CurrentQueuerProvider';
 import PullNextNumber from './PullNextNumber';
+import ServiceNumberUpdater from './ServiceNumberUpdater';
 
 interface ServingProps {
   currentNumber: number;
@@ -28,21 +30,38 @@ interface ResetNumbersProps {
   onResetNumbers: () => void;
 }
 
+interface MarkServedProps {}
+
 const Serving: React.SFC<ServingProps> = ({ estimatedWait }) => {
   return (
-    <CurrentNumberProvider path="/minefaire">
+    <CurrentQueuerProvider path="/minefaire">
       {
-        currentNumber => (
-          <div>
-            <div>Currently Serving: {currentNumber}</div>
+        currentQueuer => (
+          <div onClick={() => console.log(currentQueuer)}>
+            <div>Currently Serving: {currentQueuer.number}</div>
             <EstimatedWait waitTime={estimatedWait} />
           </div>
         )
       }
-
-    </CurrentNumberProvider>
+    </CurrentQueuerProvider>
   );
 };
+
+const MarkServed: React.SFC<MarkServedProps> = () => (
+  <CurrentQueuerProvider path="/minefaire">
+    {(queuer, id) => (
+      <ServiceNumberUpdater path="/minefaire" id={id}>
+        {updater => (
+          <button
+            onClick={() => updater(moment().format())}
+          >
+            Mark {queuer.number} Done
+          </button>
+        )}
+      </ServiceNumberUpdater>
+    )}
+  </CurrentQueuerProvider>
+);
 
 const StartAccepting: React.SFC<AcceptNumbersProps> =
   ({ onStartAccepting }) => <button onClick={onStartAccepting}>Start Accepting Numbers</button>;
@@ -108,6 +127,7 @@ class App extends React.Component {
             render={() =>
               <div>
                 <PullNextNumber onPullNumber={() => undefined} />
+                <MarkServed />
                 <SkipNumber onSkip={() => undefined} numberToSkip={1}/>
                 <StartAccepting onStartAccepting={() => undefined} />
                 <StopAccepting onStopAccepting={() => undefined} />

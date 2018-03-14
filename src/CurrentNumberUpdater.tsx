@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { DataUpdater } from './firebaseHelper';
+// import { Queuer } from './Queuer';
 
 export interface Updater {
-  (nextNumber: number): void;
+  (nextNumber: string): void;
 }
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
   children: (updater: Updater) => JSX.Element;
 }
 
-class CurrentNumberUpdater extends React.Component<Props, {}> {
+class CurrentQueuerUpdater extends React.Component<Props, {}> {
   render() {
     const { path, children } = this.props;
     return (
@@ -23,4 +24,4 @@ class CurrentNumberUpdater extends React.Component<Props, {}> {
   }
 }
 
-export default CurrentNumberUpdater;
+export default CurrentQueuerUpdater;
