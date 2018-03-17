@@ -29,7 +29,7 @@ const UserWithNumber: React.SFC<Props> = ({ waitTime, onSkip, onAcknowledge, onL
   return (
     <div>
       <EstimatedWait waitTime={waitTime} />
-      <SkipNumber onSkip={onSkip} numberToSkip={userNumber}/>
+      <SkipNumber />
       <OnTheWay onAcknowledge={onAcknowledge}/>
       <NotComing onLeaveQueue={onLeaveQueue}/>
     </div>

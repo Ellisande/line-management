@@ -128,7 +128,7 @@ class App extends React.Component {
               <div>
                 <PullNextNumber onPullNumber={() => undefined} />
                 <MarkServed />
-                <SkipNumber onSkip={() => undefined} numberToSkip={1}/>
+                <SkipNumber />
                 <StartAccepting onStartAccepting={() => undefined} />
                 <StopAccepting onStopAccepting={() => undefined} />
                 <ResetNumbers onResetNumbers={() => undefined} />
