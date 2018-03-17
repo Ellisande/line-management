@@ -28,7 +28,7 @@ interface OptionalProviderProps {
 
 interface ProviderProps extends OptionalProviderProps {
   path: string;
-  children: (value: {}, id: string) => JSX.Element;
+  children: (value?: {}, id?: string) => JSX.Element;
 }
 
 interface Update {

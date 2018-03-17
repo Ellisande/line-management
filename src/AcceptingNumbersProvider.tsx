@@ -13,7 +13,7 @@ const AcceptingNumbersProvider: React.SFC<Props> = ({ path, children }) => (
         <DataProvider path={`${path}/stoppedAcceptingAt`}>
           {
             stoppedAcceptingAt => {
-              const accepting = startedAcceptingAt && !stoppedAcceptingAt;
+              const accepting = Boolean(startedAcceptingAt && !stoppedAcceptingAt);
               return children(accepting);
             }
           }

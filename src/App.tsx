@@ -40,12 +40,12 @@ const Serving: React.SFC<ServingProps> = ({ estimatedWait }) => {
   return (
     <CurrentQueuerProvider path="/minefaire">
       {
-        currentQueuer => (
-          <div onClick={() => console.log(currentQueuer)}>
+        currentQueuer => currentQueuer ? (
+          <div>
             <div>Currently Serving: {currentQueuer.number}</div>
             <EstimatedWait waitTime={estimatedWait} />
           </div>
-        )
+        ) : <div>Not Current Serving</div>
       }
     </CurrentQueuerProvider>
   );
@@ -53,7 +53,7 @@ const Serving: React.SFC<ServingProps> = ({ estimatedWait }) => {
 
 const MarkServed: React.SFC<MarkServedProps> = () => (
   <CurrentQueuerProvider path="/minefaire">
-    {(queuer, id) => (
+    {(queuer, id) => queuer && id ? (
       <ServiceNumberUpdater path="/minefaire" id={id}>
         {updater => (
           <button
@@ -63,7 +63,7 @@ const MarkServed: React.SFC<MarkServedProps> = () => (
           </button>
         )}
       </ServiceNumberUpdater>
-    )}
+    ) : <button disabled={true}>No current number</button>}
   </CurrentQueuerProvider>
 );
 
