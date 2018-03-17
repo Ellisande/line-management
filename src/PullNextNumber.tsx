@@ -14,7 +14,7 @@ const PullNextNumber: React.SFC<PullNextNumberProps> =
         <NextNumberProvider path="/minefaire">
           {
             (nextNumber: Queuer, id: string) => {
-              console.log(`The next number happened and it is ${nextNumber} with id ${id}`);
+              console.log(`The next number happened and it is ${JSON.stringify(nextNumber)} with id ${id}`);
               return <button onClick={() => updater(`${nextNumber.id}`)}>Pull Number: {nextNumber.number}</button>;
             }
           }

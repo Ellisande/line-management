@@ -58,60 +58,89 @@ class DataProvider extends React.Component<ProviderProps, DataState> {
     this.state = {
       value: '',
       key: '',
-      ref: firebase.database().ref(this.props.path),
+      ref: firebase.database().ref(props.path),
     };
+    this.updateStateValues = this.updateStateValues.bind(this);
+  }
+  updateStateValues(snapshot: firebase.database.DataSnapshot) {
+    this.setState(() => ({ value: snapshot.val(), key: `${snapshot.key}` }));
+  }
+  buildRef(path: string, updateOn: string): firebase.database.Reference {
+    const newRef = firebase.database().ref(path);
+    newRef.once('value').then(this.updateStateValues);
+    newRef.on(updateOn, this.updateStateValues);
+    return newRef;
   }
   componentDidMount() {
-    const updateState = (snapshot: firebase.database.DataSnapshot) =>
-      this.setState(() => ({ value: snapshot.val(), key: `${snapshot.key}` }));
-    this.state.ref.once(this.props.updateOn || 'value').then(updateState);
-    this.state.ref.on(this.props.updateOn || 'value', updateState);
-  }
-  componentWillReceiveProps(nextProps: CollectDataProps) {
-    if (this.props === nextProps) {
-      return;
-    }
     this.setState(() => ({
-      ref: firebase.database().ref(nextProps.path)
+      ref: this.buildRef(this.props.path, this.props.updateOn || 'value'),
     }));
+  }
+  componentWillReceiveProps(nextProps: ProviderProps) {
+    if (this.props !== nextProps) {
+      this.state.ref.off();
+      const newRef = this.buildRef(nextProps.path, nextProps.updateOn || 'value');
+      this.setState(() => ({
+        ref: newRef,
+      }));
+    }
   }
   render() {
     return this.props.children(this.state.value, this.state.key);
   }
-  componentWillUnmount() {
+  handleUnmount() {
     this.state.ref.off();
+  }
+  componentWillUnmount() {
+    this.handleUnmount();
   }
 }
 
 class CollectionDataProvider extends React.Component<CollectDataProps, DataState> {
+  public static defaultProps: OptionalProviderProps = {
+    updateOn: 'value'
+  };
   constructor(props: CollectDataProps) {
     super(props);
     initialize();
     this.state = {
       value: '',
       key: '',
-      ref: firebase.database().ref(this.props.path).child(this.props.id),
+      ref: firebase.database().ref(props.path).child(props.id),
     };
+    this.updateStateValues = this.updateStateValues.bind(this);
+  }
+  updateStateValues(snapshot: firebase.database.DataSnapshot) {
+    this.setState(() => ({ value: snapshot.val(), key: `${snapshot.key}` }));
+  }
+  buildRef(path: string, id: string, updateOn: string): firebase.database.Reference {
+    const newRef = firebase.database().ref(path).child(id);
+    newRef.once('value').then(this.updateStateValues);
+    newRef.on(updateOn || 'value', this.updateStateValues);
+    return newRef;
   }
   componentDidMount() {
-    const updateState = (snapshot: firebase.database.DataSnapshot) =>
-      this.setState(() => ({ value: snapshot.val(), key: `${snapshot.key}` }));
-    this.state.ref.once('value').then(updateState);
-    this.state.ref.on('value', updateState);
+    this.setState(() => ({
+      ref: this.buildRef(this.props.path, this.props.id, this.props.updateOn || 'value'),
+    }));
   }
   componentWillReceiveProps(nextProps: CollectDataProps) {
-    if (this.props === nextProps) {
-      return;
+    if (this.props !== nextProps) {
+      this.state.ref.off();
+      const newRef = this.buildRef(nextProps.path, nextProps.id, nextProps.updateOn || 'value');
+      this.setState(() => ({
+        ref: newRef,
+      }));
     }
-    this.setState(() => ({
-      ref: firebase.database().ref(nextProps.path).child(nextProps.id)
-    }));
   }
   render() {
     return this.props.children(this.state.value, this.state.key);
   }
-  componentWillUnmount() {
+  handleUnmount() {
     this.state.ref.off();
+  }
+  componentWillUnmount() {
+    this.handleUnmount();
   }
 }
 
