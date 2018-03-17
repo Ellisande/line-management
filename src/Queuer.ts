@@ -1,8 +1,8 @@
 export interface Queuer {
-  id?: string;
-  numberPulledAt: string;
+  numberPulledAt?: string;
   servicedAt?: string;
   skippedAt?: string;
+  leftAt?: string;
   userId: string;
   number: number;
 }

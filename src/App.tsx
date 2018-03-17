@@ -134,7 +134,7 @@ class App extends React.Component {
                 onSkip={() => undefined}
                 onAcknowledge={() => undefined}
                 onLeaveQueue={() => undefined}
-                userNumber={1}
+                userId="-L7pZG8UxLlQC9zHDqza"
               />
             }
           />

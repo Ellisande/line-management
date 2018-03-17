@@ -3,6 +3,7 @@ import * as moment from 'moment';
 
 import EstimatedWait from './EstimatedWait';
 import SkipNumber from './SkipNumber';
+import LeaveLineUpdater from './LeaveLineUpdater';
 
 interface OnTheWayProps {
   onAcknowledge: () => void;
@@ -22,16 +23,18 @@ interface Props {
   onSkip: () => void;
   onAcknowledge: () => void;
   onLeaveQueue: () => void;
-  userNumber: number;
+  userId: string;
 }
 
-const UserWithNumber: React.SFC<Props> = ({ waitTime, onSkip, onAcknowledge, onLeaveQueue, userNumber }) => {
+const UserWithNumber: React.SFC<Props> = ({ waitTime, onSkip, onAcknowledge, onLeaveQueue, userId }) => {
   return (
     <div>
       <EstimatedWait waitTime={waitTime} />
       <SkipNumber />
       <OnTheWay onAcknowledge={onAcknowledge}/>
-      <NotComing onLeaveQueue={onLeaveQueue}/>
+      <LeaveLineUpdater path="/minefaire" id={userId}>
+        {notComing => <NotComing onLeaveQueue={() => notComing(moment().format())}/>}
+      </LeaveLineUpdater>
     </div>
   );
 };
