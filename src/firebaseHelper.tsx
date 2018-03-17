@@ -35,6 +35,10 @@ interface Update {
   updater: Function;
 }
 
+interface Remove {
+  (): void;
+}
+
 interface FirebaseRef {
   ref: firebase.database.Reference;
 }
@@ -46,6 +50,11 @@ interface DataState extends FirebaseRef {
 
 interface CollectDataProps extends ProviderProps {
   id: string;
+}
+
+interface RemoverProps {
+  path: string;
+  children: (remover: Remove) => JSX.Element;
 }
 
 class DataProvider extends React.Component<ProviderProps, DataState> {
@@ -156,7 +165,7 @@ class DataUpdater extends React.Component<DataProps, Update> {
   }
 }
 
-class DataRemover extends React.Component<DataProps, Update> {
+class DataRemover extends React.Component<RemoverProps, Update> {
   render() {
     const ref = firebase.database().ref(this.props.path);
     return this.props.children(ref.remove.bind(ref));

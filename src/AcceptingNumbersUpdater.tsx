@@ -23,7 +23,7 @@ class AcceptingNumbersUpdater extends React.Component<Props, {}> {
                 (stoppedAcceptingAtUpdater: Updater) => (
                   <DataRemover path={`${path}/stoppedAcceptingAt`}>
                     {
-                      (removeStopped: () => void) => {
+                      removeStopped => {
                         const startHandler = (timestamp: string) => {
                           removeStopped();
                           return startedAcceptingUpdater(timestamp);
