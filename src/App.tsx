@@ -14,6 +14,7 @@ import PullNextNumber from './PullNextNumber';
 import ServiceNumberUpdater from './ServiceNumberUpdater';
 import AcceptingNumbersProvider from './AcceptingNumbersProvider';
 import AcceptingNumbersUpdater from './AcceptingNumbersUpdater';
+import EverythingRemover from './EverythingRemover';
 
 interface ServingProps {
   currentNumber: number;
@@ -88,8 +89,11 @@ const StartStopNumbers: React.SFC<{}> = () => (
   </AcceptingNumbersUpdater>
 );
 
-const ResetNumbers: React.SFC<ResetNumbersProps> =
-  ({ onResetNumbers }) => <button onClick={onResetNumbers}>Reset All Numbers</button>;
+const ResetNumbers: React.SFC<ResetNumbersProps> = () => (
+  <EverythingRemover path="/minefaire">
+    {removeEverything => <button onClick={removeEverything}>Reset All Numbers</button>}
+  </EverythingRemover>
+);
 
 const tenMinutes = moment.duration(10, 'minutes');
 
@@ -149,7 +153,7 @@ class App extends React.Component {
                 <MarkServed />
                 <SkipNumber />
                 <StartStopNumbers />
-                <ResetNumbers onResetNumbers={() => undefined} />
+                <ResetNumbers onResetNumbers={() => undefined}/>
               </div>
             }
           />
@@ -158,7 +162,12 @@ class App extends React.Component {
             render={
               () => (
                 <div>
-                  <NumberDispenser nextNumber={10} onDispense={() => undefined} />
+                  <AcceptingNumbersProvider path="/minefaire">
+                    {accepting => !accepting ?
+                      <div/> :
+                      <NumberDispenser nextNumber={10} onDispense={() => undefined} />
+                    }
+                  </AcceptingNumbersProvider>
                   <Serving currentNumber={3} estimatedWait={moment.duration(10, 'minutes')} />
                 </div>
               )

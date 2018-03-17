@@ -16,12 +16,7 @@ class ServiceNumberUpdater extends React.Component<Props, {}> {
     const { path, children, id } = this.props;
     return (
       <DataUpdater path={`${path}/line/${id}/servicedAt`}>
-        {
-          (updater: Updater) => {
-            console.log(`This happend with path ${path}/line/${id}/servicedAt`);
-            return children(updater);
-          }
-        }
+        {(updater: Updater) => children(updater)}
       </DataUpdater>
     );
   }

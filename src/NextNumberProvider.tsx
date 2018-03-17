@@ -17,8 +17,6 @@ const NextNumberProvider: React.SFC<Props> = ({ path, children }) => (
       const validNumbers = map(allNumbers, (num: Queuer, key: string) => ({...num, id: key}))
         .filter(onlyUnserviced).filter(onlyUnskipped);
       const nextNumber = validNumbers[0] ||  {};
-      console.log(`All numbers ${JSON.stringify(validNumbers)}. Valid ${JSON.stringify(validNumbers)}
-      And finally the next is ${JSON.stringify(nextNumber)}. Id is ${nextNumber.id}`);
       return children(nextNumber, nextNumber.id);
     }}
   </DataProvider>
