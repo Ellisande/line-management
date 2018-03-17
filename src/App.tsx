@@ -12,6 +12,8 @@ import SkipNumber from './SkipNumber';
 import CurrentQueuerProvider from './CurrentQueuerProvider';
 import PullNextNumber from './PullNextNumber';
 import ServiceNumberUpdater from './ServiceNumberUpdater';
+import AcceptingNumbersProvider from './AcceptingNumbersProvider';
+import AcceptingNumbersUpdater from './AcceptingNumbersUpdater';
 
 interface ServingProps {
   currentNumber: number;
@@ -31,6 +33,8 @@ interface ResetNumbersProps {
 }
 
 interface MarkServedProps {}
+
+// const noOp = () => { return; };
 
 const Serving: React.SFC<ServingProps> = ({ estimatedWait }) => {
   return (
@@ -68,6 +72,21 @@ const StartAccepting: React.SFC<AcceptNumbersProps> =
 
 const StopAccepting: React.SFC<StopAcceptingNumbersProps> =
   ({ onStopAccepting }) => <button onClick={onStopAccepting}>Stop Accepting Numbers</button>;
+
+const StartStopNumbers: React.SFC<{}> = () => (
+  <AcceptingNumbersUpdater path="/minefaire">
+    {
+      (startAccepting, stopAccepting) => (
+      <AcceptingNumbersProvider path="/minefaire">
+        {
+          accepting => accepting ?
+          <StopAccepting onStopAccepting={() => stopAccepting(moment().format())} /> :
+          <StartAccepting onStartAccepting={() => startAccepting(moment().format())}/>
+        }
+      </AcceptingNumbersProvider>
+    )}
+  </AcceptingNumbersUpdater>
+);
 
 const ResetNumbers: React.SFC<ResetNumbersProps> =
   ({ onResetNumbers }) => <button onClick={onResetNumbers}>Reset All Numbers</button>;
@@ -129,8 +148,7 @@ class App extends React.Component {
                 <PullNextNumber onPullNumber={() => undefined} />
                 <MarkServed />
                 <SkipNumber />
-                <StartAccepting onStartAccepting={() => undefined} />
-                <StopAccepting onStopAccepting={() => undefined} />
+                <StartStopNumbers />
                 <ResetNumbers onResetNumbers={() => undefined} />
               </div>
             }

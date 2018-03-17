@@ -156,6 +156,13 @@ class DataUpdater extends React.Component<DataProps, Update> {
   }
 }
 
+class DataRemover extends React.Component<DataProps, Update> {
+  render() {
+    const ref = firebase.database().ref(this.props.path);
+    return this.props.children(ref.remove.bind(ref));
+  }
+}
+
 class DataPusher extends React.Component<DataProps, Update> {
   constructor(props: DataProps) {
     super(props);
@@ -189,4 +196,5 @@ export {
   DataUpdater,
   DataPusher,
   CollectionDataProvider,
+  DataRemover,
 };
