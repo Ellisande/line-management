@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import EstimatedWait from './EstimatedWait';
 import SkipNumber from './SkipNumber';
 import LeaveLineUpdater from './LeaveLineUpdater';
+import LocalQueuerProvider from './LocalQueuerProvider';
 
 interface OnTheWayProps {
   onAcknowledge: () => void;
@@ -30,11 +31,19 @@ const UserWithNumber: React.SFC<Props> = ({ waitTime, onSkip, onAcknowledge, onL
   return (
     <div>
       <EstimatedWait waitTime={waitTime} />
-      <SkipNumber />
-      <OnTheWay onAcknowledge={onAcknowledge}/>
-      <LeaveLineUpdater path="/minefaire" id={userId}>
-        {notComing => <NotComing onLeaveQueue={() => notComing(moment().format())}/>}
-      </LeaveLineUpdater>
+      <LocalQueuerProvider path="minefaire">
+        {
+          queuer => queuer ? (
+            <div>
+              <SkipNumber />
+              <OnTheWay onAcknowledge={onAcknowledge}/>
+              <LeaveLineUpdater path="/minefaire" id={userId}>
+                {notComing => <NotComing onLeaveQueue={() => notComing(moment().format())}/>}
+              </LeaveLineUpdater>
+            </div>
+          ) : <div>You don't have a number yet!</div>
+        }
+      </LocalQueuerProvider>
     </div>
   );
 };
