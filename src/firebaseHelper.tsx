@@ -20,6 +20,7 @@ initialize();
 interface DataProps {
   path: string;
   children: (value: {}) => JSX.Element;
+  onPush?: (id: string) => void;
 }
 
 interface OptionalProviderProps {
@@ -176,22 +177,25 @@ class DataPusher extends React.Component<DataProps, Update> {
   constructor(props: DataProps) {
     super(props);
     initialize();
-    const ref = firebase.database().ref(this.props.path);
-    const updater = (valueToAdd: {}) => {
-      const newRef = ref.push();
-      return newRef.set(valueToAdd);
-    };
+    const ref = firebase.database().ref(props.path);
+    const updater = this.buildUpdater(ref, props.onPush);
     this.state = {
       updater,
     };
   }
+  buildUpdater(ref: firebase.database.Reference, onPush?: (id: string) => void) {
+    return (valueToAdd: {}) => {
+      const newRef = ref.push();
+      if (newRef.key && onPush) {
+        onPush(newRef.key);
+      }
+      return newRef.set(valueToAdd);
+    };
+  }
   componentWillReceiveProps(nextProps: DataProps) {
     if (this.props !== nextProps) {
-      const ref = firebase.database().ref(this.props.path);
-      const updater = (valueToAdd: {}) => {
-        const newRef = ref.push();
-        return newRef.set(valueToAdd);
-      };
+      const ref = firebase.database().ref(nextProps.path);
+      const updater = this.buildUpdater(ref, nextProps.onPush);
       this.setState(() => ({ updater }));
     }
   }

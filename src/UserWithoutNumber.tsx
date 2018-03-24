@@ -4,24 +4,31 @@ import * as moment from 'moment';
 import EstimatedWait from './EstimatedWait';
 import NumberDispenser from './NumberDispenser';
 import AcceptingNumbersProvider from './AcceptingNumbersProvider';
+import LocalNumberUpdater from './LocalNumberUpdater';
 
 interface Props {
   nextNumber: number;
-  onDispense: () => void;
   waitTime: moment.Duration;
 }
 
-const UserWithoutNumber: React.SFC<Props> = ({ nextNumber, onDispense, waitTime }) => {
+const UserWithoutNumber: React.SFC<Props> = ({ nextNumber, waitTime }) => {
   return (
-    <AcceptingNumbersProvider path="/minefaire">
-      {
-        accepting => accepting ? (
-        <div>
-          <NumberDispenser nextNumber={nextNumber} onDispense={onDispense} key={1} />
-          <EstimatedWait waitTime={waitTime} key={2} />
-        </div>
-      ) : <div>Sorry we are not currently taking numbers</div>}
-    </AcceptingNumbersProvider>
+    <LocalNumberUpdater path="/minefaire">
+    {
+      setLocalNumber => (
+        <AcceptingNumbersProvider path="/minefaire">
+        {
+          accepting => accepting ? (
+            <div>
+              <NumberDispenser nextNumber={nextNumber} onDispense={setLocalNumber} />
+              <EstimatedWait waitTime={waitTime} />
+            </div>
+          ) : <div>Sorry we are not currently taking numbers</div>
+        }
+        </AcceptingNumbersProvider>
+      )
+    }
+    </LocalNumberUpdater>
   );
 };
 

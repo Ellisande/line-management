@@ -5,12 +5,12 @@ import LineAppender, { Appender } from './LineAppender';
 
 interface DispenserProps {
   nextNumber: number;
-  onDispense: () => void;
+  onDispense?: (numberId: string) => void;
 }
 
 const NumberDispenser: React.SFC<DispenserProps> = ({ nextNumber, onDispense }) => {
   return (
-    <LineAppender path="/minefaire">
+    <LineAppender path="/minefaire" onPush={onDispense}>
     {
       (addNumber: Appender) => (
         <LineCountProvider path="/minefaire">

@@ -142,7 +142,7 @@ class App extends React.Component {
             path="/user/withOutNumber"
             exact={true}
             render={() =>
-              <UserWithOutNumber nextNumber={2} onDispense={() => undefined} waitTime={tenMinutes}/>
+              <UserWithOutNumber nextNumber={2} waitTime={tenMinutes}/>
             }
           />
           <Route
