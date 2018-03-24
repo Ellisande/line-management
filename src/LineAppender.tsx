@@ -9,13 +9,14 @@ export interface Appender {
 interface Props {
   path: string;
   children: (appender: Appender) => JSX.Element;
+  onPush?: (id: string) => void;
 }
 
 class LineAppender extends React.Component<Props, {}> {
   render() {
-    const { path, children } = this.props;
+    const { path, children, onPush } = this.props;
     return (
-      <DataPusher path={`${path}/line`}>
+      <DataPusher path={`${path}/line`} onPush={onPush}>
        {
          (addNumber: Appender) => children(addNumber)
        }
