@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { CollectionDataProvider, DataProvider } from './firebaseHelper';
+import { DataProvider } from './firebaseHelper';
 import { Queuer } from './Queuer';
+import QueuerProvider from './QueuerProvider';
 
 interface Props {
   path: string;
@@ -12,11 +13,11 @@ const CurrentQueuerProvider: React.SFC<Props> = ({ path, children }) => (
     {
       (currentNumberId?: string) => (
         currentNumberId ? (
-        <CollectionDataProvider path={`${path}/line`} id={currentNumberId}>
-          {(queuer: Queuer, id: string) => {
-            return children(queuer, id);
+        <QueuerProvider path={path} id={currentNumberId}>
+          {queuer => {
+            return children(queuer, currentNumberId);
           }}
-        </CollectionDataProvider>) : children(undefined, undefined)
+        </QueuerProvider>) : children(undefined, undefined)
       )
     }
   </DataProvider>
