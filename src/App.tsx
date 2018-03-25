@@ -15,6 +15,7 @@ import ServiceNumberUpdater from './ServiceNumberUpdater';
 import AcceptingNumbersProvider from './AcceptingNumbersProvider';
 import AcceptingNumbersUpdater from './AcceptingNumbersUpdater';
 import EverythingRemover from './EverythingRemover';
+import AverageNumberTime from './AverageNumberTime';
 
 interface ServingProps {
   currentNumber: number;
@@ -149,6 +150,7 @@ class App extends React.Component {
             path="/manage"
             render={() =>
               <div>
+                <AverageNumberTime />
                 <PullNextNumber onPullNumber={() => undefined} />
                 <MarkServed />
                 <SkipNumber />
