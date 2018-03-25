@@ -8,7 +8,7 @@ import EstimatedWait from './EstimatedWait';
 import UserWithNumber from './UserWithNumber';
 import UserWithOutNumber from './UserWithoutNumber';
 import NumberDispenser from './NumberDispenser';
-import SkipNumber from './SkipNumber';
+import SkipNumber from './SkipCurrentNumber';
 import CurrentQueuerProvider from './CurrentQueuerProvider';
 import PullNextNumber from './PullNextNumber';
 import ServiceNumberUpdater from './ServiceNumberUpdater';
