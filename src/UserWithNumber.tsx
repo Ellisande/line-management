@@ -29,22 +29,23 @@ interface Props {
 
 const UserWithNumber: React.SFC<Props> = ({ waitTime, onSkip, onAcknowledge, onLeaveQueue, userId }) => {
   return (
-    <div>
-      <EstimatedWait waitTime={waitTime} />
-      <LocalQueuerProvider path="minefaire">
-        {
-          queuer => queuer ? (
-            <div>
-              <SkipNumber />
-              <OnTheWay onAcknowledge={onAcknowledge}/>
-              <LeaveLineUpdater path="/minefaire" id={userId}>
-                {notComing => <NotComing onLeaveQueue={() => notComing(moment().format())}/>}
-              </LeaveLineUpdater>
-            </div>
-          ) : <div>You don't have a number yet!</div>
-        }
-      </LocalQueuerProvider>
-    </div>
+    <LocalQueuerProvider path="minefaire">
+      {
+        (queuer, id) => queuer && id ? (
+          <div>
+            <div>Your number is {queuer.number}</div>
+            <EstimatedWait waitTime={waitTime} />
+            <SkipNumber path="/minefaire" idToSkip={id}>
+              Skip Me
+            </SkipNumber>
+            <OnTheWay onAcknowledge={onAcknowledge}/>
+            <LeaveLineUpdater path="/minefaire" id={userId}>
+              {notComing => <NotComing onLeaveQueue={() => notComing(moment().format())}/>}
+            </LeaveLineUpdater>
+          </div>
+        ) : <div>You don't have a number yet!</div>
+      }
+    </LocalQueuerProvider>
   );
 };
 
