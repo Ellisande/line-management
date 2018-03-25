@@ -1,5 +1,5 @@
 export interface Queuer {
-  numberPulledAt?: string;
+  pulledAt?: string;
   servicedAt?: string;
   skippedAt?: string;
   leftAt?: string;

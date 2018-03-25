@@ -21,7 +21,7 @@ const NumberDispenser: React.SFC<DispenserProps> = ({ nextNumber, onDispense }) 
                   addNumber({
                     number: lineCount + 1,
                     userId: '1',
-                    numberPulledAt: moment().format(),
+                    pulledAt: moment().format(),
                   });
                 }}
               >
