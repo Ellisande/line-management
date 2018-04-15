@@ -8,11 +8,11 @@ interface SkipProps {
 }
 
 const SkipCurrentNumber: React.SFC<SkipProps> = () => (
-  <CurrentQueuerProvider path="/minefaire">
+  <CurrentQueuerProvider>
     {
       (queuer, id) => {
         return queuer && id ? (
-          <SkipNumber path="/minefaire" idToSkip={id}>
+          <SkipNumber idToSkip={id}>
             Skip Number {queuer.number}
           </SkipNumber>
         ) : <button disabled={true}>No Current Number to Skip</button>;

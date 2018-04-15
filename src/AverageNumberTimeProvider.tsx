@@ -1,11 +1,10 @@
 import * as React from 'react';
 import * as moment from 'moment';
 import { isEmpty, filter, map } from 'lodash';
-import { DataProvider } from './firebaseHelper';
+import { FirebaseQuery } from 'fire-fetch';
 import { Queuer } from './Queuer';
 
 interface Props {
-    path: string;
     children: (averageTime: moment.Duration) => JSX.Element;
 }
 
@@ -17,9 +16,9 @@ const pulledAndServiced = (queuer: Queuer) => queuer.pulledAt && queuer.serviced
 const toServiceTime = (queuer: Queuer) => moment(queuer.servicedAt).diff(moment(queuer.pulledAt));
 const sum = (total: number, serviceTime: number) => total + serviceTime;
 
-const AverageNumberTimeProvider: React.SFC<Props> = ({ path, children }) => {
+const AverageNumberTimeProvider: React.SFC<Props> = ({ children }) => {
     return (
-        <DataProvider path={`${path}/line`} updateOn="child_changed">
+        <FirebaseQuery path="/line" on={true}>
             {
                 (allNumbers?: QueuerMap) => {
                     if (!allNumbers || isEmpty(allNumbers)) {
@@ -40,7 +39,7 @@ const AverageNumberTimeProvider: React.SFC<Props> = ({ path, children }) => {
                     return children(moment.duration(average));
                 }
             }
-        </DataProvider>
+        </FirebaseQuery>
     );
 };
 

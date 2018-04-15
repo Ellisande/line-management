@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DataUpdater } from './firebaseHelper';
+import { FirebaseUpdater } from './firebaseHelper';
 // import { Queuer } from './Queuer';
 
 export interface Updater {
@@ -7,19 +7,18 @@ export interface Updater {
 }
 
 interface Props {
-  path: string;
   children: (updater: Updater) => JSX.Element;
 }
 
 class CurrentQueuerUpdater extends React.Component<Props, {}> {
   render() {
-    const { path, children } = this.props;
+    const { children } = this.props;
     return (
-      <DataUpdater path={`${path}/current`}>
+      <FirebaseUpdater path="/current">
         {
           (updater: Updater) => children(updater)
         }
-      </DataUpdater>
+      </FirebaseUpdater>
     );
   }
 }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DataPusher } from './firebaseHelper';
+import { FirebasePusher } from './firebaseHelper';
 import { Queuer } from './Queuer';
 
 export interface Appender {
@@ -7,20 +7,19 @@ export interface Appender {
 }
 
 interface Props {
-  path: string;
   children: (appender: Appender) => JSX.Element;
   onPush?: (id: string) => void;
 }
 
 class LineAppender extends React.Component<Props, {}> {
   render() {
-    const { path, children, onPush } = this.props;
+    const { children, onPush } = this.props;
     return (
-      <DataPusher path={`${path}/line`} onPush={onPush}>
+      <FirebasePusher path="/line" onPush={onPush}>
        {
          (addNumber: Appender) => children(addNumber)
        }
-      </DataPusher>
+      </FirebasePusher>
     );
   }
 }

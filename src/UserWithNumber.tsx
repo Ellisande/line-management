@@ -36,17 +36,17 @@ const UserWithNumber: React.SFC<Props> = ({ onSkip, onAcknowledge, onLeaveQueue,
         (queuer, id) => queuer && id ? (
           <div>
             <div>Your number is {queuer.number}</div>
-            <WaitProvider path="/minefaire" waitTimeFor={queuer.number}>
+            <WaitProvider waitTimeFor={queuer.number}>
               {waitTime => <EstimatedWait waitTime={waitTime} />}
             </WaitProvider>
-            <NumbersAheadProvider path="/minefaire" numberToCheck={queuer.number}>
+            <NumbersAheadProvider numberToCheck={queuer.number}>
               {numbersAhead => <div>There are {numbersAhead} people in front of you</div>}
             </NumbersAheadProvider>
-            <SkipNumber path="/minefaire" idToSkip={id}>
+            <SkipNumber idToSkip={id}>
               Skip Me
             </SkipNumber>
             <OnTheWay onAcknowledge={onAcknowledge}/>
-            <LeaveLineUpdater path="/minefaire" id={userId}>
+            <LeaveLineUpdater id={userId}>
               {notComing => <NotComing onLeaveQueue={() => notComing(moment().format())}/>}
             </LeaveLineUpdater>
           </div>

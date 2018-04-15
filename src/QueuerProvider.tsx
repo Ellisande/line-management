@@ -1,20 +1,19 @@
 import * as React from 'react';
 
-import { CollectionDataProvider } from './firebaseHelper';
+import { FirebaseQuery } from 'fire-fetch';
 import { Queuer } from './Queuer';
 
 interface Props {
-  path: string;
   id: string;
   children: (queuer: Queuer) => JSX.Element;
 }
 
-const QueuerProvider: React.SFC<Props> = ({ path, id, children }) => (
-  <CollectionDataProvider path={`${path}/line`} id={id}>
+const QueuerProvider: React.SFC<Props> = ({ id, children }) => (
+  <FirebaseQuery path={`/line/${id}`} on={true}>
     {(queuer: Queuer) => {
       return children(queuer);
     }}
-  </CollectionDataProvider>
+  </FirebaseQuery>
 );
 
 export default QueuerProvider;

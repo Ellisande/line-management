@@ -4,16 +4,15 @@ import LineCountProvider from './LineCountProvider';
 import LineAppender, { Appender } from './LineAppender';
 
 interface DispenserProps {
-  nextNumber: number;
   onDispense?: (numberId: string) => void;
 }
 
-const NumberDispenser: React.SFC<DispenserProps> = ({ nextNumber, onDispense }) => {
+const NumberDispenser: React.SFC<DispenserProps> = ({ onDispense }) => {
   return (
-    <LineAppender path="/minefaire" onPush={onDispense}>
+    <LineAppender onPush={onDispense}>
     {
       (addNumber: Appender) => (
-        <LineCountProvider path="/minefaire">
+        <LineCountProvider>
           {
             (lineCount: number) => {
               return (<button

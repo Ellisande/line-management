@@ -1,19 +1,18 @@
 import * as React from 'react';
-import { DataRemover } from './firebaseHelper';
+import { FirebaseRemover } from './firebaseHelper';
 
 interface Remover {
   (): void;
 }
 
 interface Props {
-  path: string;
   children: (everythingRemover: Remover) => JSX.Element;
 }
 
-const EverythingRemover: React.SFC<Props> = ({ path, children }) => (
-  <DataRemover path={`${path}/line`}>
+const EverythingRemover: React.SFC<Props> = ({ children }) => (
+  <FirebaseRemover path="/line">
     {lineRemover => (
-      <DataRemover path={`${path}/current`}>
+      <FirebaseRemover path="/current">
         { currentRemover => {
           const removeEverythingHandler = () => {
             lineRemover();
@@ -21,9 +20,9 @@ const EverythingRemover: React.SFC<Props> = ({ path, children }) => (
           };
           return children(removeEverythingHandler);
         }}
-      </DataRemover>
+      </FirebaseRemover>
     )}
-  </DataRemover>
+  </FirebaseRemover>
 );
 
 export default EverythingRemover;

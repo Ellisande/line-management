@@ -4,13 +4,12 @@ import LineCountProvider from './LineCountProvider';
 
 interface Props {
     numberToCheck: number;
-    path: string;
     children: (count: number) => JSX.Element;
 }
 
-const NumbersAheadProvider: React.SFC<Props> = ({ path, children, numberToCheck }) => {
+const NumbersAheadProvider: React.SFC<Props> = ({ children, numberToCheck }) => {
     return (
-        <LineCountProvider path={path} stopAt={numberToCheck}>
+        <LineCountProvider stopAt={numberToCheck}>
             {
                 (count: number) => children(count)
             }

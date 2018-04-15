@@ -8,9 +8,9 @@ interface PullNextNumberProps {
 
 const PullNextNumber: React.SFC<PullNextNumberProps> =
   ({ onPullNumber }) => (
-    <CurrentNumberUpdater path="/minefaire">
+    <CurrentNumberUpdater>
       {updater => (
-        <NextNumberProvider path="/minefaire">
+        <NextNumberProvider>
           {
             (nextNumber, id) => nextNumber && id ?
               <button onClick={() => updater(id)}>Pull Number: {nextNumber.number}</button> :

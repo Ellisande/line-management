@@ -3,13 +3,12 @@ import * as moment from 'moment';
 import SkipNumberUpdater from './SkipNumberUpdater';
 
 interface SkipProps {
-    path: string;
     idToSkip: string;
     children: React.ReactNode;
 }
 
-const SkipNumber: React.SFC<SkipProps> = ({ children, idToSkip, path }) => (
-    <SkipNumberUpdater path={path} id={idToSkip}>
+const SkipNumber: React.SFC<SkipProps> = ({ children, idToSkip }) => (
+    <SkipNumberUpdater id={idToSkip}>
         {onSkip => <button onClick={() => onSkip(moment().format())}>{children}</button>}
     </SkipNumberUpdater>
 );

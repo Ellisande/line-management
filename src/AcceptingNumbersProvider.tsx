@@ -1,26 +1,25 @@
 import * as React from 'react';
-import { DataProvider } from './firebaseHelper';
+import { FirebaseQuery } from 'fire-fetch';
 
 interface Props {
-  path: string;
   children: (acceptingNumbers: boolean) => JSX.Element;
 }
 
-const AcceptingNumbersProvider: React.SFC<Props> = ({ path, children }) => (
-  <DataProvider path={`${path}/startedAcceptingAt`}>
+const AcceptingNumbersProvider: React.SFC<Props> = ({ children }) => (
+  <FirebaseQuery path="/startedAcceptingAt" on={true}>
     {
-      startedAcceptingAt => (
-        <DataProvider path={`${path}/stoppedAcceptingAt`}>
+      (startedAcceptingAt?: string) => (
+        <FirebaseQuery path="/stoppedAcceptingAt" on={true}>
           {
-            stoppedAcceptingAt => {
+            (stoppedAcceptingAt?: string) => {
               const accepting = Boolean(startedAcceptingAt && !stoppedAcceptingAt);
               return children(accepting);
             }
           }
-        </DataProvider>
+        </FirebaseQuery>
       )
     }
-  </DataProvider>
+  </FirebaseQuery>
 );
 
 export default AcceptingNumbersProvider;

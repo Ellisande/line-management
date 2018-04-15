@@ -16,11 +16,11 @@ const UserWithoutNumber: React.SFC<Props> = ({ nextNumber, waitTime }) => {
     <LocalNumberUpdater path="/minefaire">
     {
       setLocalNumber => (
-        <AcceptingNumbersProvider path="/minefaire">
+        <AcceptingNumbersProvider>
         {
           accepting => accepting ? (
             <div>
-              <NumberDispenser nextNumber={nextNumber} onDispense={setLocalNumber} />
+              <NumberDispenser onDispense={setLocalNumber} />
               <EstimatedWait waitTime={waitTime} />
             </div>
           ) : <div>Sorry we are not currently taking numbers</div>

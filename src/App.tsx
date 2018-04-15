@@ -2,6 +2,7 @@ import * as React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import * as moment from 'moment';
 import { StyleSheet, css } from 'aphrodite';
+import { FirebaseProvider, RootRef } from 'fire-fetch';
 
 import EstimatedWait from './EstimatedWait';
 import UserWithNumber from './UserWithNumber';
@@ -15,6 +16,7 @@ import AcceptingNumbersProvider from './AcceptingNumbersProvider';
 import AcceptingNumbersUpdater from './AcceptingNumbersUpdater';
 import EverythingRemover from './EverythingRemover';
 import AverageNumberTime from './AverageNumberTime';
+import config from './firebaseConfig';
 
 interface ServingProps {
   currentNumber: number;
@@ -39,7 +41,7 @@ interface MarkServedProps {}
 
 const Serving: React.SFC<ServingProps> = ({ estimatedWait }) => {
   return (
-    <CurrentQueuerProvider path="/minefaire">
+    <CurrentQueuerProvider>
       {
         currentQueuer => currentQueuer ? (
           <div>
@@ -53,9 +55,9 @@ const Serving: React.SFC<ServingProps> = ({ estimatedWait }) => {
 };
 
 const MarkServed: React.SFC<MarkServedProps> = () => (
-  <CurrentQueuerProvider path="/minefaire">
+  <CurrentQueuerProvider>
     {(queuer, id) => queuer && id ? (
-      <ServiceNumberUpdater path="/minefaire" id={id}>
+      <ServiceNumberUpdater id={id}>
         {updater => (
           <button
             onClick={() => updater(moment().format())}
@@ -75,10 +77,10 @@ const StopAccepting: React.SFC<StopAcceptingNumbersProps> =
   ({ onStopAccepting }) => <button onClick={onStopAccepting}>Stop Accepting Numbers</button>;
 
 const StartStopNumbers: React.SFC<{}> = () => (
-  <AcceptingNumbersUpdater path="/minefaire">
+  <AcceptingNumbersUpdater>
     {
       (startAccepting, stopAccepting) => (
-      <AcceptingNumbersProvider path="/minefaire">
+      <AcceptingNumbersProvider>
         {
           accepting => accepting ?
           <StopAccepting onStopAccepting={() => stopAccepting(moment().format())} /> :
@@ -90,7 +92,7 @@ const StartStopNumbers: React.SFC<{}> = () => (
 );
 
 const ResetNumbers: React.SFC<ResetNumbersProps> = () => (
-  <EverythingRemover path="/minefaire">
+  <EverythingRemover>
     {removeEverything => <button onClick={removeEverything}>Reset All Numbers</button>}
   </EverythingRemover>
 );
@@ -110,76 +112,80 @@ const linkStyles = StyleSheet.create({
 class App extends React.Component {
   render() {
     return (
-      <Router>
-        <div>
-          <Route
-            path="/"
-            render={
-              () =>
-                <div className={css(linkStyles.linkList)}>
-                  <Link to="/user/withNumber">has number</Link>
-                  <Link to="/user/withoutNumber">no number</Link>
-                  <Link to="/manage">manage</Link>
-                  <Link to="terminal">terminal</Link>
-                  <Link to="/dashboard">dashboard</Link>
+      <FirebaseProvider config={config}>
+        <RootRef path="/minefaire">
+          <Router>
+            <div>
+            <Route
+              path="/"
+              render={
+                () =>
+                  <div className={css(linkStyles.linkList)}>
+                    <Link to="/user/withNumber">has number</Link>
+                    <Link to="/user/withoutNumber">no number</Link>
+                    <Link to="/manage">manage</Link>
+                    <Link to="terminal">terminal</Link>
+                    <Link to="/dashboard">dashboard</Link>
+                  </div>
+                }
+            />
+            <Route
+              path="/user/withNumber"
+              exact={true}
+              render={() =>
+                <UserWithNumber
+                  waitTime={tenMinutes}
+                  onSkip={() => undefined}
+                  onAcknowledge={() => undefined}
+                  onLeaveQueue={() => undefined}
+                  userId="-L7pZG8UxLlQC9zHDqza"
+                />
+              }
+            />
+            <Route
+              path="/user/withOutNumber"
+              exact={true}
+              render={() =>
+                <UserWithOutNumber nextNumber={2} waitTime={tenMinutes}/>
+              }
+            />
+            <Route
+              path="/manage"
+              render={() =>
+                <div>
+                  <AverageNumberTime />
+                  <PullNextNumber onPullNumber={() => undefined} />
+                  <MarkServed />
+                  <SkipNumber />
+                  <StartStopNumbers />
+                  <ResetNumbers onResetNumbers={() => undefined}/>
                 </div>
               }
-          />
-          <Route
-            path="/user/withNumber"
-            exact={true}
-            render={() =>
-              <UserWithNumber
-                waitTime={tenMinutes}
-                onSkip={() => undefined}
-                onAcknowledge={() => undefined}
-                onLeaveQueue={() => undefined}
-                userId="-L7pZG8UxLlQC9zHDqza"
-              />
-            }
-          />
-          <Route
-            path="/user/withOutNumber"
-            exact={true}
-            render={() =>
-              <UserWithOutNumber nextNumber={2} waitTime={tenMinutes}/>
-            }
-          />
-          <Route
-            path="/manage"
-            render={() =>
-              <div>
-                <AverageNumberTime path="/minefaire" />
-                <PullNextNumber onPullNumber={() => undefined} />
-                <MarkServed />
-                <SkipNumber />
-                <StartStopNumbers />
-                <ResetNumbers onResetNumbers={() => undefined}/>
-              </div>
-            }
-          />
-          <Route
-            path="/terminal"
-            render={
-              () => (
-                <div>
-                  <AcceptingNumbersProvider path="/minefaire">
-                    {accepting => !accepting ?
-                      <div/> :
-                      <NumberDispenser nextNumber={10} onDispense={() => undefined} />
-                    }
-                  </AcceptingNumbersProvider>
-                  <Serving currentNumber={3} estimatedWait={moment.duration(10, 'minutes')} />
-                </div>
-              )
-            }
-          />
-          <Route
-            path="/dashboard"
-            render={() => <Serving  currentNumber={3} estimatedWait={moment.duration(10, 'minutes')} />}
-          />
-        </div>
-      </Router>
+            />
+            <Route
+              path="/terminal"
+              render={
+                () => (
+                  <div>
+                    <AcceptingNumbersProvider>
+                      {accepting => !accepting ?
+                        <div>We are not accepting numbers</div> :
+                        <NumberDispenser onDispense={() => undefined} />
+                      }
+                    </AcceptingNumbersProvider>
+                    <Serving currentNumber={3} estimatedWait={moment.duration(10, 'minutes')} />
+                  </div>
+                )
+              }
+            />
+            <Route
+              path="/dashboard"
+              render={() => <Serving  currentNumber={3} estimatedWait={moment.duration(10, 'minutes')} />}
+            />
+          </div>
+        </Router>
+        </RootRef>
+      </FirebaseProvider>
     );
   }
 }

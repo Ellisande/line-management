@@ -11,7 +11,7 @@ interface Props {
 const LocalQueuerProvider: React.SFC<Props> = ({ path, children }) => (
   <LocalNumberProvider path={path}>
     {localNumberId => localNumberId ? (
-      <QueuerProvider path={`${path}`} id={localNumberId}>
+      <QueuerProvider id={localNumberId}>
         {queuer => children(queuer, localNumberId)}
       </QueuerProvider>
     ) : children(undefined, undefined)}
