@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FirebaseQuery } from 'fire-fetch';
-import { Queuer } from './Queuer';
+import { Queuer } from '../Queuer';
 import { map } from 'lodash';
 
 interface Props {
