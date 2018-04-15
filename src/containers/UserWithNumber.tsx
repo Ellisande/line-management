@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as moment from 'moment';
 
-import EstimatedWait from './EstimatedWait';
-import SkipNumber from './SkipNumber';
-import LeaveLineUpdater from './LeaveLineUpdater';
-import LocalQueuerProvider from './LocalQueuerProvider';
-import WaitProvider from './WaitProvider';
-import NumbersAheadProvider from './NumbersAheadProvider';
+import EstimatedWait from '../presentational/EstimatedWait';
+import SkipNumber from '../presentational/SkipNumber';
+import LeaveLineUpdater from '../providers/LeaveLineUpdater';
+import LocalQueuerProvider from '../providers/LocalQueuerProvider';
+import WaitProvider from '../providers/WaitProvider';
+import NumbersAheadProvider from '../providers/NumbersAheadProvider';
 
 interface OnTheWayProps {
   onAcknowledge: () => void;

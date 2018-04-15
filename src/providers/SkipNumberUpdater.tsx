@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { FirebaseUpdater } from './firebaseHelper';
-// import { Queuer } from './Queuer';
+import { FirebaseUpdater } from '../firebaseHelper';
 
 export interface Updater {
   (skippedAt: string): void;

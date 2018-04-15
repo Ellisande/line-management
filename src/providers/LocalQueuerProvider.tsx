@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Queuer } from './Queuer';
+import { Queuer } from '../Queuer';
 import LocalNumberProvider from './LocalNumberProvider';
 import QueuerProvider from './QueuerProvider';
 

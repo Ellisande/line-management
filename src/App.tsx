@@ -4,18 +4,18 @@ import * as moment from 'moment';
 import { StyleSheet, css } from 'aphrodite';
 import { FirebaseProvider, RootRef } from 'fire-fetch';
 
-import EstimatedWait from './EstimatedWait';
-import UserWithNumber from './UserWithNumber';
-import UserWithOutNumber from './UserWithoutNumber';
-import NumberDispenser from './NumberDispenser';
-import SkipNumber from './SkipCurrentNumber';
-import CurrentQueuerProvider from './CurrentQueuerProvider';
-import PullNextNumber from './PullNextNumber';
-import ServiceNumberUpdater from './ServiceNumberUpdater';
-import AcceptingNumbersProvider from './AcceptingNumbersProvider';
-import AcceptingNumbersUpdater from './AcceptingNumbersUpdater';
-import EverythingRemover from './EverythingRemover';
-import AverageNumberTime from './AverageNumberTime';
+import EstimatedWait from './presentational/EstimatedWait';
+import UserWithNumber from './containers/UserWithNumber';
+import UserWithOutNumber from './containers/UserWithoutNumber';
+import NumberDispenser from './containers/NumberDispenser';
+import SkipNumber from './containers/SkipCurrentNumber';
+import CurrentQueuerProvider from './providers/CurrentQueuerProvider';
+import PullNextNumber from './containers/PullNextNumber';
+import ServiceNumberUpdater from './providers/ServiceNumberUpdater';
+import AcceptingNumbersProvider from './providers/AcceptingNumbersProvider';
+import AcceptingNumbersUpdater from './providers/AcceptingNumbersUpdater';
+import EverythingRemover from './providers/EverythingRemover';
+import AverageNumberTime from './containers/AverageNumberTime';
 import config from './firebaseConfig';
 
 interface ServingProps {

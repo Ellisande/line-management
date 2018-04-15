@@ -1,5 +1,5 @@
 import * as React from 'react';
-import AverageNumberTimeProvider from './AverageNumberTimeProvider';
+import AverageNumberTimeProvider from '../providers/AverageNumberTimeProvider';
 
 const AverageNumberTime: React.SFC<{}> = () => (
     <AverageNumberTimeProvider>

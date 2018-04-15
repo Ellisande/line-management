@@ -1,6 +1,6 @@
 import * as React from 'react';
-import CurrentNumberUpdater from './CurrentNumberUpdater';
-import NextNumberProvider from './NextNumberProvider';
+import CurrentNumberUpdater from '../providers/CurrentNumberUpdater';
+import NextNumberProvider from '../providers/NextNumberProvider';
 
 interface PullNextNumberProps {
   onPullNumber: () => void;

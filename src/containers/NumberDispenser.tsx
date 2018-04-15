@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as moment from 'moment';
-import LineCountProvider from './LineCountProvider';
-import LineAppender, { Appender } from './LineAppender';
+import LineCountProvider from '../providers/LineCountProvider';
+import LineAppender, { Appender } from '../providers/LineAppender';
 
 interface DispenserProps {
   onDispense?: (numberId: string) => void;

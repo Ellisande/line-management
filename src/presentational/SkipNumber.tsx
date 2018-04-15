@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as moment from 'moment';
-import SkipNumberUpdater from './SkipNumberUpdater';
+import SkipNumberUpdater from '../providers/SkipNumberUpdater';
 
 interface SkipProps {
     idToSkip: string;

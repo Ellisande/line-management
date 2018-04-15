@@ -1,9 +1,9 @@
 import * as React from 'react';
-import EstimatedWait from './EstimatedWait';
+import EstimatedWait from '../presentational/EstimatedWait';
 import NumberDispenser from './NumberDispenser';
-import AcceptingNumbersProvider from './AcceptingNumbersProvider';
-import LocalNumberUpdater from './LocalNumberUpdater';
-import WaitProvider from './WaitProvider';
+import AcceptingNumbersProvider from '../providers/AcceptingNumbersProvider';
+import LocalNumberUpdater from '../providers/LocalNumberUpdater';
+import WaitProvider from '../providers/WaitProvider';
 
 const UserWithoutNumber: React.SFC<{}> = () => {
   return (

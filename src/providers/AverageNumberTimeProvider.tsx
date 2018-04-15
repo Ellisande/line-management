@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as moment from 'moment';
 import { isEmpty, filter, map } from 'lodash';
 import { FirebaseQuery } from 'fire-fetch';
-import { Queuer } from './Queuer';
+import { Queuer } from '../Queuer';
 
 interface Props {
     children: (averageTime: moment.Duration) => JSX.Element;

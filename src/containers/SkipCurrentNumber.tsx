@@ -1,6 +1,6 @@
 import * as React from 'react';
-import CurrentQueuerProvider from './CurrentQueuerProvider';
-import SkipNumber from './SkipNumber';
+import CurrentQueuerProvider from '../providers/CurrentQueuerProvider';
+import SkipNumber from '../presentational/SkipNumber';
 
 interface SkipProps {
   // numberToSkip: number;

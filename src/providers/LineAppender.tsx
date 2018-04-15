@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { FirebasePusher } from './firebaseHelper';
-import { Queuer } from './Queuer';
+import { FirebasePusher } from '../firebaseHelper';
+import { Queuer } from '../Queuer';
 
 export interface Appender {
   (newQueuer: Queuer): void;
