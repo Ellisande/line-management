@@ -12,7 +12,7 @@ const NumberDispenser: React.SFC<DispenserProps> = ({ onDispense }) => {
     <LineAppender onPush={onDispense}>
     {
       (addNumber: Appender) => (
-        <LineCountProvider>
+        <LineCountProvider all={true}>
           {
             (lineCount: number) => {
               return (<button

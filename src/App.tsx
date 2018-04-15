@@ -102,9 +102,11 @@ const tenMinutes = moment.duration(10, 'minutes');
 const linkStyles = StyleSheet.create({
   linkList: {
     display: 'flex',
-    width: '50%',
+    width: '80%',
+    paddingBottom: '15px',
     ':nth-child(n) > *': {
       flex: 1,
+      wordBreak: 'keep-all',
     }
   }
 });
@@ -115,7 +117,7 @@ class App extends React.Component {
       <FirebaseProvider config={config}>
         <RootRef path="/minefaire">
           <Router>
-            <div>
+            <div style={{paddingTop: '20vh', paddingLeft: '10vw'}}>
             <Route
               path="/"
               render={
@@ -138,7 +140,6 @@ class App extends React.Component {
                   onSkip={() => undefined}
                   onAcknowledge={() => undefined}
                   onLeaveQueue={() => undefined}
-                  userId="-L7pZG8UxLlQC9zHDqza"
                 />
               }
             />
@@ -146,7 +147,7 @@ class App extends React.Component {
               path="/user/withOutNumber"
               exact={true}
               render={() =>
-                <UserWithOutNumber nextNumber={2} waitTime={tenMinutes}/>
+                <UserWithOutNumber />
               }
             />
             <Route

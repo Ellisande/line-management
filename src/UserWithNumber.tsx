@@ -26,10 +26,9 @@ interface Props {
   onSkip: () => void;
   onAcknowledge: () => void;
   onLeaveQueue: () => void;
-  userId: string;
 }
 
-const UserWithNumber: React.SFC<Props> = ({ onSkip, onAcknowledge, onLeaveQueue, userId }) => {
+const UserWithNumber: React.SFC<Props> = ({ onSkip, onAcknowledge, onLeaveQueue }) => {
   return (
     <LocalQueuerProvider path="/minefaire">
       {
@@ -46,7 +45,7 @@ const UserWithNumber: React.SFC<Props> = ({ onSkip, onAcknowledge, onLeaveQueue,
               Skip Me
             </SkipNumber>
             <OnTheWay onAcknowledge={onAcknowledge}/>
-            <LeaveLineUpdater id={userId}>
+            <LeaveLineUpdater id={id}>
               {notComing => <NotComing onLeaveQueue={() => notComing(moment().format())}/>}
             </LeaveLineUpdater>
           </div>

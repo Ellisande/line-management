@@ -1,17 +1,11 @@
 import * as React from 'react';
-import * as moment from 'moment';
-
 import EstimatedWait from './EstimatedWait';
 import NumberDispenser from './NumberDispenser';
 import AcceptingNumbersProvider from './AcceptingNumbersProvider';
 import LocalNumberUpdater from './LocalNumberUpdater';
+import WaitProvider from './WaitProvider';
 
-interface Props {
-  nextNumber: number;
-  waitTime: moment.Duration;
-}
-
-const UserWithoutNumber: React.SFC<Props> = ({ nextNumber, waitTime }) => {
+const UserWithoutNumber: React.SFC<{}> = () => {
   return (
     <LocalNumberUpdater path="/minefaire">
     {
@@ -21,7 +15,9 @@ const UserWithoutNumber: React.SFC<Props> = ({ nextNumber, waitTime }) => {
           accepting => accepting ? (
             <div>
               <NumberDispenser onDispense={setLocalNumber} />
-              <EstimatedWait waitTime={waitTime} />
+              <WaitProvider>
+                {waitTime => <EstimatedWait waitTime={waitTime} />}
+              </WaitProvider>
             </div>
           ) : <div>Sorry we are not currently taking numbers</div>
         }

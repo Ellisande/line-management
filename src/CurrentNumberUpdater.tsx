@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { FirebaseUpdater } from './firebaseHelper';
-// import { Queuer } from './Queuer';
 
 export interface Updater {
   (nextNumber: string): void;
