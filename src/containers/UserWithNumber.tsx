@@ -35,7 +35,7 @@ const UserWithNumber: React.SFC<Props> = ({ onSkip, onAcknowledge, onLeaveQueue 
         (queuer, id) => queuer && id ? (
           <div>
             <div>Your number is {queuer.number}</div>
-            <WaitProvider waitTimeFor={queuer.number}>
+            <WaitProvider forNumber={queuer.number}>
               {waitTime => <EstimatedWait waitTime={waitTime} />}
             </WaitProvider>
             <NumbersAheadProvider numberToCheck={queuer.number}>

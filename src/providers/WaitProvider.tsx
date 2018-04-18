@@ -6,16 +6,16 @@ import NumbersAheadProvider from './NumbersAheadProvider';
 import LineCountProvider from './LineCountProvider';
 
 interface Props {
-    waitTimeFor?: number;
+    forNumber?: number;
     children: (waitTime: moment.Duration) => JSX.Element;
 }
 
-const WaitProvider: React.SFC<Props> = ({ children, waitTimeFor }) => {
+const WaitProvider: React.SFC<Props> = ({ children, forNumber }) => {
     return (
         <AverageNumberTimeProvider>
             {
-                averageNumberTime => waitTimeFor ? (
-                    <NumbersAheadProvider numberToCheck={waitTimeFor}>
+                averageNumberTime => forNumber ? (
+                    <NumbersAheadProvider numberToCheck={forNumber}>
                         {
                             numbersAhead => {
                                 const averageTimeMillis = averageNumberTime.asMilliseconds();
