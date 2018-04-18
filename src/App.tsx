@@ -4,10 +4,9 @@ import * as moment from 'moment';
 import { StyleSheet, css } from 'aphrodite';
 import { FirebaseProvider, RootRef } from 'fire-fetch';
 
-import EstimatedWait from './presentational/EstimatedWait';
+import Serving from './containers/Serving';
 import UserWithNumber from './containers/UserWithNumber';
 import UserWithOutNumber from './containers/UserWithoutNumber';
-import NumberDispenser from './containers/NumberDispenser';
 import SkipNumber from './containers/SkipCurrentNumber';
 import CurrentQueuerProvider from './providers/CurrentQueuerProvider';
 import PullNextNumber from './containers/PullNextNumber';
@@ -16,12 +15,8 @@ import AcceptingNumbersProvider from './providers/AcceptingNumbersProvider';
 import AcceptingNumbersUpdater from './providers/AcceptingNumbersUpdater';
 import EverythingRemover from './providers/EverythingRemover';
 import AverageNumberTime from './containers/AverageNumberTime';
+import Terminal from './containers/Terminal';
 import config from './firebaseConfig';
-
-interface ServingProps {
-  currentNumber: number;
-  estimatedWait: moment.Duration;
-}
 
 interface AcceptNumbersProps {
   onStartAccepting: () => void;
@@ -38,21 +33,6 @@ interface ResetNumbersProps {
 interface MarkServedProps {}
 
 // const noOp = () => { return; };
-
-const Serving: React.SFC<ServingProps> = ({ estimatedWait }) => {
-  return (
-    <CurrentQueuerProvider>
-      {
-        currentQueuer => currentQueuer ? (
-          <div>
-            <div>Currently Serving: {currentQueuer.number}</div>
-            <EstimatedWait waitTime={estimatedWait} />
-          </div>
-        ) : <div>Not Current Serving</div>
-      }
-    </CurrentQueuerProvider>
-  );
-};
 
 const MarkServed: React.SFC<MarkServedProps> = () => (
   <CurrentQueuerProvider>
@@ -166,17 +146,7 @@ class App extends React.Component {
             <Route
               path="/terminal"
               render={
-                () => (
-                  <div>
-                    <AcceptingNumbersProvider>
-                      {accepting => !accepting ?
-                        <div>We are not accepting numbers</div> :
-                        <NumberDispenser onDispense={() => undefined} />
-                      }
-                    </AcceptingNumbersProvider>
-                    <Serving currentNumber={3} estimatedWait={moment.duration(10, 'minutes')} />
-                  </div>
-                )
+                () => <Terminal />
               }
             />
             <Route
