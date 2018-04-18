@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { StyleSheet, css } from 'aphrodite';
 import { FirebaseProvider, RootRef } from 'fire-fetch';
 
-import Serving from './presentational/Serving';
+import Dashboard from './containers/Dashboard';
 import UserWithNumber from './containers/UserWithNumber';
 import UserWithOutNumber from './containers/UserWithoutNumber';
 import SkipNumber from './containers/SkipCurrentNumber';
@@ -151,7 +151,7 @@ class App extends React.Component {
             />
             <Route
               path="/dashboard"
-              render={() => <Serving  currentNumber={3} estimatedWait={moment.duration(10, 'minutes')} />}
+              render={() => <Dashboard />}
             />
           </div>
         </Router>
