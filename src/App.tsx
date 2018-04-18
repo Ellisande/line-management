@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { StyleSheet, css } from 'aphrodite';
 import { FirebaseProvider, RootRef } from 'fire-fetch';
 
-import Serving from './containers/Serving';
+import Serving from './presentational/Serving';
 import UserWithNumber from './containers/UserWithNumber';
 import UserWithOutNumber from './containers/UserWithoutNumber';
 import SkipNumber from './containers/SkipCurrentNumber';

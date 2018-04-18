@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import AcceptingNumbersProvider from '../providers/AcceptingNumbersProvider';
 import NumberDispenser from './NumberDispenser';
-import Serving from '../containers/Serving';
+import Serving from '../presentational/Serving';
 import WaitProvider from '../providers/WaitProvider';
 import CurrentQueuerProvider from '../providers/CurrentQueuerProvider';
 
