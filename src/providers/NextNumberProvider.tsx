@@ -14,12 +14,16 @@ interface QueuerMap {
 const onlyUnserviced = (l: Queuer) => !l.servicedAt;
 const onlyUnskipped = (l: Queuer) => !l.skippedAt;
 const onlyNotLeft = (l: Queuer) => !l.leftAt;
+const onlyNotPulled = (l: Queuer) => !l.pulledAt;
 
 const NextNumberProvider: React.SFC<Props> = ({ children }) => (
   <FirebaseQuery path="/line" on={true}>
     {(allNumbers: QueuerMap) => {
       const validNumbers = map(allNumbers, (num: Queuer, key: string) => ({...num, id: key}))
-        .filter(onlyUnserviced).filter(onlyUnskipped).filter(onlyNotLeft);
+        .filter(onlyUnserviced)
+        .filter(onlyUnskipped)
+        .filter(onlyNotLeft)
+        .filter(onlyNotPulled);
       const nextNumber = validNumbers[0] ||  {};
       return children(nextNumber, nextNumber.id);
     }}

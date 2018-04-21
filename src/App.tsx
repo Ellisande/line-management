@@ -4,19 +4,20 @@ import * as moment from 'moment';
 import { StyleSheet, css } from 'aphrodite';
 import { FirebaseProvider, RootRef } from 'fire-fetch';
 
+import MarkDone from './presentational/MarkDone';
 import Dashboard from './containers/Dashboard';
 import UserWithNumber from './containers/UserWithNumber';
 import UserWithOutNumber from './containers/UserWithoutNumber';
 import SkipNumber from './containers/SkipCurrentNumber';
-import CurrentQueuerProvider from './providers/CurrentQueuerProvider';
-import PullNextNumber from './containers/PullNextNumber';
-import ServiceNumberUpdater from './providers/ServiceNumberUpdater';
+import CallNextNumberProvider from './providers/CallNextNumberProvider';
 import AcceptingNumbersProvider from './providers/AcceptingNumbersProvider';
 import AcceptingNumbersUpdater from './providers/AcceptingNumbersUpdater';
 import EverythingRemover from './providers/EverythingRemover';
 import AverageNumberTime from './containers/AverageNumberTime';
+import MarkServedProvider from './providers/MarkServedProvider';
 import Terminal from './containers/Terminal';
 import config from './firebaseConfig';
+import CurrentQueuerProvider from './providers/CurrentQueuerProvider';
 
 interface AcceptNumbersProps {
   onStartAccepting: () => void;
@@ -29,26 +30,6 @@ interface StopAcceptingNumbersProps {
 interface ResetNumbersProps {
   onResetNumbers: () => void;
 }
-
-interface MarkServedProps {}
-
-// const noOp = () => { return; };
-
-const MarkServed: React.SFC<MarkServedProps> = () => (
-  <CurrentQueuerProvider>
-    {(queuer, id) => queuer && id ? (
-      <ServiceNumberUpdater id={id}>
-        {updater => (
-          <button
-            onClick={() => updater(moment().format())}
-          >
-            Mark {queuer.number} Done
-          </button>
-        )}
-      </ServiceNumberUpdater>
-    ) : <button disabled={true}>No current number</button>}
-  </CurrentQueuerProvider>
-);
 
 const StartAccepting: React.SFC<AcceptNumbersProps> =
   ({ onStartAccepting }) => <button onClick={onStartAccepting}>Start Accepting Numbers</button>;
@@ -134,9 +115,29 @@ class App extends React.Component {
               path="/manage"
               render={() =>
                 <div>
+                  <CurrentQueuerProvider>
+                    {
+                      (currentQueuer, id) => currentQueuer && id ? (
+                        <MarkServedProvider>
+                          {
+                            markCurrentComplete => (
+                              <CallNextNumberProvider>
+                                {
+                                  pullNext =>
+                                  <MarkDone
+                                    markAsDone={markCurrentComplete}
+                                    pullNextNumber={pullNext}
+                                    currentNumber={currentQueuer.number}
+                                  />
+                                }
+                              </CallNextNumberProvider>
+                            )
+                          }
+                        </MarkServedProvider>
+                      ) : <div>Loading... fix me later</div>
+                    }
+                  </CurrentQueuerProvider>
                   <AverageNumberTime />
-                  <PullNextNumber onPullNumber={() => undefined} />
-                  <MarkServed />
                   <SkipNumber />
                   <StartStopNumbers />
                   <ResetNumbers onResetNumbers={() => undefined}/>
