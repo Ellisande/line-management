@@ -22,13 +22,10 @@ const NotComing: React.SFC<NotComingProps> =
   ({ onLeaveQueue }) => <button onClick={onLeaveQueue}>Give Up My Spot</button>;
 
 interface Props {
-  waitTime: moment.Duration;
-  onSkip: () => void;
   onAcknowledge: () => void;
-  onLeaveQueue: () => void;
 }
 
-const UserWithNumber: React.SFC<Props> = ({ onSkip, onAcknowledge, onLeaveQueue }) => {
+const UserWithNumber: React.SFC<Props> = ({ onAcknowledge }) => {
   return (
     <LocalQueuerProvider path="/minefaire">
       {
