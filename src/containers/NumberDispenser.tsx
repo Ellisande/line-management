@@ -1,7 +1,17 @@
 import * as React from 'react';
 import * as moment from 'moment';
+import { StyleSheet, css } from 'aphrodite';
 import LineCountProvider from '../providers/LineCountProvider';
 import LineAppender, { Appender } from '../providers/LineAppender';
+
+const styles = StyleSheet.create({
+  big: {
+    fontSize: '40px',
+    fontWeight: 'bold',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+});
 
 interface DispenserProps {
   onDispense?: (numberId: string) => void;
@@ -15,7 +25,9 @@ const NumberDispenser: React.SFC<DispenserProps> = ({ onDispense }) => {
         <LineCountProvider all={true}>
           {
             (lineCount: number) => {
-              return (<button
+              return (
+              <button
+                className={css(styles.big)}
                 onClick={() => {
                   addNumber({
                     number: lineCount + 1,
@@ -24,7 +36,7 @@ const NumberDispenser: React.SFC<DispenserProps> = ({ onDispense }) => {
                   });
                 }}
               >
-                Take Number: {lineCount + 1}
+                Take Number
               </button>);
             }}
         </LineCountProvider>

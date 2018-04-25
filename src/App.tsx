@@ -4,31 +4,24 @@ import { StyleSheet, css } from 'aphrodite';
 import { FirebaseProvider, RootRef } from 'fire-fetch';
 
 import Manage from './containers/Manage';
-import Dashboard from './containers/Dashboard';
-import UserWithNumber from './containers/UserWithNumber';
-import UserWithOutNumber from './containers/UserWithoutNumber';
-import Terminal from './containers/Terminal';
 import config from './firebaseConfig';
+import { User } from './containers/User';
 
 const linkStyles = StyleSheet.create({
   linkList: {
     display: 'flex',
-    width: '80%',
+    width: '100%',
+    justifyContent: 'flex-end',
     paddingBottom: '15px',
-    ':nth-child(n) > *': {
-      flex: 1,
-      wordBreak: 'keep-all'
-    }
   }
 });
 
 class App extends React.Component {
-  // TODO: Root ref should not be hard coded
   render() {
     return (
       <FirebaseProvider config={config}>
         <Router>
-            <div style={{ paddingTop: '20vh', paddingLeft: '10vw' }}>
+            <div>
               <Route
                 path="/:aLine"
                 render={({ match }) => (
@@ -38,26 +31,16 @@ class App extends React.Component {
                         path={`${match.url}`}
                         render={() => (
                           <div className={css(linkStyles.linkList)}>
-                            <Link to="withNumber">has number</Link>
-                            <Link to="withoutNumber">no number</Link>
-                            <Link to="manage">manage</Link>
-                            <Link to="terminal">terminal</Link>
-                            <Link to="dashboard">dashboard</Link>
+                            <Link to="manage">Manage Line</Link>
                           </div>
                         )}
                       />
                       <Route
-                        path={`${match.url}/withNumber`}
+                        path={`${match.url}`}
                         exact={true}
-                        component={UserWithNumber}
-                      />
-                      <Route
-                        path={`${match.url}/withOutNumber`}
-                        component={UserWithOutNumber}
+                        component={User}
                       />
                       <Route path={`${match.url}/manage`} component={Manage} />
-                      <Route path={`${match.url}/terminal`} component={Terminal} />
-                      <Route path={`${match.url}/dashboard`} component={Dashboard} />
                     </div>
                   </RootRef>
                 )}

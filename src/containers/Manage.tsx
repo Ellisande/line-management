@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as moment from 'moment';
+import { Route } from 'react-router-dom';
 
 import CurrentQueuerProvider from '../providers/CurrentQueuerProvider';
 import MarkServedProvider from '../providers/MarkServedProvider';
@@ -10,6 +11,8 @@ import SkipNumber from '../containers/SkipCurrentNumber';
 import AcceptingNumbersProvider from '../providers/AcceptingNumbersProvider';
 import AcceptingNumbersUpdater from '../providers/AcceptingNumbersUpdater';
 import EverythingRemover from '../providers/EverythingRemover';
+import Terminal from './Terminal';
+import Dashboard from './Dashboard';
 
 interface AcceptNumbersProps {
     onStartAccepting: () => void;
@@ -50,7 +53,11 @@ const ResetNumbers: React.SFC<ResetNumbersProps> = () => (
     </EverythingRemover>
 );
 
-const Manage: React.SFC<{}> = () => {
+interface Props {
+    match: { url: string };
+}
+
+const Manage: React.SFC<Props> = ({ match }) => {
     return (
         <div>
         <CurrentQueuerProvider>
@@ -79,6 +86,8 @@ const Manage: React.SFC<{}> = () => {
         <SkipNumber />
         <StartStopNumbers />
         <ResetNumbers onResetNumbers={() => undefined}/>
+        <Route path={`${match.url}/terminal`} component={Terminal} />
+        <Route path={`${match.url}/dashboard`} component={Dashboard} />
       </div>
     );
 };

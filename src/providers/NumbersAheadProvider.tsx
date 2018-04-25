@@ -3,7 +3,7 @@ import * as React from 'react';
 import LineCountProvider from './LineCountProvider';
 
 interface Props {
-    numberToCheck: number;
+    numberToCheck?: number;
     children: (count: number) => JSX.Element;
 }
 
