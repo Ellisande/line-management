@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { FirebaseQuery } from 'fire-fetch';
-import { Queuer } from '../Queuer';
-import QueuerProvider from './QueuerProvider';
+import * as React from "react";
+import { FirebaseQuery } from "fire-fetch";
+import { Queuer } from "../Queuer";
+import QueuerProvider from "./QueuerProvider";
 
 interface Props {
   children: (current?: Queuer, id?: string) => JSX.Element;
@@ -9,14 +9,15 @@ interface Props {
 
 const CurrentQueuerProvider: React.SFC<Props> = ({ children }) => (
   <FirebaseQuery path="/current" on={true}>
-    {
-      (currentNumberId?: string) => (
-        currentNumberId ? (
+    {(currentNumberId?: string) =>
+      currentNumberId ? (
         <QueuerProvider id={currentNumberId}>
           {queuer => {
             return children(queuer, currentNumberId);
           }}
-        </QueuerProvider>) : children(undefined, undefined)
+        </QueuerProvider>
+      ) : (
+        children(undefined, undefined)
       )
     }
   </FirebaseQuery>

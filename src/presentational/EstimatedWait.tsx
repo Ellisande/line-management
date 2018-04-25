@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as moment from 'moment';
+import * as React from "react";
+import * as moment from "moment";
 
 interface EstimatedWaitProps {
   className?: string;
@@ -7,11 +7,13 @@ interface EstimatedWaitProps {
 }
 
 const defaultProps: Partial<EstimatedWaitProps> = {
-  className: '',
+  className: ""
 };
 
-const EstimatedWait: React.SFC<EstimatedWaitProps> =
-  ({ waitTime, className }) => <div className={className}>Estimated Wait: {waitTime.humanize()}</div>;
+const EstimatedWait: React.SFC<EstimatedWaitProps> = ({
+  waitTime,
+  className
+}) => <div className={className}>Estimated Wait: {waitTime.humanize()}</div>;
 
 EstimatedWait.defaultProps = defaultProps;
 

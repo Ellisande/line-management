@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { FirebaseUpdater } from '../firebaseHelper';
+import * as React from "react";
+import { FirebaseUpdater } from "../firebaseHelper";
 
 export interface Updater {
   (timestamp: string): void;
@@ -18,9 +18,7 @@ class LeaveLineUpdater extends React.Component<Props, {}> {
     const { children, id } = this.props;
     return (
       <FirebaseUpdater path={`/line/${id}/leftAt`}>
-        {
-          (updater: Updater) => children(updater)
-        }
+        {(updater: Updater) => children(updater)}
       </FirebaseUpdater>
     );
   }

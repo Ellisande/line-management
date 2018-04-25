@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { FirebaseUpdater } from '../firebaseHelper';
+import * as React from "react";
+import { FirebaseUpdater } from "../firebaseHelper";
 
 export interface Updater {
   (skippedAt: string): void;
@@ -15,9 +15,7 @@ class SkipNumberUpdater extends React.Component<Props, {}> {
     const { children, id } = this.props;
     return (
       <FirebaseUpdater path={`/line/${id}/skippedAt`}>
-        {
-          (updater: Updater) => children(updater)
-        }
+        {(updater: Updater) => children(updater)}
       </FirebaseUpdater>
     );
   }

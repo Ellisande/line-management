@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { FirebaseUpdater } from '../firebaseHelper';
+import * as React from "react";
+import { FirebaseUpdater } from "../firebaseHelper";
 
 export interface Updater {
   (pulledAt: string): void;

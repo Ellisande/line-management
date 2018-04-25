@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 export interface Updater {
   (takenNumberId: string): void;
@@ -10,7 +10,8 @@ interface Props {
 }
 
 const LocalNumberUpdater: React.SFC<Props> = ({ children, path }) => {
-  const updater = (nextId: string) => localStorage.setItem(`${path}:number`, nextId);
+  const updater = (nextId: string) =>
+    localStorage.setItem(`${path}:number`, nextId);
   return children(updater);
 };
 

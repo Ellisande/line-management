@@ -1,6 +1,6 @@
-import * as React from 'react';
-import CurrentQueuerProvider from '../providers/CurrentQueuerProvider';
-import SkipNumber from '../presentational/SkipNumber';
+import * as React from "react";
+import CurrentQueuerProvider from "../providers/CurrentQueuerProvider";
+import SkipNumber from "../presentational/SkipNumber";
 
 interface SkipProps {
   // numberToSkip: number;
@@ -9,15 +9,13 @@ interface SkipProps {
 
 const SkipCurrentNumber: React.SFC<SkipProps> = () => (
   <CurrentQueuerProvider>
-    {
-      (queuer, id) => {
-        return queuer && id ? (
-          <SkipNumber idToSkip={id}>
-            Skip Number {queuer.number}
-          </SkipNumber>
-        ) : <button disabled={true}>No Current Number to Skip</button>;
-      }
-    }
+    {(queuer, id) => {
+      return queuer && id ? (
+        <SkipNumber idToSkip={id}>Skip Number {queuer.number}</SkipNumber>
+      ) : (
+        <button disabled={true}>No Current Number to Skip</button>
+      );
+    }}
   </CurrentQueuerProvider>
 );
 

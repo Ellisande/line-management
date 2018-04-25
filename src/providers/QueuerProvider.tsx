@@ -1,7 +1,7 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { FirebaseQuery } from 'fire-fetch';
-import { Queuer } from '../Queuer';
+import { FirebaseQuery } from "fire-fetch";
+import { Queuer } from "../Queuer";
 
 interface Props {
   id: string;

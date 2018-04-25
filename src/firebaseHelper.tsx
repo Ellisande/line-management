@@ -1,6 +1,6 @@
-import * as React from 'react';
-import * as firebase from 'firebase';
-import { FirebaseRef } from 'fire-fetch';
+import * as React from "react";
+import * as firebase from "firebase";
+import { FirebaseRef } from "fire-fetch";
 
 interface Updater {
   (newValue: {}): void;
@@ -38,8 +38,8 @@ export class FirebaseUpdater extends React.Component<UpdaterProps, {}> {
   render() {
     return (
       <FirebaseRef path={this.props.path}>
-        {
-          (ref: firebase.database.Reference) => this.props.children(this.handleUpdate(ref))
+        {(ref: firebase.database.Reference) =>
+          this.props.children(this.handleUpdate(ref))
         }
       </FirebaseRef>
     );
@@ -53,8 +53,8 @@ export class FirebaseRemover extends React.Component<RemoverProps, {}> {
   render() {
     return (
       <FirebaseRef path={this.props.path}>
-        {
-          (ref: firebase.database.Reference) => this.props.children(this.handleRemove(ref))
+        {(ref: firebase.database.Reference) =>
+          this.props.children(this.handleRemove(ref))
         }
       </FirebaseRef>
     );
@@ -74,9 +74,9 @@ export class FirebasePusher extends React.Component<PusherProps, {}> {
   render() {
     return (
       <FirebaseRef path={this.props.path}>
-      {
-        (ref: firebase.database.Reference) => this.props.children(this.handlePush(ref))
-      }
+        {(ref: firebase.database.Reference) =>
+          this.props.children(this.handlePush(ref))
+        }
       </FirebaseRef>
     );
   }

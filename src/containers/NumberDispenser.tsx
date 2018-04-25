@@ -1,16 +1,16 @@
-import * as React from 'react';
-import * as moment from 'moment';
-import { StyleSheet, css } from 'aphrodite';
-import LineCountProvider from '../providers/LineCountProvider';
-import LineAppender, { Appender } from '../providers/LineAppender';
+import * as React from "react";
+import * as moment from "moment";
+import { StyleSheet, css } from "aphrodite";
+import LineCountProvider from "../providers/LineCountProvider";
+import LineAppender, { Appender } from "../providers/LineAppender";
 
 const styles = StyleSheet.create({
   big: {
-    fontSize: '40px',
-    fontWeight: 'bold',
-    display: 'flex',
-    justifyContent: 'center',
-  },
+    fontSize: "40px",
+    fontWeight: "bold",
+    display: "flex",
+    justifyContent: "center"
+  }
 });
 
 interface DispenserProps {
@@ -20,28 +20,26 @@ interface DispenserProps {
 const NumberDispenser: React.SFC<DispenserProps> = ({ onDispense }) => {
   return (
     <LineAppender onPush={onDispense}>
-    {
-      (addNumber: Appender) => (
+      {(addNumber: Appender) => (
         <LineCountProvider all={true}>
-          {
-            (lineCount: number) => {
-              return (
+          {(lineCount: number) => {
+            return (
               <button
                 className={css(styles.big)}
                 onClick={() => {
                   addNumber({
                     number: lineCount + 1,
-                    userId: '1',
-                    pulledAt: moment().format(),
+                    userId: "1",
+                    pulledAt: moment().format()
                   });
                 }}
               >
                 Take Number
-              </button>);
-            }}
+              </button>
+            );
+          }}
         </LineCountProvider>
-      )
-    }
+      )}
     </LineAppender>
   );
 };

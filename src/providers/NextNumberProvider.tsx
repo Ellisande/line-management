@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { FirebaseQuery } from 'fire-fetch';
-import { Queuer } from '../Queuer';
-import { map } from 'lodash';
+import * as React from "react";
+import { FirebaseQuery } from "fire-fetch";
+import { Queuer } from "../Queuer";
+import { map } from "lodash";
 
 interface Props {
   children: (nextNumber: Queuer, id: string) => JSX.Element;
@@ -19,12 +19,15 @@ const onlyNotPulled = (l: Queuer) => !l.pulledAt;
 const NextNumberProvider: React.SFC<Props> = ({ children }) => (
   <FirebaseQuery path="/line" on={true}>
     {(allNumbers: QueuerMap) => {
-      const validNumbers = map(allNumbers, (num: Queuer, key: string) => ({...num, id: key}))
+      const validNumbers = map(allNumbers, (num: Queuer, key: string) => ({
+        ...num,
+        id: key
+      }))
         .filter(onlyUnserviced)
         .filter(onlyUnskipped)
         .filter(onlyNotLeft)
         .filter(onlyNotPulled);
-      const nextNumber = validNumbers[0] ||  {};
+      const nextNumber = validNumbers[0] || {};
       return children(nextNumber, nextNumber.id);
     }}
   </FirebaseQuery>
