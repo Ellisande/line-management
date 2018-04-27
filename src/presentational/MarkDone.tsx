@@ -1,4 +1,12 @@
 import * as React from "react";
+import { StyleSheet, css } from "aphrodite";
+
+const styles = StyleSheet.create({
+  action: {
+    // TODO: Have to be controlled theme
+    fontSize: "20px"
+  }
+});
 
 interface MarkDoneProps {
   markAsDone: (numberToMarkDone: number) => void;
@@ -12,13 +20,13 @@ const MarkDone: React.SFC<MarkDoneProps> = ({
   currentNumber
 }) => {
   const markAndPull = () => {
-    console.log(`I am trying to mark ${currentNumber} as complete`);
-    console.log("I am using", markAsDone, pullNextNumber);
     markAsDone(currentNumber);
     pullNextNumber();
   };
   return (
-    <button onClick={markAndPull}>Mark {currentNumber} as Complete</button>
+    <button className={css(styles.action)} onClick={markAndPull}>
+      Complete
+    </button>
   );
 };
 
