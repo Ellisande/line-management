@@ -11,7 +11,7 @@ interface Path {
 }
 
 interface RefProps extends Path {
-  children: (ref: {}) => JSX.Element;
+  children: (ref: firebase.database.Reference) => JSX.Element;
 }
 
 interface RootRefProps extends Children, Path {}
@@ -19,7 +19,7 @@ interface QueryProps extends Path {
   children: (value: {} | undefined, loading: boolean, ref: any) => JSX.Element;
   toArray?: boolean;
   on?: boolean;
-  reference?: any;
+  reference?: firebase.database.Reference;
   once?: boolean;
   orderByChild?: string;
   equalTo?: any;
