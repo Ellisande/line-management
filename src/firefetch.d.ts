@@ -27,6 +27,14 @@ interface QueryProps extends Path {
   onChange?: () => {};
 }
 
+interface FBAppProps {
+  children: (app: firebase.app.App) => JSX.Element;
+}
+
+interface GetRootRefProps {
+  children: (rootPath: string) => JSX.Element;
+}
+
 declare module "fire-fetch" {
   export class FirebaseProvider extends React.Component<
     FirebaseProviderProps,
@@ -35,4 +43,6 @@ declare module "fire-fetch" {
   export class RootRef extends React.Component<RootRefProps, {}> {}
   export class FirebaseQuery extends React.Component<QueryProps, {}> {}
   export class FirebaseRef extends React.Component<RefProps, {}> {}
+  export class FirebaseApp extends React.Component<FBAppProps, {}> {}
+  export class GetRootRef extends React.Component<GetRootRefProps, {}> {}
 }

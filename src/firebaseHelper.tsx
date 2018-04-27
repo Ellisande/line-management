@@ -81,3 +81,65 @@ export class FirebasePusher extends React.Component<PusherProps, {}> {
     );
   }
 }
+
+interface ListProps {
+  listPath: string;
+  childId?: string;
+  children: (list?: {}) => JSX.Element;
+  rootPath: string;
+  fbapp: firebase.app.App;
+}
+
+interface ListState {
+  value?: {};
+  loading: boolean;
+}
+
+export class FirebaseList extends React.Component<ListProps, ListState> {
+  state = {
+    value: undefined,
+    loading: true
+  };
+
+  getReference() {
+    const { listPath, fbapp, rootPath } = this.props;
+    return fbapp.database().ref(`${rootPath}/${listPath}`);
+  }
+
+  buildQuery() {
+    const { childId } = this.props;
+    const ref = this.getReference();
+    ref.once("value", snapshot => {
+      if (snapshot) {
+        const rootVal = snapshot.val();
+        console.log(`Here is what I get from firebase the first time`, rootVal);
+        const updatedVal = childId ? rootVal[childId] : rootVal;
+        this.setState(() => ({ value: updatedVal, loading: false }));
+      }
+    });
+    ref.on("child_changed", snapshot => {
+      if (snapshot) {
+        const rootVal = snapshot.val();
+        console.log("Here is what I get from firebase on update", rootVal);
+        const updatedVal = childId ? rootVal[childId] : rootVal;
+        this.setState(() => ({ updatedVal, loading: false }));
+      }
+    });
+  }
+
+  componentDidMount() {
+    this.buildQuery();
+  }
+
+  componentWillUnmount() {
+    this.getReference().off();
+  }
+
+  render() {
+    const { children } = this.props;
+
+    const value = this.state.value ? this.state.value : {};
+
+    return children(value);
+  }
+}
