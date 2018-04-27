@@ -31,7 +31,7 @@ class App extends React.Component {
                       path={`${match.url}`}
                       render={() => (
                         <div className={css(linkStyles.linkList)}>
-                          <Link to="manage">Manage Line</Link>
+                          <Link to={`${match.url}/manage`}>Manage Line</Link>
                         </div>
                       )}
                     />
