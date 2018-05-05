@@ -6,7 +6,12 @@ import LineAppender, { Appender } from "../providers/LineAppender";
 import { Theme } from "../styles/theme";
 import { Style } from "../styles/ThemeProvider";
 
-const styleBuilder = ({ colors }: Theme) => ({
+const styleBuilder = ({
+  colors,
+  buttons: {
+    borderOptions: { borderRadius, borderWidth }
+  }
+}: Theme) => ({
   bigButton: {
     fontSize: "40px",
     fontWeight: "bold",
@@ -14,7 +19,8 @@ const styleBuilder = ({ colors }: Theme) => ({
     justifyContent: "center",
     backgroundColor: colors.button.primary,
     color: colors.text.primary,
-    border: "0"
+    borderWidth,
+    borderRadius
   }
 });
 

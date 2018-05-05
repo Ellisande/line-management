@@ -12,10 +12,11 @@ import { ThemeProvider, Style } from "./styles/ThemeProvider";
 import { defaultTheme, Theme } from "./styles/theme";
 import { css } from "aphrodite";
 
-const styleBuilder = ({ colors: { background } }: Theme) => ({
+const styleBuilder = ({ colors: { background, text } }: Theme) => ({
   pageLayout: {
     backgroundColor: background,
-    height: "100vh"
+    height: "100vh",
+    color: text.primary
   }
 });
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as moment from "moment";
-import { StyleSheet, css } from "aphrodite";
+import { css } from "aphrodite";
 
 import EstimatedWait from "../presentational/EstimatedWait";
 import SkipNumber from "../presentational/SkipNumber";
@@ -9,12 +9,15 @@ import LocalQueuerProvider from "../providers/LocalQueuerProvider";
 import WaitProvider from "../providers/WaitProvider";
 import NumbersAheadProvider from "../providers/NumbersAheadProvider";
 import NextNumberProvider from "../providers/NextNumberProvider";
+import { Theme } from "../styles/theme";
+import { Style } from "../styles/ThemeProvider";
 
 interface OnTheWayProps {
   onAcknowledge: () => void;
 }
 
 interface NotComingProps {
+  className: string;
   onLeaveQueue: () => void;
 }
 
@@ -29,17 +32,19 @@ interface Props {
 const CallToAction: React.SFC<{}> = ({ children }) => <div>{children}</div>;
 const Informational: React.SFC<{}> = ({ children }) => <div>{children}</div>;
 
-const styles = StyleSheet.create({
+const stylesBuilder = ({ colors, buttons }: Theme) => ({
   bigNumber: {
-    fontSize: "40px",
+    fontSize: "70px",
     fontWeight: "bold",
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
+    color: colors.text.important
   },
   layout: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    color: colors.text.primary,
     ":nth-child(n) > * + *": {
       marginTop: "10px"
     }
@@ -48,68 +53,81 @@ const styles = StyleSheet.create({
     fontSize: "10px"
   },
   leaving: {
-    fontSize: "8px"
+    fontSize: "8px",
+    color: colors.text.primary,
+    backgroundColor: colors.button.cancel,
+    borderWidth: buttons.borderOptions.borderWidth,
+    borderRadius: buttons.borderOptions.borderRadius
   }
 });
 
-const NotComing: React.SFC<NotComingProps> = ({ onLeaveQueue }) => (
-  <button onClick={onLeaveQueue} className={css(styles.subtle)}>
+const NotComing: React.SFC<NotComingProps> = ({ onLeaveQueue, className }) => (
+  <button onClick={onLeaveQueue} className={className}>
     Give Up My Spot
   </button>
 );
 
 const UserWithNumber: React.SFC<Props> = ({ onAcknowledge, lineName }) => {
   return (
-    <LocalQueuerProvider path={`/${lineName}`}>
-      {(userQueuer, id) =>
-        userQueuer && id ? (
-          <div className={css(styles.layout)}>
-            <CallToAction>
-              <div>Your number is:</div>
-              <div className={css(styles.bigNumber)}>{userQueuer.number}</div>
-              <NextNumberProvider>
-                {nextQueuer => {
-                  const userIsNext =
-                    userQueuer.number === (nextQueuer && nextQueuer.number);
-                  return userIsNext ? (
-                    <div>
-                      <SkipNumber idToSkip={id}>Skip Me</SkipNumber>
-                      <OnTheWay onAcknowledge={onAcknowledge} />
-                    </div>
-                  ) : (
-                    <div />
-                  );
-                }}
-              </NextNumberProvider>
-            </CallToAction>
-            <Informational>
-              <WaitProvider forNumber={userQueuer.number}>
-                {waitTime => (
-                  <EstimatedWait
-                    className={css(styles.subtle)}
-                    waitTime={waitTime}
-                  />
-                )}
-              </WaitProvider>
-              <NumbersAheadProvider numberToCheck={userQueuer.number}>
-                {numbersAhead => (
-                  <div className={css(styles.subtle)}>
-                    There are {numbersAhead} people in front of you
+    <Style buildStyles={stylesBuilder}>
+      {styles => (
+        <LocalQueuerProvider path={`/${lineName}`}>
+          {(userQueuer, id) =>
+            userQueuer && id ? (
+              <div className={css(styles.layout)}>
+                <CallToAction>
+                  <div>Your number is:</div>
+                  <div className={css(styles.bigNumber)}>
+                    {userQueuer.number}
                   </div>
-                )}
-              </NumbersAheadProvider>
-            </Informational>
-            <LeaveLineUpdater id={id}>
-              {notComing => (
-                <NotComing onLeaveQueue={() => notComing(moment().format())} />
-              )}
-            </LeaveLineUpdater>
-          </div>
-        ) : (
-          <div>You don't have a number yet!</div>
-        )
-      }
-    </LocalQueuerProvider>
+                  <NextNumberProvider>
+                    {nextQueuer => {
+                      const userIsNext =
+                        userQueuer.number === (nextQueuer && nextQueuer.number);
+                      return userIsNext ? (
+                        <div>
+                          <SkipNumber idToSkip={id}>Skip Me</SkipNumber>
+                          <OnTheWay onAcknowledge={onAcknowledge} />
+                        </div>
+                      ) : (
+                        <div />
+                      );
+                    }}
+                  </NextNumberProvider>
+                </CallToAction>
+                <Informational>
+                  <WaitProvider forNumber={userQueuer.number}>
+                    {waitTime => (
+                      <EstimatedWait
+                        className={css(styles.subtle)}
+                        waitTime={waitTime}
+                      />
+                    )}
+                  </WaitProvider>
+                  <NumbersAheadProvider numberToCheck={userQueuer.number}>
+                    {numbersAhead => (
+                      <div className={css(styles.subtle)}>
+                        There are {numbersAhead} people in front of you
+                      </div>
+                    )}
+                  </NumbersAheadProvider>
+                </Informational>
+                <LeaveLineUpdater id={id}>
+                  {notComing => (
+                    <NotComing
+                      className={css(styles.leaving)}
+                      onLeaveQueue={() => notComing(moment().format())}
+                    />
+                  )}
+                </LeaveLineUpdater>
+              </div>
+            ) : (
+              <div>You don't have a number yet!</div>
+            )
+          }
+        </LocalQueuerProvider>
+      )}
+    </Style>
   );
 };
 
