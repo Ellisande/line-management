@@ -1,32 +1,40 @@
 import * as React from "react";
 import * as moment from "moment";
-import { StyleSheet, css } from "aphrodite";
+import { css } from "aphrodite";
 
 import SkipNumberUpdater from "../providers/SkipNumberUpdater";
-
-const styles = StyleSheet.create({
-  action: {
-    // TODO: Have to be controlled theme
-    fontSize: "20px"
-  }
-});
+import { Style } from "../styles/ThemeProvider";
+import { Theme } from "../styles/theme";
 
 interface SkipProps {
   idToSkip: string;
   children: React.ReactNode;
 }
 
+const styleBuilder = ({ font, colors, buttons }: Theme) => ({
+  action: {
+    fontSize: font.size.normal,
+    color: colors.text.primary,
+    ...buttons.borderOptions,
+    backgroundColor: colors.button.secondary
+  }
+});
+
 const SkipNumber: React.SFC<SkipProps> = ({ children, idToSkip }) => (
-  <SkipNumberUpdater id={idToSkip}>
-    {onSkip => (
-      <button
-        className={css(styles.action)}
-        onClick={() => onSkip(moment().format())}
-      >
-        {children}
-      </button>
+  <Style buildStyles={styleBuilder}>
+    {styles => (
+      <SkipNumberUpdater id={idToSkip}>
+        {onSkip => (
+          <button
+            className={css(styles.action)}
+            onClick={() => onSkip(moment().format())}
+          >
+            {children}
+          </button>
+        )}
+      </SkipNumberUpdater>
     )}
-  </SkipNumberUpdater>
+  </Style>
 );
 
 export default SkipNumber;

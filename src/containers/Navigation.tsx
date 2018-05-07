@@ -1,23 +1,10 @@
 import * as React from "react";
-import { StyleSheet, css } from "aphrodite";
+import { css } from "aphrodite";
 import { Route, Switch } from "react-router";
-import { Link } from "react-router-dom";
-
-const styles = StyleSheet.create({
-  navLayout: {
-    display: "flex",
-    width: "95vw",
-    justifyContent: "flex-end",
-    marginBottom: "15px"
-  },
-  linkList: {
-    display: "flex",
-    justifyContent: "flex-end",
-    ":nth-child(n) * + *": {
-      marginLeft: "10px"
-    }
-  }
-});
+// import { Link } from "react-router-dom";
+import { Style } from "../styles/ThemeProvider";
+import { Theme } from "../styles/theme";
+import { StyledLink } from "../presentational/StyledLink";
 
 interface SetOpen {
   (shouldBeOpen: boolean): void;
@@ -53,54 +40,91 @@ class Collapsable extends React.Component<CollapsableProps, CollapsableState> {
 }
 
 // TODO: Remove the current page link
-const LinkList: React.SFC<{ basePath: string }> = ({ basePath }) => (
-  <ul className={css(styles.linkList)}>
-    <Link to={`${basePath}`}>User</Link>
-    <Link to={`${basePath}/manage`}>Manage</Link>
-    <Link to={`${basePath}/terminal`}>Terminal</Link>
-    <Link to={`${basePath}/dashboard`}>Dashboard</Link>
+const LinkList: React.SFC<{ basePath: string; className: string }> = ({
+  basePath,
+  className
+}) => (
+  <ul className={className}>
+    <StyledLink to={`${basePath}`}>User</StyledLink>
+    <StyledLink to={`${basePath}/manage`}>Manage</StyledLink>
+    <StyledLink to={`${basePath}/terminal`}>Terminal</StyledLink>
+    <StyledLink to={`${basePath}/dashboard`}>Dashboard</StyledLink>
   </ul>
 );
 
 const UserLink: React.SFC<{ basePath: string }> = ({ basePath }) => (
-  <Link to={basePath}>User View</Link>
+  <StyledLink to={basePath}>User View</StyledLink>
 );
+
+const styleBuilder = ({
+  colors: { text, button },
+  buttons: { borderOptions }
+}: Theme) => ({
+  navLayout: {
+    display: "flex",
+    width: "95vw",
+    justifyContent: "flex-end",
+    marginBottom: "15px"
+  },
+  linkList: {
+    display: "flex",
+    justifyContent: "flex-end",
+    ":nth-child(n) * + *": {
+      marginLeft: "10px"
+    }
+  },
+  open: {
+    backgroundColor: button.secondary,
+    color: text.primary,
+    borderWidth: borderOptions.borderWidth,
+    borderRadius: borderOptions.borderRadius
+  }
+});
 
 const Navigation: React.SFC<{}> = () => {
   return (
-    <Route path="/:line_name/">
-      {({ match: { params, url } }) => (
-        <div>
-          <Switch>
-            <Route path={`${url}/manage`} exact={true}>
-              {() => (
-                <div className={css(styles.navLayout)}>
-                  <UserLink basePath={url} />
-                </div>
-              )}
-            </Route>
-            <Route>
-              {({ match: { url: baseUrl } }) => (
-                <Collapsable openInitially={false}>
-                  {(isOpen, setOpen) => (
-                    <div
-                      className={css(styles.navLayout)}
-                      onClick={() => setOpen(!isOpen)}
-                    >
-                      {isOpen ? (
-                        <LinkList basePath={baseUrl} />
-                      ) : (
-                        <div>I am a nav</div>
-                      )}
+    <Style buildStyles={styleBuilder}>
+      {styles => (
+        <Route path="/:line_name/">
+          {({ match: { params, url } }) => (
+            <div>
+              <Switch>
+                <Route path={`${url}/manage`} exact={true}>
+                  {() => (
+                    <div className={css(styles.navLayout)}>
+                      <UserLink basePath={url} />
                     </div>
                   )}
-                </Collapsable>
-              )}
-            </Route>
-          </Switch>
-        </div>
+                </Route>
+                <Route>
+                  {({ match: { url: baseUrl } }) => (
+                    <Collapsable openInitially={false}>
+                      {(isOpen, setOpen) => (
+                        <div
+                          className={css(styles.navLayout)}
+                          onClick={() => setOpen(!isOpen)}
+                        >
+                          {isOpen ? (
+                            <LinkList
+                              basePath={baseUrl}
+                              className={css(styles.linkList)}
+                            />
+                          ) : (
+                            <button className={css(styles.open)}>
+                              Options
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </Collapsable>
+                  )}
+                </Route>
+              </Switch>
+            </div>
+          )}
+        </Route>
       )}
-    </Route>
+    </Style>
   );
 };
 

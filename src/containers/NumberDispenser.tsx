@@ -1,15 +1,26 @@
 import * as React from "react";
 import * as moment from "moment";
-import { StyleSheet, css } from "aphrodite";
+import { css } from "aphrodite";
 import LineCountProvider from "../providers/LineCountProvider";
 import LineAppender, { Appender } from "../providers/LineAppender";
+import { Theme } from "../styles/theme";
+import { Style } from "../styles/ThemeProvider";
 
-const styles = StyleSheet.create({
-  big: {
+const styleBuilder = ({
+  colors,
+  buttons: {
+    borderOptions: { borderRadius, borderWidth }
+  }
+}: Theme) => ({
+  bigButton: {
     fontSize: "40px",
     fontWeight: "bold",
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: colors.button.primary,
+    color: colors.text.primary,
+    borderWidth,
+    borderRadius
   }
 });
 
@@ -19,28 +30,32 @@ interface DispenserProps {
 
 const NumberDispenser: React.SFC<DispenserProps> = ({ onDispense }) => {
   return (
-    <LineAppender onPush={onDispense}>
-      {(addNumber: Appender) => (
-        <LineCountProvider all={true}>
-          {(lineCount: number) => {
-            return (
-              <button
-                className={css(styles.big)}
-                onClick={() => {
-                  addNumber({
-                    number: lineCount + 1,
-                    userId: "1",
-                    pulledAt: moment().format()
-                  });
-                }}
-              >
-                Take Number
-              </button>
-            );
-          }}
-        </LineCountProvider>
+    <Style buildStyles={styleBuilder}>
+      {styles => (
+        <LineAppender onPush={onDispense}>
+          {(addNumber: Appender) => (
+            <LineCountProvider all={true}>
+              {(lineCount: number) => {
+                return (
+                  <button
+                    className={css(styles.bigButton)}
+                    onClick={() => {
+                      addNumber({
+                        number: lineCount + 1,
+                        userId: "1",
+                        pulledAt: moment().format()
+                      });
+                    }}
+                  >
+                    Take Number
+                  </button>
+                );
+              }}
+            </LineCountProvider>
+          )}
+        </LineAppender>
       )}
-    </LineAppender>
+    </Style>
   );
 };
 
