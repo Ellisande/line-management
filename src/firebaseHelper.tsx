@@ -112,7 +112,6 @@ export class FirebaseList extends React.Component<ListProps, ListState> {
     ref.once("value", snapshot => {
       if (snapshot) {
         const rootVal = snapshot.val();
-        console.log(`Here is what I get from firebase the first time`, rootVal);
         const updatedVal = childId ? rootVal[childId] : rootVal;
         this.setState(() => ({ value: updatedVal, loading: false }));
       }
@@ -120,7 +119,6 @@ export class FirebaseList extends React.Component<ListProps, ListState> {
     ref.on("child_changed", snapshot => {
       if (snapshot) {
         const rootVal = snapshot.val();
-        console.log("Here is what I get from firebase on update", rootVal);
         const updatedVal = childId ? rootVal[childId] : rootVal;
         this.setState(() => ({ updatedVal, loading: false }));
       }

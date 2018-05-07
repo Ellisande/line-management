@@ -1,24 +1,35 @@
 import * as React from "react";
 import { FirebaseUpdater } from "../firebaseHelper";
+import LocalNumberUpdater from "./LocalNumberUpdater";
 
-export interface Updater {
+export interface FirebaseUpdate {
   (timestamp: string): void;
 }
 
 interface Props {
   id: string;
-  children: (updater: Updater) => JSX.Element;
+  children: (updater: FirebaseUpdate) => JSX.Element;
 }
 
 /*
-TODO: This should probably remove the id from localStorage
+TODO: Clean up path hardcoding
 */
 class LeaveLineUpdater extends React.Component<Props, {}> {
   render() {
     const { children, id } = this.props;
     return (
       <FirebaseUpdater path={`/line/${id}/leftAt`}>
-        {(updater: Updater) => children(updater)}
+        {(firebaseUpdater: FirebaseUpdate) => (
+          <LocalNumberUpdater path="/minefaire">
+            {(_, localStorageRemover) => {
+              const updater: FirebaseUpdate = timestamp => {
+                firebaseUpdater(timestamp);
+                localStorageRemover();
+              };
+              return children(updater);
+            }}
+          </LocalNumberUpdater>
+        )}
       </FirebaseUpdater>
     );
   }

@@ -27,6 +27,7 @@ const OnTheWay: React.SFC<OnTheWayProps> = ({ onAcknowledge }) => (
 
 interface Props {
   lineName: string;
+  refresh?: () => void;
   onAcknowledge: () => void;
 }
 const CallToAction: React.SFC<{}> = ({ children }) => <div>{children}</div>;
@@ -67,7 +68,11 @@ const NotComing: React.SFC<NotComingProps> = ({ onLeaveQueue, className }) => (
   </button>
 );
 
-const UserWithNumber: React.SFC<Props> = ({ onAcknowledge, lineName }) => {
+const UserWithNumber: React.SFC<Props> = ({
+  onAcknowledge,
+  lineName,
+  refresh
+}) => {
   return (
     <Style buildStyles={stylesBuilder}>
       {styles => (
@@ -116,7 +121,12 @@ const UserWithNumber: React.SFC<Props> = ({ onAcknowledge, lineName }) => {
                   {notComing => (
                     <NotComing
                       className={css(styles.leaving)}
-                      onLeaveQueue={() => notComing(moment().format())}
+                      onLeaveQueue={() => {
+                        notComing(moment().format());
+                        if (refresh) {
+                          refresh();
+                        }
+                      }}
                     />
                   )}
                 </LeaveLineUpdater>
