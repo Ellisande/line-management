@@ -1,5 +1,10 @@
 import * as React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import { FirebaseProvider, RootRef } from "fire-fetch";
 
 import Manage from "./containers/Manage";
@@ -11,6 +16,7 @@ import Dashboard from "./containers/Dashboard";
 import { ThemeProvider, Style } from "./styles/ThemeProvider";
 import { defaultTheme, Theme } from "./styles/theme";
 import { css } from "aphrodite";
+import { Landing } from "./containers/Landing";
 
 const styleBuilder = ({ colors: { background, text } }: Theme) => ({
   pageLayout: {
@@ -25,45 +31,54 @@ class App extends React.Component {
     return (
       <FirebaseProvider config={config}>
         <Router>
-          <div>
-            <Route path="/:line_name/">
-              {({ match }) => (
-                <RootRef path={`/${match.params.line_name}`}>
-                  <ThemeProvider value={defaultTheme}>
-                    <Style buildStyles={styleBuilder}>
-                      {styles => (
-                        <div className={css(styles.pageLayout)}>
-                          <Navigation />
-                          <Switch>
-                            <Route
-                              path={`${match.url}/manage`}
-                              exact={true}
-                              component={Manage}
-                            />
-                            <Route
-                              path={`${match.url}/terminal`}
-                              exact={true}
-                              component={Terminal}
-                            />
-                            <Route
-                              path={`${match.url}/dashboard`}
-                              exact={true}
-                              component={Dashboard}
-                            />
-                            <Route
-                              path={`${match.url}`}
-                              exact={true}
-                              component={User}
-                            />
-                          </Switch>
-                        </div>
-                      )}
-                    </Style>
-                  </ThemeProvider>
-                </RootRef>
-              )}
+          <Switch>
+            <Route path="/line/:line_name">
+              {({ match }) => {
+                if (!match || !match.params) {
+                  return <div />;
+                }
+                return (
+                  <RootRef path={`/${match.params.line_name}`}>
+                    <ThemeProvider value={defaultTheme}>
+                      <Style buildStyles={styleBuilder}>
+                        {styles => (
+                          <div className={css(styles.pageLayout)}>
+                            <Navigation />
+                            <Switch>
+                              <Route
+                                path={`${match.url}/manage`}
+                                exact={true}
+                                component={Manage}
+                              />
+                              <Route
+                                path={`${match.url}/terminal`}
+                                exact={true}
+                                component={Terminal}
+                              />
+                              <Route
+                                path={`${match.url}/dashboard`}
+                                exact={true}
+                                component={Dashboard}
+                              />
+                              <Route
+                                path={`${match.url}`}
+                                exact={true}
+                                component={User}
+                              />
+                            </Switch>
+                          </div>
+                        )}
+                      </Style>
+                    </ThemeProvider>
+                  </RootRef>
+                );
+              }}
             </Route>
-          </div>
+            <Route path="/" exact={true}>
+              {() => <Landing />}
+            </Route>
+            <Redirect to="/" />
+          </Switch>
         </Router>
       </FirebaseProvider>
     );
