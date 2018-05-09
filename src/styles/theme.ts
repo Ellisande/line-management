@@ -44,6 +44,10 @@ interface Font {
   };
 }
 
+interface Separators {
+  color: string;
+}
+
 interface Theme {
   colors: Colors;
   buttons: {
@@ -51,6 +55,7 @@ interface Theme {
   };
   links: Link;
   font: Font;
+  separators: Separators;
 }
 
 const defaultTheme: Theme = {
@@ -90,9 +95,12 @@ const defaultTheme: Theme = {
       huge: "70px",
       large: "40px",
       normal: "25px",
-      small: "18px",
+      small: "10px",
       tiny: "4px"
     }
+  },
+  separators: {
+    color: "dimgrey"
   }
 };
 
