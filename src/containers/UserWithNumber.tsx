@@ -26,7 +26,6 @@ const OnTheWay: React.SFC<OnTheWayProps> = ({ onAcknowledge }) => (
 );
 
 interface Props {
-  lineName: string;
   refresh?: () => void;
   onAcknowledge: () => void;
 }
@@ -70,13 +69,12 @@ const NotComing: React.SFC<NotComingProps> = ({ onLeaveQueue, className }) => (
 
 const UserWithNumber: React.SFC<Props> = ({
   onAcknowledge,
-  lineName,
   refresh
 }) => {
   return (
     <Style buildStyles={stylesBuilder}>
       {styles => (
-        <LocalQueuerProvider path={`/${lineName}`}>
+        <LocalQueuerProvider>
           {(userQueuer, id) =>
             userQueuer && id ? (
               <div className={css(styles.layout)}>
