@@ -1,8 +1,8 @@
 export interface Queuer {
-  pulledAt?: string;
-  servicedAt?: string;
-  skippedAt?: string;
-  leftAt?: string;
-  userId: string;
-  number: number;
+  pulledAt?: string; // Admin only
+  servicedAt?: string; // Admin only
+  skippedAt?: string; // User & Admin
+  leftAt?: string; // User & Admin
+  userId: string; // Admin?
+  number: number; // Admin
 }
