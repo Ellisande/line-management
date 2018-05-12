@@ -85,7 +85,7 @@ const Navigation: React.SFC<{}> = () => {
   return (
     <Style buildStyles={styleBuilder}>
       {styles => (
-        <Route path="/:line_name/">
+        <Route path="/line/:line_name/">
           {({ match: { params, url } }) => (
             <div>
               <Switch>
