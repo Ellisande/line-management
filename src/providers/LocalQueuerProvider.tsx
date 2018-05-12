@@ -4,13 +4,12 @@ import LocalNumberProvider from "./LocalNumberProvider";
 import QueuerProvider from "./QueuerProvider";
 
 interface Props {
-  path: string;
   children: (queuer?: Queuer, id?: string, refresh?: () => void) => JSX.Element;
 }
 
 // TODO: Use library that will notify us when local storage changes
-const LocalQueuerProvider: React.SFC<Props> = ({ path, children }) => (
-  <LocalNumberProvider path={path}>
+const LocalQueuerProvider: React.SFC<Props> = ({ children }) => (
+  <LocalNumberProvider>
     {(localNumberId, refresh) =>
       localNumberId ? (
         <QueuerProvider id={localNumberId}>

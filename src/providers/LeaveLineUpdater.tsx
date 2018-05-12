@@ -20,7 +20,7 @@ class LeaveLineUpdater extends React.Component<Props, {}> {
     return (
       <FirebaseUpdater path={`/line/${id}/leftAt`}>
         {(firebaseUpdater: FirebaseUpdate) => (
-          <LocalNumberUpdater path="/minefaire">
+          <LocalNumberUpdater>
             {(_, localStorageRemover) => {
               const updater: FirebaseUpdate = timestamp => {
                 firebaseUpdater(timestamp);

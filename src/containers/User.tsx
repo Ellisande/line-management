@@ -5,19 +5,13 @@ import LocalQueuerProvider from "../providers/LocalQueuerProvider";
 import LocalNumberUpdater from "../providers/LocalNumberUpdater";
 
 const User: React.SFC<{}> = () => {
-  const lineName = "minefaire";
   return (
-    <LocalNumberUpdater path={`/${lineName}`}>
+    <LocalNumberUpdater>
       {setLocalNumber => (
-        <LocalQueuerProvider path={`/${lineName}`}>
+        <LocalQueuerProvider>
           {(queuer, id, refresh) => {
             if (queuer && id) {
-              return (
-                <UserWithNumber
-                  lineName={lineName}
-                  onAcknowledge={() => undefined}
-                />
-              );
+              return <UserWithNumber onAcknowledge={() => undefined} />;
             }
             const handlerSetLocalNumber = (newId: string) => {
               setLocalNumber(newId);
