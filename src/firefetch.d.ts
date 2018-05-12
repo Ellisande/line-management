@@ -42,6 +42,26 @@ declare module "fire-fetch" {
     children: (rootPath: string) => JSX.Element;
   }
 
+  interface AuthProps {
+    children: (user?: firebase.User) => JSX.Element;
+  }
+
+  interface SignInToProvider {
+    (provider: firebase.auth.AuthProvider, shouldRedirect: boolean): void;
+  }
+
+  interface SignInOptions {
+    signInProvider: SignInToProvider;
+  }
+
+  interface SignInProps {
+    children: (signInOptions: SignInOptions) => JSX.Element;
+  }
+
+  interface UserProps {
+    children: (user?: firebase.User) => JSX.Element;
+  }
+
   export class FirebaseProvider extends React.Component<
     FirebaseProviderProps,
     {}
@@ -51,4 +71,7 @@ declare module "fire-fetch" {
   export class FirebaseRef extends React.Component<RefProps, {}> {}
   export class FirebaseApp extends React.Component<FBAppProps, {}> {}
   export class GetRootRef extends React.Component<GetRootRefProps, {}> {}
+  export class AuthListener extends React.Component<AuthProps, {}> {}
+  export class SignIn extends React.Component<SignInProps, {}> {}
+  export class User extends React.Component<UserProps, {}> {}
 }
