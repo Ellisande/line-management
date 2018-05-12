@@ -1,7 +1,7 @@
 import * as React from "react";
+import { LineNameConsumer } from "./LineName";
 
 interface Props {
-  path: string;
   children: (id?: string, refresh?: () => void) => JSX.Element;
 }
 
@@ -16,9 +16,16 @@ class LocalNumberProvider extends React.Component<Props, State> {
   }
 
   render() {
-    const { children, path } = this.props;
-    const localId = localStorage.getItem(`${path}:number`) || undefined;
-    return children(localId, this.forceUpdate);
+    const { children } = this.props;
+    return (
+      <LineNameConsumer>
+        {lineName => {
+          const localId =
+            localStorage.getItem(`${lineName}:number`) || undefined;
+          return children(localId, this.forceUpdate);
+        }}
+      </LineNameConsumer>
+    );
   }
 }
 
