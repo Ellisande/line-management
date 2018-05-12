@@ -16,6 +16,7 @@ import { Style } from "../styles/ThemeProvider";
 import { StartAccepting } from "../presentational/StartAccepting";
 import { StopAccepting } from "../presentational/StopAccepting";
 import { ResetNumbers } from "../presentational/ResetNumbers";
+import { Authenticated } from "./Authenticated";
 
 const StartStopNumbers: React.SFC<{}> = () => (
   <AcceptingNumbersUpdater>
@@ -74,59 +75,61 @@ const styleBuilder = ({ colors: { text } }: Theme) => ({
 
 const Manage: React.SFC<Props> = ({ match }) => {
   return (
-    <Style buildStyles={styleBuilder}>
-      {styles => (
-        <div className={css(styles.layout)}>
-          <CurrentQueuerProvider>
-            {(currentQueuer, id) =>
-              currentQueuer && id ? (
-                <MarkServedProvider>
-                  {markCurrentComplete => (
-                    <CallNextNumberProvider>
-                      {pullNext => (
-                        <div>
-                          <div className={css(styles.bigNumber)}>
-                            {currentQueuer.number}
+    <Authenticated>
+      <Style buildStyles={styleBuilder}>
+        {styles => (
+          <div className={css(styles.layout)}>
+            <CurrentQueuerProvider>
+              {(currentQueuer, id) =>
+                currentQueuer && id ? (
+                  <MarkServedProvider>
+                    {markCurrentComplete => (
+                      <CallNextNumberProvider>
+                        {pullNext => (
+                          <div>
+                            <div className={css(styles.bigNumber)}>
+                              {currentQueuer.number}
+                            </div>
+                            <div className={css(styles.actions)}>
+                              <MarkDone
+                                markAsDone={markCurrentComplete}
+                                pullNextNumber={pullNext}
+                                currentNumber={currentQueuer.number}
+                              />
+                              <SkipNumber />
+                            </div>
                           </div>
-                          <div className={css(styles.actions)}>
-                            <MarkDone
-                              markAsDone={markCurrentComplete}
-                              pullNextNumber={pullNext}
-                              currentNumber={currentQueuer.number}
-                            />
-                            <SkipNumber />
-                          </div>
-                        </div>
-                      )}
-                    </CallNextNumberProvider>
-                  )}
-                </MarkServedProvider>
-              ) : (
-                <div>Loading... fix me later</div>
-              )
-            }
-          </CurrentQueuerProvider>
-          <div className="wait times">
-            <AverageNumberTime />
-            <WaitProvider>
-              {wait => (
-                <div>
-                  <div>Current wait is {wait.humanize()}</div>
+                        )}
+                      </CallNextNumberProvider>
+                    )}
+                  </MarkServedProvider>
+                ) : (
+                  <div>Loading... fix me later</div>
+                )
+              }
+            </CurrentQueuerProvider>
+            <div className="wait times">
+              <AverageNumberTime />
+              <WaitProvider>
+                {wait => (
                   <div>
-                    Estimated time to done{" "}
-                    {moment()
-                      .add(wait)
-                      .format("MM-DD hh:mma")}
+                    <div>Current wait is {wait.humanize()}</div>
+                    <div>
+                      Estimated time to done{" "}
+                      {moment()
+                        .add(wait)
+                        .format("MM-DD hh:mma")}
+                    </div>
                   </div>
-                </div>
-              )}
-            </WaitProvider>
+                )}
+              </WaitProvider>
+            </div>
+            <StartStopNumbers />
+            <ResetNumbers onResetNumbers={() => undefined} />
           </div>
-          <StartStopNumbers />
-          <ResetNumbers onResetNumbers={() => undefined} />
-        </div>
-      )}
-    </Style>
+        )}
+      </Style>
+    </Authenticated>
   );
 };
 
