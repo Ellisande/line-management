@@ -1,41 +1,47 @@
-interface Children {
-  children: JSX.Element;
-}
-
-interface FirebaseProviderProps extends Children {
-  config: {};
-}
-
-interface Path {
-  path: string;
-}
-
-interface RefProps extends Path {
-  children: (ref: firebase.database.Reference) => JSX.Element;
-}
-
-interface RootRefProps extends Children, Path {}
-interface QueryProps extends Path {
-  children: (value: {} | undefined, loading: boolean, ref: any) => JSX.Element;
-  toArray?: boolean;
-  on?: boolean;
-  reference?: firebase.database.Reference;
-  once?: boolean;
-  orderByChild?: string;
-  equalTo?: any;
-  limitToLast?: number;
-  onChange?: () => {};
-}
-
-interface FBAppProps {
-  children: (app: firebase.app.App) => JSX.Element;
-}
-
-interface GetRootRefProps {
-  children: (rootPath: string) => JSX.Element;
-}
-
 declare module "fire-fetch" {
+  import firebase = require("firebase/app");
+
+  interface Children {
+    children: JSX.Element;
+  }
+
+  interface FirebaseProviderProps extends Children {
+    config: {};
+  }
+
+  interface Path {
+    path: string;
+  }
+
+  interface RefProps extends Path {
+    children: (ref: firebase.database.Reference) => JSX.Element;
+  }
+
+  interface RootRefProps extends Children, Path {}
+  interface QueryProps extends Path {
+    children: (
+      value: {} | undefined,
+      loading: boolean,
+      ref: any
+    ) => JSX.Element;
+    toArray?: boolean;
+    on?: boolean;
+    reference?: firebase.database.Reference;
+    once?: boolean;
+    orderByChild?: string;
+    equalTo?: any;
+    limitToLast?: number;
+    onChange?: () => {};
+  }
+
+  interface FBAppProps {
+    children: (app: firebase.app.App) => JSX.Element;
+  }
+
+  interface GetRootRefProps {
+    children: (rootPath: string) => JSX.Element;
+  }
+
   export class FirebaseProvider extends React.Component<
     FirebaseProviderProps,
     {}
