@@ -17,6 +17,7 @@ import { ThemeProvider, Style } from "./styles/ThemeProvider";
 import { defaultTheme, Theme } from "./styles/theme";
 import { css } from "aphrodite";
 import { Landing } from "./containers/Landing";
+import { LineNameProvider } from "./providers/LineName";
 
 const styleBuilder = ({ colors: { background, text } }: Theme) => ({
   pageLayout: {
@@ -35,37 +36,39 @@ class App extends React.Component {
             <Route path="/line/:line_name">
               {({ match }) => (
                 <RootRef path={`/${match.params.line_name}`}>
-                  <ThemeProvider value={defaultTheme}>
-                    <Style buildStyles={styleBuilder}>
-                      {styles => (
-                        <div className={css(styles.pageLayout)}>
-                          <Navigation />
-                          <Switch>
-                            <Route
-                              path={`${match.url}/manage`}
-                              exact={true}
-                              component={Manage}
-                            />
-                            <Route
-                              path={`${match.url}/terminal`}
-                              exact={true}
-                              component={Terminal}
-                            />
-                            <Route
-                              path={`${match.url}/dashboard`}
-                              exact={true}
-                              component={Dashboard}
-                            />
-                            <Route
-                              path={`${match.url}`}
-                              exact={true}
-                              component={User}
-                            />
-                          </Switch>
-                        </div>
-                      )}
-                    </Style>
-                  </ThemeProvider>
+                  <LineNameProvider value={`/${match.params.line_name}`}>
+                    <ThemeProvider value={defaultTheme}>
+                      <Style buildStyles={styleBuilder}>
+                        {styles => (
+                          <div className={css(styles.pageLayout)}>
+                            <Navigation />
+                            <Switch>
+                              <Route
+                                path={`${match.url}/manage`}
+                                exact={true}
+                                component={Manage}
+                              />
+                              <Route
+                                path={`${match.url}/terminal`}
+                                exact={true}
+                                component={Terminal}
+                              />
+                              <Route
+                                path={`${match.url}/dashboard`}
+                                exact={true}
+                                component={Dashboard}
+                              />
+                              <Route
+                                path={`${match.url}`}
+                                exact={true}
+                                component={User}
+                              />
+                            </Switch>
+                          </div>
+                        )}
+                      </Style>
+                    </ThemeProvider>
+                  </LineNameProvider>
                 </RootRef>
               )}
             </Route>
