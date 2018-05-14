@@ -22,11 +22,17 @@ const styleBuilder = ({ colors: { text } }: Theme) => ({
     justifyContent: "center",
     alignItems: "center",
     ":nth-child(n) > * + *": {
-      marginTop: "10px"
+      marginTop: "10rem"
     }
   },
   text: {
     color: text.primary
+  },
+  wait: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 
@@ -39,21 +45,23 @@ const UserWithoutNumber: React.SFC<Props> = ({ setLocalNumber }) => {
             accepting ? (
               <div className={css(styles.layout)}>
                 <NumberDispenser onDispense={setLocalNumber} />
-                <WaitProvider>
-                  {waitTime => (
-                    <EstimatedWait
-                      className={css(styles.text)}
-                      waitTime={waitTime}
-                    />
-                  )}
-                </WaitProvider>
-                <NumbersAheadProvider>
-                  {numbersAhead => (
-                    <div className={css(styles.text)}>
-                      There are {numbersAhead} people in line
-                    </div>
-                  )}
-                </NumbersAheadProvider>
+                <div className={css(styles.wait)}>
+                  <WaitProvider>
+                    {waitTime => (
+                      <EstimatedWait
+                        className={css(styles.text)}
+                        waitTime={waitTime}
+                      />
+                    )}
+                  </WaitProvider>
+                  <NumbersAheadProvider>
+                    {numbersAhead => (
+                      <div className={css(styles.text)}>
+                        There are {numbersAhead} people in line
+                      </div>
+                    )}
+                  </NumbersAheadProvider>
+                </div>
               </div>
             ) : (
               <div>Sorry we are not currently taking numbers</div>

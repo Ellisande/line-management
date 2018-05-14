@@ -6,21 +6,16 @@ import LineAppender, { Appender } from "../providers/LineAppender";
 import { Theme } from "../styles/theme";
 import { Style } from "../styles/ThemeProvider";
 
-const styleBuilder = ({
-  colors,
-  buttons: {
-    borderOptions: { borderRadius, borderWidth }
-  }
-}: Theme) => ({
+const styleBuilder = ({ colors, buttons, font }: Theme) => ({
   bigButton: {
-    fontSize: "40px",
+    fontSize: font.size.large,
     fontWeight: "bold",
     display: "flex",
     justifyContent: "center",
     backgroundColor: colors.button.primary,
     color: colors.text.primary,
-    borderWidth,
-    borderRadius
+    ...buttons.borderOptions,
+    ...buttons.paddingOptions
   }
 });
 
@@ -47,7 +42,7 @@ const NumberDispenser: React.SFC<DispenserProps> = ({ onDispense }) => {
                       });
                     }}
                   >
-                    Take Number
+                    Take A Number
                   </button>
                 );
               }}

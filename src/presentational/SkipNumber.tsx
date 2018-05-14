@@ -16,6 +16,7 @@ const styleBuilder = ({ font, colors, buttons }: Theme) => ({
     fontSize: font.size.normal,
     color: colors.text.primary,
     ...buttons.borderOptions,
+    ...buttons.paddingOptions,
     backgroundColor: colors.button.secondary
   }
 });

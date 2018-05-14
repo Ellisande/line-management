@@ -17,6 +17,7 @@ import { StartAccepting } from "../presentational/StartAccepting";
 import { StopAccepting } from "../presentational/StopAccepting";
 import { ResetNumbers } from "../presentational/ResetNumbers";
 import { Authenticated } from "./Authenticated";
+import { Text } from "../presentational/Text";
 
 const StartStopNumbers: React.SFC<{}> = () => (
   <AcceptingNumbersUpdater>
@@ -42,9 +43,9 @@ interface Props {
   match: { url: string };
 }
 
-const styleBuilder = ({ colors: { text } }: Theme) => ({
+const styleBuilder = ({ colors: { text }, font }: Theme) => ({
   bigNumber: {
-    fontSize: "40px",
+    fontSize: font.size.huge,
     fontWeight: "bold",
     display: "flex",
     justifyContent: "center",
@@ -55,21 +56,24 @@ const styleBuilder = ({ colors: { text } }: Theme) => ({
     flexDirection: "column",
     alignItems: "center",
     ":nth-child(n) > * + *": {
-      marginTop: "10px"
+      marginTop: "5rem"
     }
   },
   actions: {
     display: "flex",
     justifyContent: "center",
     ":nth-child(n) > * + *": {
-      marginLeft: "7px"
+      marginLeft: "7rem"
     }
   },
   subtle: {
-    fontSize: "10px"
+    fontSize: font.size.small
   },
   leaving: {
-    fontSize: "8px"
+    fontSize: font.size.large
+  },
+  spaceTop: {
+    marginTop: "5rem"
   }
 });
 
@@ -108,24 +112,33 @@ const Manage: React.SFC<Props> = ({ match }) => {
                 )
               }
             </CurrentQueuerProvider>
-            <div className="wait times">
+            <div className={css(styles.subtle)}>
               <AverageNumberTime />
               <WaitProvider>
                 {wait => (
                   <div>
-                    <div>Current wait is {wait.humanize()}</div>
                     <div>
-                      Estimated time to done{" "}
-                      {moment()
-                        .add(wait)
-                        .format("MM-DD hh:mma")}
+                      Wait time:{" "}
+                      <Text important={true}>
+                        {wait.asMinutes().toFixed(2)} minutes
+                      </Text>
+                    </div>
+                    <div>
+                      Done at:{" "}
+                      <Text important={true}>
+                        {moment()
+                          .add(wait)
+                          .format("MM-DD hh:mma")}
+                      </Text>
                     </div>
                   </div>
                 )}
               </WaitProvider>
             </div>
-            <StartStopNumbers />
-            <ResetNumbers onResetNumbers={() => undefined} />
+            <div className={css(styles.actions, styles.spaceTop)}>
+              <StartStopNumbers />
+              <ResetNumbers onResetNumbers={() => undefined} />
+            </div>
           </div>
         )}
       </Style>

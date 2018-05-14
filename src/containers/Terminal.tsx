@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     ":nth-child(n) > * + *": {
-      marginTop: "10px"
+      marginTop: "10rem"
     }
   }
 });

@@ -19,11 +19,12 @@ import { css } from "aphrodite";
 import { Landing } from "./containers/Landing";
 import { LineNameProvider } from "./providers/LineName";
 
-const styleBuilder = ({ colors: { background, text } }: Theme) => ({
+const styleBuilder = ({ colors: { background, text }, font }: Theme) => ({
   pageLayout: {
     backgroundColor: background,
     height: "100vh",
-    color: text.primary
+    color: text.primary,
+    fontSize: font.size.normal
   }
 });
 

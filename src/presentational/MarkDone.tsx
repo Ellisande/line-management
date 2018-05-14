@@ -11,10 +11,9 @@ interface MarkDoneProps {
 
 const styleBuilder = ({ font, buttons, colors }: Theme) => ({
   action: {
-    // TODO: Have to be controlled theme
+    ...buttons.borderOptions,
+    ...buttons.paddingOptions,
     fontSize: font.size.normal,
-    borderWidth: buttons.borderOptions.borderWidth,
-    borderRadius: buttons.borderOptions.borderRadius,
     color: colors.text.primary,
     backgroundColor: colors.button.primary
   }

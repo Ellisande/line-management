@@ -16,6 +16,11 @@ interface ButtonBorders {
   borderRadius: string;
 }
 
+interface ButtonPadding {
+  paddingLeft: string;
+  paddingRight: string;
+}
+
 interface Colors {
   text: TextColors;
   button: ButtonColors;
@@ -52,6 +57,7 @@ interface Theme {
   colors: Colors;
   buttons: {
     borderOptions: ButtonBorders;
+    paddingOptions: ButtonPadding;
   };
   links: Link;
   font: Font;
@@ -79,7 +85,11 @@ const defaultTheme: Theme = {
   buttons: {
     borderOptions: {
       borderWidth: "0",
-      borderRadius: "6px"
+      borderRadius: "4rem"
+    },
+    paddingOptions: {
+      paddingRight: "2rem",
+      paddingLeft: "2rem"
     }
   },
   links: {
@@ -92,11 +102,11 @@ const defaultTheme: Theme = {
   },
   font: {
     size: {
-      huge: "70px",
-      large: "40px",
-      normal: "25px",
-      small: "10px",
-      tiny: "4px"
+      huge: "23rem",
+      large: "12rem",
+      normal: "8rem",
+      small: "5rem",
+      tiny: "1rem"
     }
   },
   separators: {

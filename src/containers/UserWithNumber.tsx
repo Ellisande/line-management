@@ -29,12 +29,21 @@ interface Props {
   refresh?: () => void;
   onAcknowledge: () => void;
 }
-const CallToAction: React.SFC<{}> = ({ children }) => <div>{children}</div>;
-const Informational: React.SFC<{}> = ({ children }) => <div>{children}</div>;
 
-const stylesBuilder = ({ colors, buttons }: Theme) => ({
+interface ClassName {
+  className?: string;
+}
+
+const CallToAction: React.SFC<ClassName> = ({ className, children }) => (
+  <div className={className}>{children}</div>
+);
+const Informational: React.SFC<ClassName> = ({ className, children }) => (
+  <div className={className}>{children}</div>
+);
+
+const stylesBuilder = ({ colors, buttons, font }: Theme) => ({
   bigNumber: {
-    fontSize: "70px",
+    fontSize: font.size.huge,
     fontWeight: "bold",
     display: "flex",
     justifyContent: "center",
@@ -43,21 +52,26 @@ const stylesBuilder = ({ colors, buttons }: Theme) => ({
   layout: {
     display: "flex",
     flexDirection: "column",
+    justifyContent: "center",
     alignItems: "center",
-    color: colors.text.primary,
-    ":nth-child(n) > * + *": {
-      marginTop: "10px"
-    }
+    color: colors.text.primary
   },
   subtle: {
-    fontSize: "10px"
+    fontSize: font.size.small
   },
   leaving: {
-    fontSize: "8px",
+    fontSize: font.size.normal,
     color: colors.text.primary,
     backgroundColor: colors.button.cancel,
-    borderWidth: buttons.borderOptions.borderWidth,
-    borderRadius: buttons.borderOptions.borderRadius
+    ...buttons.borderOptions,
+    ...buttons.paddingOptions,
+    marginTop: "10rem"
+  },
+  center: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 
@@ -67,10 +81,7 @@ const NotComing: React.SFC<NotComingProps> = ({ onLeaveQueue, className }) => (
   </button>
 );
 
-const UserWithNumber: React.SFC<Props> = ({
-  onAcknowledge,
-  refresh
-}) => {
+const UserWithNumber: React.SFC<Props> = ({ onAcknowledge, refresh }) => {
   return (
     <Style buildStyles={stylesBuilder}>
       {styles => (
@@ -98,7 +109,7 @@ const UserWithNumber: React.SFC<Props> = ({
                     }}
                   </NextNumberProvider>
                 </CallToAction>
-                <Informational>
+                <Informational className={css(styles.center)}>
                   <WaitProvider forNumber={userQueuer.number}>
                     {waitTime => (
                       <EstimatedWait

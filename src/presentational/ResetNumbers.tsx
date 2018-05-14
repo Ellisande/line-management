@@ -8,11 +8,13 @@ interface ResetNumbersProps {
   onResetNumbers: () => void;
 }
 
-const styleBuilder = ({ colors, buttons }: Theme) => ({
+const styleBuilder = ({ colors, buttons, font }: Theme) => ({
   sadButton: {
     ...buttons.borderOptions,
+    ...buttons.paddingOptions,
     color: colors.text.primary,
-    backgroundColor: colors.button.cancel
+    backgroundColor: colors.button.cancel,
+    fontSize: font.size.small
   }
 });
 

@@ -56,10 +56,7 @@ const UserLink: React.SFC<{ basePath: string }> = ({ basePath }) => (
   <StyledLink to={basePath}>User View</StyledLink>
 );
 
-const styleBuilder = ({
-  colors: { text, button },
-  buttons: { borderOptions }
-}: Theme) => ({
+const styleBuilder = ({ colors: { text, button }, buttons, font }: Theme) => ({
   navLayout: {
     display: "flex",
     width: "95vw",
@@ -76,8 +73,9 @@ const styleBuilder = ({
   open: {
     backgroundColor: button.secondary,
     color: text.primary,
-    borderWidth: borderOptions.borderWidth,
-    borderRadius: borderOptions.borderRadius
+    ...buttons.borderOptions,
+    ...buttons.paddingOptions,
+    fontSize: font.size.normal
   }
 });
 

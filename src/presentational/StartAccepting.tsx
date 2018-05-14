@@ -7,11 +7,13 @@ interface AcceptNumbersProps {
   onStartAccepting: () => void;
 }
 
-const styleBuilder = ({ colors, buttons }: Theme) => ({
+const styleBuilder = ({ colors, buttons, font }: Theme) => ({
   happyButton: {
     ...buttons.borderOptions,
+    ...buttons.paddingOptions,
     backgroundColor: colors.button.primary,
-    color: colors.text.primary
+    color: colors.text.primary,
+    fontSize: font.size.small
   }
 });
 
