@@ -12,19 +12,12 @@ import NextNumberProvider from "../providers/NextNumberProvider";
 import { Theme } from "../styles/theme";
 import { Style } from "../styles/ThemeProvider";
 import { YourNumber } from "../presentational/YourNumber";
-
-interface OnTheWayProps {
-  onAcknowledge: () => void;
-}
+import { OnTheWay } from "../presentational/OnTheWay";
 
 interface NotComingProps {
   className: string;
   onLeaveQueue: () => void;
 }
-
-const OnTheWay: React.SFC<OnTheWayProps> = ({ onAcknowledge }) => (
-  <button onClick={onAcknowledge}>On the Way</button>
-);
 
 interface Props {
   refresh?: () => void;
@@ -66,6 +59,14 @@ const stylesBuilder = ({ colors, buttons, font }: Theme) => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center"
+  },
+  actions: {
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
+    ":nth-child(n) > * + *": {
+      marginLeft: "5rem",
+    }
   }
 });
 
@@ -90,7 +91,7 @@ const UserWithNumber: React.SFC<Props> = ({ onAcknowledge, refresh }) => {
                       const userIsNext =
                         userQueuer.number === (nextQueuer && nextQueuer.number);
                       return userIsNext ? (
-                        <div>
+                        <div className={css(styles.actions)}>
                           <SkipNumber idToSkip={id}>Skip Me</SkipNumber>
                           <OnTheWay onAcknowledge={onAcknowledge} />
                         </div>
