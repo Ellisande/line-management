@@ -102,11 +102,11 @@ const defaultTheme: Theme = {
   },
   font: {
     size: {
-      huge: "23rem",
-      large: "12rem",
-      normal: "8rem",
-      small: "5rem",
-      tiny: "1rem"
+      huge: "12rem",
+      large: "7rem",
+      normal: "3rem",
+      small: "1rem",
+      tiny: "0.8rem"
     }
   },
   separators: {

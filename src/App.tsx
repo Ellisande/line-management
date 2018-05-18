@@ -22,7 +22,7 @@ import { LineNameProvider } from "./providers/LineName";
 const styleBuilder = ({ colors: { background, text }, font }: Theme) => ({
   pageLayout: {
     backgroundColor: background,
-    height: "100vh",
+    minHeight: "100vh",
     color: text.primary,
     fontSize: font.size.normal
   }
