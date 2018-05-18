@@ -28,7 +28,7 @@ interface UpdaterProps {
 interface PusherProps {
   path: string;
   children: (pusher: Pusher) => JSX.Element;
-  onPush?: (id: string) => void;
+  onPush?: (id: string, newValue: {}) => void;
 }
 
 export class FirebaseUpdater extends React.Component<UpdaterProps, {}> {
@@ -66,7 +66,7 @@ export class FirebasePusher extends React.Component<PusherProps, {}> {
     return (valueToPush: {}) => {
       const newRef = collectionRef.push();
       if (newRef.key && this.props.onPush) {
-        this.props.onPush(newRef.key);
+        this.props.onPush(newRef.key, valueToPush);
       }
       newRef.set(valueToPush);
     };
