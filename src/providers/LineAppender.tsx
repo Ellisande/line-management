@@ -8,7 +8,7 @@ export interface Appender {
 
 interface Props {
   children: (appender: Appender) => JSX.Element;
-  onPush?: (id: string) => void;
+  onPush?: (id: string, newQueuer: Queuer) => void;
 }
 
 class LineAppender extends React.Component<Props, {}> {
