@@ -5,6 +5,7 @@ import LineCountProvider from "../providers/LineCountProvider";
 import LineAppender, { Appender } from "../providers/LineAppender";
 import { Theme } from "../styles/theme";
 import { Style } from "../styles/ThemeProvider";
+import { Queuer } from "../Queuer";
 
 const styleBuilder = ({ colors, buttons, font }: Theme) => ({
   bigButton: {
@@ -20,7 +21,7 @@ const styleBuilder = ({ colors, buttons, font }: Theme) => ({
 });
 
 interface DispenserProps {
-  onDispense?: (numberId: string) => void;
+  onDispense?: (numberId: string, newQueuer: Queuer) => void;
 }
 
 const NumberDispenser: React.SFC<DispenserProps> = ({ onDispense }) => {

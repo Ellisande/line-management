@@ -11,6 +11,7 @@ import NumbersAheadProvider from "../providers/NumbersAheadProvider";
 import NextNumberProvider from "../providers/NextNumberProvider";
 import { Theme } from "../styles/theme";
 import { Style } from "../styles/ThemeProvider";
+import { YourNumber } from "../presentational/YourNumber";
 
 interface OnTheWayProps {
   onAcknowledge: () => void;
@@ -42,13 +43,6 @@ const Informational: React.SFC<ClassName> = ({ className, children }) => (
 );
 
 const stylesBuilder = ({ colors, buttons, font }: Theme) => ({
-  bigNumber: {
-    fontSize: font.size.huge,
-    fontWeight: "bold",
-    display: "flex",
-    justifyContent: "center",
-    color: colors.text.important
-  },
   layout: {
     display: "flex",
     flexDirection: "column",
@@ -90,10 +84,7 @@ const UserWithNumber: React.SFC<Props> = ({ onAcknowledge, refresh }) => {
             userQueuer && id ? (
               <div className={css(styles.layout)}>
                 <CallToAction>
-                  <div>Your number is:</div>
-                  <div className={css(styles.bigNumber)}>
-                    {userQueuer.number}
-                  </div>
+                  <YourNumber>{userQueuer.number}</YourNumber>
                   <NextNumberProvider>
                     {nextQueuer => {
                       const userIsNext =
