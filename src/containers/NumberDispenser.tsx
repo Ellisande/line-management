@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as moment from "moment";
 import { css } from "aphrodite";
 import LineCountProvider from "../providers/LineCountProvider";
 import LineAppender, { Appender } from "../providers/LineAppender";
@@ -38,8 +37,7 @@ const NumberDispenser: React.SFC<DispenserProps> = ({ onDispense }) => {
                     onClick={() => {
                       addNumber({
                         number: lineCount + 1,
-                        userId: "1",
-                        pulledAt: moment().format()
+                        userId: "1"
                       });
                     }}
                   >
