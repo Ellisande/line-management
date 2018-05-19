@@ -19,21 +19,27 @@ const styleBuilder = ({ colors, buttons, font }: Theme) => ({
     justifyContent: "center",
     alignItems: "center",
     ":nth-child(n) > * + *": {
-      marginTop: "5rem"
+      marginTop: "3rem"
     }
   },
   done: {
     ...buttons.borderOptions,
     ...buttons.paddingOptions,
     backgroundColor: colors.button.primary,
-    fontSize: font.size.large,
-    color: colors.text.primary
+    fontSize: font.size.huge,
+    color: colors.text.primary,
+    fontWeight: "bold",
+    margin: "2rem"
   },
   hasNumberLayout: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "center"
+  },
+  reminder: {
+    color: colors.text.primary,
+    fontWeight: "bold"
   }
 });
 
@@ -73,6 +79,9 @@ class Terminal extends React.Component<{}, State> {
                   return (
                     <div className={css(styles.hasNumberLayout)}>
                       <YourNumber>{takenNumber}</YourNumber>
+                      <div className={css(styles.reminder)}>
+                        Take a picture or write down your number!
+                      </div>
                       <button
                         className={css(styles.done)}
                         onClick={this.clearState}
@@ -82,25 +91,29 @@ class Terminal extends React.Component<{}, State> {
                     </div>
                   );
                 }
-                return <NumberDispenser onDispense={this.handleDispense} />;
+                return (
+                  <div className={css(styles.layout)}>
+                    <NumberDispenser onDispense={this.handleDispense} />
+                    <CurrentQueuerProvider>
+                      {currentQueuer =>
+                        currentQueuer ? (
+                          <WaitProvider>
+                            {waitTime => (
+                              <Serving
+                                currentNumber={currentQueuer.number}
+                                estimatedWait={waitTime}
+                              />
+                            )}
+                          </WaitProvider>
+                        ) : (
+                          <div>Loading</div>
+                        )
+                      }
+                    </CurrentQueuerProvider>
+                  </div>
+                );
               }}
             </AcceptingNumbersProvider>
-            <CurrentQueuerProvider>
-              {currentQueuer =>
-                currentQueuer ? (
-                  <WaitProvider>
-                    {waitTime => (
-                      <Serving
-                        currentNumber={currentQueuer.number}
-                        estimatedWait={waitTime}
-                      />
-                    )}
-                  </WaitProvider>
-                ) : (
-                  <div>Loading</div>
-                )
-              }
-            </CurrentQueuerProvider>
           </div>
         )}
       </Style>
