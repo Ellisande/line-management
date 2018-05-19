@@ -13,6 +13,7 @@ import { Theme } from "../styles/theme";
 import { Style } from "../styles/ThemeProvider";
 import { YourNumber } from "../presentational/YourNumber";
 import { OnTheWay } from "../presentational/OnTheWay";
+import OnTheWayUpdater from "../providers/OnTheWayUpdater";
 
 interface NotComingProps {
   className: string;
@@ -65,7 +66,7 @@ const stylesBuilder = ({ colors, buttons, font }: Theme) => ({
     justifyContent: "space-around",
     alignItems: "center",
     ":nth-child(n) > * + *": {
-      marginLeft: "5rem",
+      marginLeft: "5rem"
     }
   }
 });
@@ -90,14 +91,27 @@ const UserWithNumber: React.SFC<Props> = ({ onAcknowledge, refresh }) => {
                     {nextQueuer => {
                       const userIsNext =
                         userQueuer.number === (nextQueuer && nextQueuer.number);
-                      return userIsNext ? (
-                        <div className={css(styles.actions)}>
-                          <SkipNumber idToSkip={id}>Skip Me</SkipNumber>
-                          <OnTheWay onAcknowledge={onAcknowledge} />
-                        </div>
-                      ) : (
-                        <div />
-                      );
+                      const userIsOTW = userQueuer.onTheWayAt;
+                      if (userIsNext && !userIsOTW) {
+                        return (
+                          <div className={css(styles.actions)}>
+                            <SkipNumber idToSkip={id}>Skip Me</SkipNumber>
+                            <OnTheWayUpdater id={id}>
+                              {setOnTheWay => (
+                                <OnTheWay
+                                  onAcknowledge={() =>
+                                    setOnTheWay(moment().format())
+                                  }
+                                />
+                              )}
+                            </OnTheWayUpdater>
+                          </div>
+                        );
+                      }
+                      if (userIsNext && userIsOTW) {
+                        return <div>See you soon!</div>;
+                      }
+                      return <div />;
                     }}
                   </NextNumberProvider>
                 </CallToAction>
