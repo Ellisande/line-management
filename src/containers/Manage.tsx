@@ -5,7 +5,7 @@ import { css } from "aphrodite";
 import CurrentQueuerProvider from "../providers/CurrentQueuerProvider";
 import MarkServedProvider from "../providers/MarkServedProvider";
 import CallNextNumberProvider from "../providers/CallNextNumberProvider";
-import MarkDone from "../presentational/MarkDone";
+import MarkDoneAndCallNext from "../presentational/MarkDone";
 import AverageNumberTime from "../containers/AverageNumberTime";
 import SkipNumber from "../containers/SkipCurrentNumber";
 import AcceptingNumbersProvider from "../providers/AcceptingNumbersProvider";
@@ -95,11 +95,17 @@ const Manage: React.SFC<Props> = ({ match }) => {
                               {currentQueuer.number}
                             </div>
                             <div className={css(styles.actions)}>
-                              <MarkDone
+                              <MarkDoneAndCallNext
                                 markAsDone={markCurrentComplete}
                                 pullNextNumber={pullNext}
                                 currentNumber={currentQueuer.number}
                               />
+                              <button onClick={markCurrentComplete}>
+                                Mark done
+                              </button>
+                              <button onClick={pullNext}>
+                                Call Next Number
+                              </button>
                               <SkipNumber />
                             </div>
                           </div>
