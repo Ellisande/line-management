@@ -13,6 +13,13 @@ interface PullNextNumberProps {
   children: (pullNext: PullNext) => JSX.Element;
 }
 
+/**
+ * This component should only update the next number.
+ * 1. Grab the next number
+ * 2. Mark it pulled
+ * 3. Swap that with current
+ * Be wary of a race condition where the next number or current changes and then updates this
+ */
 const CallNextNumberProvider: React.SFC<PullNextNumberProps> = ({
   children
 }) => (

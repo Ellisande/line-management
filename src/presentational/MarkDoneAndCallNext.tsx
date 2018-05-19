@@ -13,7 +13,7 @@ const styleBuilder = ({ font, buttons, colors }: Theme) => ({
   action: {
     ...buttons.borderOptions,
     ...buttons.paddingOptions,
-    fontSize: font.size.small,
+    fontSize: font.size.normal,
     color: colors.text.primary,
     backgroundColor: colors.button.primary
   }
@@ -32,7 +32,7 @@ const MarkDoneAndCallNext: React.SFC<MarkDoneProps> = ({
     <Style buildStyles={styleBuilder}>
       {styles => (
         <button className={css(styles.action)} onClick={markAndPull}>
-          Complete &amp; Call Next
+          Done &amp; Call Next
         </button>
       )}
     </Style>

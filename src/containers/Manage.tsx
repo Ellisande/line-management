@@ -5,7 +5,7 @@ import { css } from "aphrodite";
 import CurrentQueuerProvider from "../providers/CurrentQueuerProvider";
 import MarkServedProvider from "../providers/MarkServedProvider";
 import CallNextNumberProvider from "../providers/CallNextNumberProvider";
-import MarkDoneAndCallNext from "../presentational/MarkDone";
+import MarkDoneAndCallNext from "../presentational/MarkDoneAndCallNext";
 import AverageNumberTime from "../containers/AverageNumberTime";
 import SkipNumber from "../containers/SkipCurrentNumber";
 import AcceptingNumbersProvider from "../providers/AcceptingNumbersProvider";
@@ -18,6 +18,9 @@ import { StopAccepting } from "../presentational/StopAccepting";
 import { ResetNumbers } from "../presentational/ResetNumbers";
 import { Authenticated } from "./Authenticated";
 import { Text } from "../presentational/Text";
+import { MarkDone } from "../presentational/MarkDone";
+import { CallNext } from "../presentational/CallNext";
+import NextNumberProvider from "../providers/NextNumberProvider";
 
 const StartStopNumbers: React.SFC<{}> = () => (
   <AcceptingNumbersUpdater>
@@ -84,39 +87,54 @@ const Manage: React.SFC<Props> = ({ match }) => {
         {styles => (
           <div className={css(styles.layout)}>
             <CurrentQueuerProvider>
-              {(currentQueuer, id) =>
-                currentQueuer && id ? (
-                  <MarkServedProvider>
-                    {markCurrentComplete => (
-                      <CallNextNumberProvider>
-                        {pullNext => (
+              {(currentQueuer, id) => (
+                <NextNumberProvider>
+                  {nextQueuer => (
+                    <CallNextNumberProvider>
+                      {pullNext => {
+                        if (!currentQueuer) {
+                          return (
+                            <CallNext
+                              onCalledNext={pullNext}
+                              nextNumber={nextQueuer.number}
+                            />
+                          );
+                        }
+                        const isComplete =
+                          currentQueuer.servicedAt || currentQueuer.skippedAt;
+                        return (
                           <div>
                             <div className={css(styles.bigNumber)}>
                               {currentQueuer.number}
                             </div>
-                            <div className={css(styles.actions)}>
-                              <MarkDoneAndCallNext
-                                markAsDone={markCurrentComplete}
-                                pullNextNumber={pullNext}
-                                currentNumber={currentQueuer.number}
+                            {!isComplete && (
+                              <MarkServedProvider>
+                                {markCurrentComplete => (
+                                  <div className={css(styles.actions)}>
+                                    <MarkDoneAndCallNext
+                                      markAsDone={markCurrentComplete}
+                                      pullNextNumber={pullNext}
+                                      currentNumber={currentQueuer.number}
+                                    />
+                                    <MarkDone onDone={markCurrentComplete} />
+                                    <SkipNumber />
+                                  </div>
+                                )}
+                              </MarkServedProvider>
+                            )}
+                            {isComplete && (
+                              <CallNext
+                                onCalledNext={pullNext}
+                                nextNumber={nextQueuer.number}
                               />
-                              <button onClick={markCurrentComplete}>
-                                Mark done
-                              </button>
-                              <button onClick={pullNext}>
-                                Call Next Number
-                              </button>
-                              <SkipNumber />
-                            </div>
+                            )}
                           </div>
-                        )}
-                      </CallNextNumberProvider>
-                    )}
-                  </MarkServedProvider>
-                ) : (
-                  <div>Loading... fix me later</div>
-                )
-              }
+                        );
+                      }}
+                    </CallNextNumberProvider>
+                  )}
+                </NextNumberProvider>
+              )}
             </CurrentQueuerProvider>
             <div className={css(styles.subtle)}>
               <AverageNumberTime />
