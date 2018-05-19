@@ -14,6 +14,7 @@ import { Style } from "../styles/ThemeProvider";
 import { YourNumber } from "../presentational/YourNumber";
 import { OnTheWay } from "../presentational/OnTheWay";
 import OnTheWayUpdater from "../providers/OnTheWayUpdater";
+import CurrentQueuerProvider from "../providers/CurrentQueuerProvider";
 
 interface NotComingProps {
   className: string;
@@ -87,33 +88,40 @@ const UserWithNumber: React.SFC<Props> = ({ onAcknowledge, refresh }) => {
               <div className={css(styles.layout)}>
                 <CallToAction>
                   <YourNumber>{userQueuer.number}</YourNumber>
-                  <NextNumberProvider>
-                    {nextQueuer => {
-                      const userIsNext =
-                        userQueuer.number === (nextQueuer && nextQueuer.number);
-                      const userIsOTW = userQueuer.onTheWayAt;
-                      if (userIsNext && !userIsOTW) {
-                        return (
-                          <div className={css(styles.actions)}>
-                            <SkipNumber idToSkip={id}>Skip Me</SkipNumber>
-                            <OnTheWayUpdater id={id}>
-                              {setOnTheWay => (
-                                <OnTheWay
-                                  onAcknowledge={() =>
-                                    setOnTheWay(moment().format())
-                                  }
-                                />
-                              )}
-                            </OnTheWayUpdater>
-                          </div>
-                        );
-                      }
-                      if (userIsNext && userIsOTW) {
-                        return <div>See you soon!</div>;
-                      }
-                      return <div />;
-                    }}
-                  </NextNumberProvider>
+                  <CurrentQueuerProvider>
+                    {currentQueuer => (
+                      <NextNumberProvider>
+                        {nextQueuer => {
+                          const userIsNext =
+                            userQueuer.number ===
+                              (nextQueuer && nextQueuer.number) ||
+                            userQueuer.number ===
+                              (currentQueuer && currentQueuer.number);
+                          const userIsOTW = userQueuer.onTheWayAt;
+                          if (userIsNext && !userIsOTW) {
+                            return (
+                              <div className={css(styles.actions)}>
+                                <SkipNumber idToSkip={id}>Skip Me</SkipNumber>
+                                <OnTheWayUpdater id={id}>
+                                  {setOnTheWay => (
+                                    <OnTheWay
+                                      onAcknowledge={() =>
+                                        setOnTheWay(moment().format())
+                                      }
+                                    />
+                                  )}
+                                </OnTheWayUpdater>
+                              </div>
+                            );
+                          }
+                          if (userIsNext && userIsOTW) {
+                            return <div>See you soon!</div>;
+                          }
+                          return <div />;
+                        }}
+                      </NextNumberProvider>
+                    )}
+                  </CurrentQueuerProvider>
                 </CallToAction>
                 <Informational className={css(styles.center)}>
                   <WaitProvider forNumber={userQueuer.number}>
