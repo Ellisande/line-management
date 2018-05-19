@@ -8,6 +8,12 @@ interface Props {
 }
 
 const styleBuilder = ({ colors, font }: Theme) => ({
+  layout: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  },
   bigNumber: {
     fontSize: font.size.huge,
     fontWeight: "bold",
@@ -21,7 +27,7 @@ const YourNumber: React.SFC<Props> = ({ children }) => {
   return (
     <Style buildStyles={styleBuilder}>
       {styles => (
-        <div>
+        <div className={css(styles.layout)}>
           <div>Your number is:</div>
           <div className={css(styles.bigNumber)}>{children}</div>
         </div>
