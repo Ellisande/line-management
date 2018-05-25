@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as moment from "moment";
+// import * as moment from "moment";
 
 import CurrentNumberUpdater from "../providers/CurrentNumberUpdater";
 import NextNumberProvider from "../providers/NextNumberProvider";
@@ -32,9 +32,10 @@ const CallNextNumberProvider: React.SFC<PullNextNumberProps> = ({
               if (!nextNumber && !id) {
                 return <div>Loading</div>;
               }
+              console.log(`I am setting the new current to ${id}`);
               const pullNext = () => {
                 setCurrentlyBeingServed(id);
-                setPulledAt(moment().format());
+                // setPulledAt(moment().format());
               };
               return children(pullNext);
             }}

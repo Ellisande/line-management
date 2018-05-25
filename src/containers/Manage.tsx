@@ -21,6 +21,7 @@ import { Text } from "../presentational/Text";
 import { MarkDone } from "../presentational/MarkDone";
 import { CallNext } from "../presentational/CallNext";
 import NextNumberProvider from "../providers/NextNumberProvider";
+import { FirebaseQuery } from "fire-fetch";
 
 const StartStopNumbers: React.SFC<{}> = () => (
   <AcceptingNumbersUpdater>
@@ -86,6 +87,9 @@ const Manage: React.SFC<Props> = ({ match }) => {
       <Style buildStyles={styleBuilder}>
         {styles => (
           <div className={css(styles.layout)}>
+            <FirebaseQuery path="/current" on={true}>
+              {(id: string) => <div>{id}</div>}
+            </FirebaseQuery>
             <CurrentQueuerProvider>
               {(currentQueuer, id) => (
                 <NextNumberProvider>

@@ -25,7 +25,7 @@ declare module "fire-fetch" {
       ref: any
     ) => JSX.Element;
     toArray?: boolean;
-    on?: boolean;
+    on?: boolean | string;
     reference?: firebase.database.Reference;
     once?: boolean;
     orderByChild?: string;
