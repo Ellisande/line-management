@@ -68,7 +68,7 @@ const defaultTheme: Theme = {
   colors: {
     text: {
       primary: "white",
-      secondary: "dimgrey",
+      secondary: "#dddddd",
       important: "#3de57b"
     },
     button: {
@@ -102,10 +102,10 @@ const defaultTheme: Theme = {
   },
   font: {
     size: {
-      huge: "12rem",
-      large: "7rem",
-      normal: "3rem",
-      small: "1rem",
+      huge: "7rem",
+      large: "3rem",
+      normal: "2rem",
+      small: "1.5rem",
       tiny: "0.8rem"
     }
   },

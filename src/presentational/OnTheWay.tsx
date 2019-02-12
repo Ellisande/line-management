@@ -12,7 +12,7 @@ const styleBuilder = ({ colors, buttons, font }: Theme) => ({
     ...buttons.borderOptions,
     ...buttons.paddingOptions,
     backgroundColor: colors.button.primary,
-    fontSize: font.size.normal,
+    fontSize: font.size.large,
     color: colors.text.primary
   }
 });

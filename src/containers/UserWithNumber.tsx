@@ -43,10 +43,14 @@ const stylesBuilder = ({ colors, buttons, font }: Theme) => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    color: colors.text.primary
+    color: colors.text.primary,
+    padding: "1rem",
+    ":nth-child(n) > * + *": {
+      marginTop: "3rem"
+    }
   },
   subtle: {
-    fontSize: font.size.small
+    fontSize: font.size.normal
   },
   leaving: {
     fontSize: font.size.normal,
@@ -60,14 +64,19 @@ const stylesBuilder = ({ colors, buttons, font }: Theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    textAlign: "center",
+    ":nth-child(n) > * + *": {
+      marginTop: "3rem"
+    }
   },
   actions: {
     display: "flex",
-    justifyContent: "space-around",
+    flexDirection: "column",
+    justifyContent: "center",
     alignItems: "center",
     ":nth-child(n) > * + *": {
-      marginLeft: "5rem"
+      marginTop: "3rem"
     }
   }
 });

@@ -13,7 +13,11 @@ import { FirebaseQuery } from "fire-fetch";
 const logoStyles = ({ colors, font }: Theme) => ({
   logo: {
     color: colors.text.important,
-    fontSize: font.size.large
+    fontSize: font.size.large,
+    textAlign: "center",
+    lineHeight: 0.8,
+    marginBottom: "1rem",
+    textShadow: `5px 5px 15px ${colors.text.secondary}`
   }
 });
 
@@ -26,15 +30,16 @@ const Logo: React.SFC<{}> = () => (
 const whatWeDoStyles = ({ colors, font }: Theme) => ({
   description: {
     color: colors.text.secondary,
-    fontSize: font.size.small
+    fontSize: font.size.small,
+    textAlign: "center"
   }
 });
 const WhatWeDo: React.SFC<{}> = () => (
   <Style buildStyles={whatWeDoStyles}>
     {styles => (
       <div className={css(styles.description)}>
-        We make waiting in line easy. Take a number, and we'll tell you when
-        your number is called.
+        <p>You might have to wait, but you don't need to stand around. </p>
+        <p>Take a number and we'll tell you when its your turn.</p>
       </div>
     )}
   </Style>
@@ -94,7 +99,8 @@ const landingStyles = ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    height: "100vh"
+    height: "100vh",
+    padding: "2rem"
   },
   available: {
     color: text.primary,

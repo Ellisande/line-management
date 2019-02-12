@@ -58,7 +58,7 @@ const UserLink: React.SFC<{ basePath: string }> = ({ basePath }) => (
 
 const styleBuilder = ({ colors: { text, button }, buttons, font }: Theme) => ({
   navLayout: {
-    display: "flex",
+    display: "none",
     width: "95vw",
     justifyContent: "flex-end",
     marginBottom: "15px"

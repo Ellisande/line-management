@@ -21,18 +21,23 @@ const styleBuilder = ({ colors: { text } }: Theme) => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    padding: "1rem",
     ":nth-child(n) > * + *": {
       marginTop: "10rem"
     }
   },
   text: {
-    color: text.primary
+    color: text.primary,
+    textAlign: "center"
   },
   wait: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    ":nth-child(n) > * + *": {
+      marginTop: "3rem"
+    }
   }
 });
 

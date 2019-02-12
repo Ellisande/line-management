@@ -13,7 +13,7 @@ interface SkipProps {
 
 const styleBuilder = ({ font, colors, buttons }: Theme) => ({
   action: {
-    fontSize: font.size.normal,
+    fontSize: font.size.large,
     color: colors.text.primary,
     ...buttons.borderOptions,
     ...buttons.paddingOptions,
