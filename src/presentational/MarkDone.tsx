@@ -13,7 +13,7 @@ const styleBuilder = ({ font, buttons, colors }: Theme) => ({
   action: {
     ...buttons.borderOptions,
     ...buttons.paddingOptions,
-    fontSize: font.size.normal,
+    fontSize: font.size.large,
     color: colors.text.primary,
     backgroundColor: colors.button.primary
   }

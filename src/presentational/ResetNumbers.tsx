@@ -14,7 +14,7 @@ const styleBuilder = ({ colors, buttons, font }: Theme) => ({
     ...buttons.paddingOptions,
     color: colors.text.primary,
     backgroundColor: colors.button.cancel,
-    fontSize: font.size.small
+    fontSize: font.size.normal
   }
 });
 

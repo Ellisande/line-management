@@ -61,9 +61,10 @@ const styleBuilder = ({ colors: { text }, font }: Theme) => ({
   },
   actions: {
     display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
     ":nth-child(n) > * + *": {
-      marginLeft: "7rem"
+      marginTop: "3rem"
     }
   },
   subtle: {
@@ -91,6 +92,9 @@ const Manage: React.SFC<Props> = ({ match }) => {
                       <CallNextNumberProvider>
                         {pullNext => (
                           <div>
+                            <div className={css(styles.layout)}>
+                              Now Serving
+                            </div>
                             <div className={css(styles.bigNumber)}>
                               {currentQueuer.number}
                             </div>
