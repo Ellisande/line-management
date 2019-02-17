@@ -108,6 +108,20 @@ const UserWithNumber: React.SFC<Props> = ({ onAcknowledge, refresh }) => {
                               (currentQueuer && currentQueuer.number);
                           const userIsOTW = userQueuer.onTheWayAt;
                           if (userIsNext && !userIsOTW) {
+                            // if (Notification.permission !== "denied") {
+                            //   Notification.requestPermission().then(refresh);
+                            // }
+                            const a = new Notification("You're up soon!", {
+                              body:
+                                "Let your host know if you are heading back or no longer interested."
+                            });
+
+                            console.log(a);
+                            if (a) {
+                              a.addEventListener("click", () => {
+                                window.location.href = "./";
+                              });
+                            }
                             return (
                               <div className={css(styles.actions)}>
                                 <SkipNumber idToSkip={id}>Skip Me</SkipNumber>
