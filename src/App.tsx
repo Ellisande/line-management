@@ -1,28 +1,39 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+/** @jsx jsx */
+import { jsx } from "@emotion/core";
+import { useEffect, useState } from "react";
+import firebase from "firebase";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { config } from "./firebaseConfig";
+import { Landing } from "./components/landing/Landing";
+import { FirestoreContext } from "./context/firestoreContext";
+import { Options } from "./components/Options";
+import { Main } from "./components/Main";
+import { FirebaseAuthContext } from "./context/firebaseAuthContext";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+const App = () => {
+  const [intialized, setInitialized] = useState(false);
+  useEffect(() => {
+    firebase.initializeApp(config);
+    setInitialized(true);
+  }, [config]);
+  if (!intialized) {
+    return <div>Loading</div>;
   }
-}
+  return (
+    <Router>
+      <FirestoreContext.Provider value={firebase.firestore()}>
+        <FirebaseAuthContext.Provider value={firebase.auth()}>
+          <Switch>
+            <Route path="/line/:line_name/options" component={Options} />
+            <Route path="/line/:line_name" component={Main} />
+            <Route path="/" exact={true}>
+              <Landing />
+            </Route>
+          </Switch>
+        </FirebaseAuthContext.Provider>
+      </FirestoreContext.Provider>
+    </Router>
+  );
+};
 
 export default App;
