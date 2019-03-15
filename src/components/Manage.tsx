@@ -13,6 +13,7 @@ import { useAverageServiceTime } from "../hooks/useAverageServiceTime";
 import { useLineCount } from "../hooks/useLineCount";
 import { useAcceptingNumbers } from "../hooks/useAcceptingNumbers";
 import { useCurrentUpdater } from "../hooks/useCurrentUpdater";
+import { Authenticated } from "./Authenticated";
 
 const styleBuilder = ({ colors, font, buttons }: Theme) => ({
   bigNumber: {
@@ -110,61 +111,64 @@ export const Manage = () => {
     markServiced(moment());
   }, [currentQueuer]);
   return (
-    <div css={styles.layout}>
-      {currentQueuer && (
-        <BigNumber
-          number={currentNumber}
-          queuerId={currentId}
-          label="Now Serving:"
-        />
-      )}
+    <Authenticated>
+      <div css={styles.layout}>
+        {currentQueuer && (
+          <BigNumber
+            number={currentNumber}
+            queuerId={currentId}
+            label="Now Serving:"
+          />
+        )}
 
-      {currentQueuer && nextQueuer && (
-        <button css={styles.action} onClick={markAndPull}>
-          Complete
-        </button>
-      )}
+        {currentQueuer && nextQueuer && (
+          <button css={styles.action} onClick={markAndPull}>
+            Complete
+          </button>
+        )}
 
-      {currentQueuer && !nextQueuer && (
-        <button css={styles.action} onClick={serviced}>
-          Complete
-        </button>
-      )}
+        {currentQueuer && !nextQueuer && (
+          <button css={styles.action} onClick={serviced}>
+            Complete
+          </button>
+        )}
 
-      {currentQueuer && (
-        <SkipNumber queuerId={currentQueuer.id}>Skip</SkipNumber>
-      )}
+        {currentQueuer && (
+          <SkipNumber queuerId={currentQueuer.id}>Skip</SkipNumber>
+        )}
 
-      {!currentQueuer && nextQueuer && (
-        <button css={styles.action} onClick={pull}>
-          Call First
-        </button>
-      )}
+        {!currentQueuer && nextQueuer && (
+          <button css={styles.action} onClick={pull}>
+            Call First
+          </button>
+        )}
 
-      <div>
         <div>
-          Wait time:{" "}
-          <span css={styles.important}>{estimatedWait.humanize()}</span>
+          <div>
+            Wait time:{" "}
+            <span css={styles.important}>{estimatedWait.humanize()}</span>
+          </div>
+          <div>
+            Done at:{" "}
+            <span css={styles.important}>{doneAt.format("hh:mma")}</span>
+          </div>
         </div>
-        <div>
-          Done at: <span css={styles.important}>{doneAt.format("hh:mma")}</span>
-        </div>
-      </div>
-      <div css={styles.actions}>
-        {acceptingNumbers && (
+        <div css={styles.actions}>
+          {acceptingNumbers && (
+            <button css={styles.sadButton} onClick={() => {}}>
+              Stop Accepting
+            </button>
+          )}
+          {!acceptingNumbers && (
+            <button css={styles.action} onClick={() => {}}>
+              Start Accepting
+            </button>
+          )}
           <button css={styles.sadButton} onClick={() => {}}>
-            Stop Accepting
+            Reset All Numbers
           </button>
-        )}
-        {!acceptingNumbers && (
-          <button css={styles.action} onClick={() => {}}>
-            Start Accepting
-          </button>
-        )}
-        <button css={styles.sadButton} onClick={() => {}}>
-          Reset All Numbers
-        </button>
+        </div>
       </div>
-    </div>
+    </Authenticated>
   );
 };

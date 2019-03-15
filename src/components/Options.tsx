@@ -3,8 +3,7 @@ import { jsx } from "@emotion/core";
 import { Theme } from "../theme/theme";
 import { useStyle } from "../theme/useStyle";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { useAuthenticated } from "../hooks/useAuthenticated";
-import { useSignIn } from "../hooks/useSignIn";
+import { Authenticated } from "./Authenticated";
 
 const listStyleBuilder = ({ colors, font, buttons }: Theme) => ({
   layout: {
@@ -84,20 +83,11 @@ const styleBuilder = ({
 export const Options: React.SFC<RouteComponentProps> = ({ match }) => {
   const styles = useStyle(styleBuilder);
   const baseUrl = match && match.url.replace(/\/options\/?/, "");
-  const userId = useAuthenticated();
-  const signIn = useSignIn();
-  if (!userId) {
-    return (
-      <div css={[styles.pageLayout, styles.layout]}>
-        <button css={styles.signIn} onClick={signIn}>
-          Sign In
-        </button>
-      </div>
-    );
-  }
   return (
-    <div css={styles.pageLayout}>
-      <LinkList basePath={baseUrl} />
-    </div>
+    <Authenticated>
+      <div css={styles.pageLayout}>
+        <LinkList basePath={baseUrl} />
+      </div>
+    </Authenticated>
   );
 };

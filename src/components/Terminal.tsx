@@ -12,6 +12,7 @@ import { useEstimatedWait } from "../hooks/useEstimatedWait";
 import { YourNumber } from "./user/YourNumber";
 import { useStyle } from "../theme/useStyle";
 import { useQueuer } from "../hooks/useQueuer";
+import { Authenticated } from "./Authenticated";
 
 const styleBuilder = ({ colors, buttons, font }: Theme) => ({
   layout: {
@@ -74,12 +75,14 @@ export const Terminal = () => {
     );
   }
   return (
-    <div css={styles.layout}>
-      <NumberDispenser onDispense={id => setTakenQueuer(id)} />
-      <Serving
-        currentNumber={currentQueuer.number}
-        estimatedWait={estimatedWait}
-      />
-    </div>
+    <Authenticated>
+      <div css={styles.layout}>
+        <NumberDispenser onDispense={id => setTakenQueuer(id)} />
+        <Serving
+          currentNumber={currentQueuer.number}
+          estimatedWait={estimatedWait}
+        />
+      </div>
+    </Authenticated>
   );
 };
