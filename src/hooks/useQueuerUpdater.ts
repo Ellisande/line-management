@@ -1,3 +1,4 @@
+import { Queuer } from "./../Queuer";
 import { useFirestore } from "../context/firestoreContext";
 import { useLineName } from "../context/lineNameContext";
 import { useCallback } from "react";
@@ -7,7 +8,7 @@ const useQueuerUpdater = (queuerId?: string) => {
   const db = useFirestore();
   const lineName = useLineName();
   const callback = useCallback(
-    (field, value) => {
+    (field: keyof Queuer, value) => {
       if (!db || !lineName || !queuerId) {
         return Promise.resolve();
       }
