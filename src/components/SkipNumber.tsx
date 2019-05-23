@@ -1,14 +1,12 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
-import { useQueuer } from "../hooks/useQueuer";
 import { useStyle } from "../theme/useStyle";
 import { ReactNode, useCallback } from "react";
 import { useSkipNumberUpdater } from "../hooks/useQueuerUpdater";
 import moment from "moment";
 import { Theme } from "../theme/theme";
 import { useNextQueuer } from "../hooks/useNextQueuer";
-import { useCurrentQueuer } from "../hooks/useCurrentQueuer";
-import { useCurrentUpdater } from "../hooks/useCurrentUpdater";
+import { useCurrentUpdater } from "../hooks/useLineDataUpdater";
 
 const styleBuilder = ({ font, colors, buttons }: Theme) => ({
   action: {
