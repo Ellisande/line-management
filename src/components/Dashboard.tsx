@@ -5,11 +5,12 @@ import { useStyle } from "../theme/useStyle";
 import { useCurrentQueuer } from "../hooks/useCurrentQueuer";
 import { useLineCount } from "../hooks/useLineCount";
 import { useAverageServiceTime } from "../hooks/useAverageServiceTime";
-import { EstimatedWait } from "./EstimatedWait";
 import * as moment from "moment";
 import { Serving } from "./Serving";
+import { LineQrLink } from "./LineQrLink";
+import { useAcceptingNumbers } from "../hooks/useAcceptingNumbers";
 
-const styleBuilder = ({ colors: { text } }: Theme) => ({
+const styleBuilder = ({ colors: { text }, font }: Theme) => ({
   layout: {
     minHeight: "80vh",
     display: "flex",
@@ -29,8 +30,10 @@ export const Dashboard = () => {
   const lineCount = useLineCount(undefined);
   const averageWait = useAverageServiceTime();
   const estimatedWait = moment.duration(lineCount * averageWait);
+  const accepting = useAcceptingNumbers();
   return (
     <div css={styles.layout}>
+      {accepting && <LineQrLink />}
       <Serving currentNumber={current.number} estimatedWait={estimatedWait} />
     </div>
   );

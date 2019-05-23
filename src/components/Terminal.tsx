@@ -13,6 +13,7 @@ import { YourNumber } from "./user/YourNumber";
 import { useStyle } from "../theme/useStyle";
 import { useQueuer } from "../hooks/useQueuer";
 import { Authenticated } from "./Authenticated";
+import { LineQrLink } from "./LineQrLink";
 
 const styleBuilder = ({ colors, buttons, font }: Theme) => ({
   layout: {
@@ -77,6 +78,7 @@ export const Terminal = () => {
   return (
     <Authenticated>
       <div css={styles.layout}>
+        <LineQrLink />
         <NumberDispenser onDispense={id => setTakenQueuer(id)} />
         <Serving
           currentNumber={currentQueuer.number}
