@@ -9,6 +9,7 @@ import * as moment from "moment";
 import { Serving } from "./Serving";
 import { LineQrLink } from "./LineQrLink";
 import { useAcceptingNumbers } from "../hooks/useAcceptingNumbers";
+import { useSignOut } from "../hooks/useSignOut";
 
 const styleBuilder = ({ colors: { text }, font }: Theme) => ({
   layout: {
@@ -31,6 +32,7 @@ export const Dashboard = () => {
   const averageWait = useAverageServiceTime();
   const estimatedWait = moment.duration(lineCount * averageWait);
   const accepting = useAcceptingNumbers();
+  useSignOut();
   return (
     <div css={styles.layout}>
       {accepting && <LineQrLink />}
