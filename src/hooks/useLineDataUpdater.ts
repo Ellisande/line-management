@@ -50,3 +50,18 @@ export const useStoppedAcceptingRemover = () => {
   }, [db, lineName]);
   return callback;
 };
+
+export const useClearCurrent = () => {
+  const db = useFirestore();
+  const lineName = useLineName();
+  const callback = useCallback(() => {
+    if (!db || !lineName) {
+      return Promise.resolve();
+    }
+    const doc = db.collection(`lines`).doc(lineName);
+    return doc.update({
+      current: firestore.FieldValue.delete()
+    });
+  }, [db, lineName]);
+  return callback;
+};
