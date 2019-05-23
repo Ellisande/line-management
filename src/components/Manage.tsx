@@ -12,8 +12,13 @@ import { SkipNumber } from "./SkipNumber";
 import { useAverageServiceTime } from "../hooks/useAverageServiceTime";
 import { useLineCount } from "../hooks/useLineCount";
 import { useAcceptingNumbers } from "../hooks/useAcceptingNumbers";
-import { useCurrentUpdater } from "../hooks/useCurrentUpdater";
 import { Authenticated } from "./Authenticated";
+import {
+  useStoppedAcceptingUpdater,
+  useStartedAcceptingUpdater,
+  useStoppedAcceptingRemover,
+  useCurrentUpdater
+} from "../hooks/useLineDataUpdater";
 
 const styleBuilder = ({ colors, font, buttons }: Theme) => ({
   bigNumber: {
@@ -84,6 +89,9 @@ export const Manage = () => {
   const estimatedWait = moment.duration(averageServiceTime * peopleWaiting);
   const doneAt = moment().add(estimatedWait);
   const acceptingNumbers = useAcceptingNumbers();
+  const stopAccepting = useStoppedAcceptingUpdater();
+  const startAccepting = useStartedAcceptingUpdater();
+  const removeStopAccepting = useStoppedAcceptingRemover();
 
   const markAndPull = useCallback(() => {
     if (!currentQueuer) {
@@ -110,6 +118,21 @@ export const Manage = () => {
     }
     markServiced(moment());
   }, [currentQueuer]);
+
+  const finishedAccepting = useCallback(() => {
+    if (!acceptingNumbers) {
+      return () => {};
+    }
+    stopAccepting(moment());
+  }, [acceptingNumbers]);
+
+  const beginAccepting = useCallback(() => {
+    if (acceptingNumbers) {
+      return () => {};
+    }
+    removeStopAccepting();
+    startAccepting(moment());
+  }, [acceptingNumbers]);
   return (
     <Authenticated>
       <div css={styles.layout}>
@@ -155,12 +178,12 @@ export const Manage = () => {
         </div>
         <div css={styles.actions}>
           {acceptingNumbers && (
-            <button css={styles.sadButton} onClick={() => {}}>
+            <button css={styles.sadButton} onClick={finishedAccepting}>
               Stop Accepting
             </button>
           )}
           {!acceptingNumbers && (
-            <button css={styles.action} onClick={() => {}}>
+            <button css={styles.action} onClick={beginAccepting}>
               Start Accepting
             </button>
           )}
