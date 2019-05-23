@@ -5,8 +5,8 @@ import { useStyle } from "../theme/useStyle";
 import { useLineName } from "../context/lineNameContext";
 const QRCode = require("qrcode.react");
 
-const styleBuilder = ({ colors: { text }, font }: Theme) => ({
-  qr: {
+const styleBuilder = ({ colors: { text, background }, font }: Theme) => ({
+  layout: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
@@ -14,6 +14,10 @@ const styleBuilder = ({ colors: { text }, font }: Theme) => ({
   joinNow: {
     color: text.secondary,
     fontSize: font.size.small
+  },
+  qr: {
+    backgroundColor: background,
+    color: text.primary
   }
 });
 
@@ -22,8 +26,12 @@ export const LineQrLink = () => {
   const lineName = useLineName();
 
   return (
-    <div css={styles.qr}>
-      <QRCode value={`http://line.management/line/${lineName}`} />
+    <div css={styles.layout}>
+      <QRCode
+        value={`http://line.management/line/${lineName}`}
+        bgColor={styles.qr.backgroundColor}
+        fgColor={styles.qr.color}
+      />
       <p css={styles.joinNow}>Scan to join the line now!</p>
     </div>
   );
