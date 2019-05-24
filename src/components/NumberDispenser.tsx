@@ -9,6 +9,7 @@ import { useCallback } from "react";
 const styleBuilder = ({ colors, buttons, font }: Theme) => ({
   bigButton: {
     fontSize: font.size.large,
+    minHeight: "8rem",
     fontWeight: "bold",
     display: "flex",
     justifyContent: "center",

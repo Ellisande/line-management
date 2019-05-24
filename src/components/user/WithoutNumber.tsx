@@ -13,7 +13,7 @@ import { NotAccepting } from "../NotAccepting";
 const styleBuilder = ({ colors: { text } }: Theme) => ({
   layout: {
     display: "flex",
-    height: "80vh",
+    minHeight: "80vh",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
