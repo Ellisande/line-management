@@ -9,6 +9,7 @@ import { FirestoreContext } from "./context/firestoreContext";
 import { Options } from "./components/Options";
 import { Main } from "./components/Main";
 import { FirebaseAuthContext } from "./context/firebaseAuthContext";
+import { CreateLine } from "./components/create/CreateLine";
 
 const App = () => {
   const [intialized, setInitialized] = useState(false);
@@ -24,6 +25,7 @@ const App = () => {
       <FirestoreContext.Provider value={firebase.firestore()}>
         <FirebaseAuthContext.Provider value={firebase.auth()}>
           <Switch>
+            <Route path="/create" component={CreateLine} />
             <Route path="/line/:line_name/options" component={Options} />
             <Route path="/line/:line_name" component={Main} />
             <Route path="/" exact={true}>
