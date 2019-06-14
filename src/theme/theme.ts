@@ -2,6 +2,7 @@ interface TextColors {
   primary: string;
   secondary: string;
   important: string;
+  error: string;
 }
 
 interface ButtonColors {
@@ -9,6 +10,7 @@ interface ButtonColors {
   cancel: string;
   secondary: string;
   tertiary: string;
+  disabled: string;
 }
 
 interface ButtonBorders {
@@ -69,13 +71,15 @@ const defaultTheme: Theme = {
     text: {
       primary: "white",
       secondary: "#dddddd",
-      important: "#3de57b"
+      important: "#3de57b",
+      error: "#e2544c"
     },
     button: {
       primary: "#008E43",
       secondary: "#483E56",
       cancel: "#AA3F39",
-      tertiary: "#8E6D97"
+      tertiary: "#8E6D97",
+      disabled: "#a0a0a0"
     },
     lowLight: "#0A020F",
     background: "#331D44",
