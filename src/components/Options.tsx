@@ -48,6 +48,9 @@ const LinkList: React.SFC<{ basePath: string }> = ({ basePath }) => {
       <Link css={[styles.link, styles.manage]} to={`${basePath}/manage`}>
         Manage
       </Link>
+      <Link css={[styles.link, styles.manage]} to={`${basePath}/preferences`}>
+        Preferences
+      </Link>
     </ul>
   );
 };
@@ -84,10 +87,10 @@ export const Options: React.SFC<RouteComponentProps> = ({ match }) => {
   const styles = useStyle(styleBuilder);
   const baseUrl = match && match.url.replace(/\/options\/?/, "");
   return (
-    <Authenticated>
-      <div css={styles.pageLayout}>
-        <LinkList basePath={baseUrl} />
-      </div>
-    </Authenticated>
+    // <Authenticated>
+    <div css={styles.pageLayout}>
+      <LinkList basePath={baseUrl} />
+    </div>
+    // </Authenticated>
   );
 };

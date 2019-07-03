@@ -23,6 +23,16 @@ interface ButtonPadding {
   paddingRight: string;
 }
 
+interface InputBorders {
+  borderWidth: string;
+  borderRadius: string;
+}
+
+interface InputPadding {
+  paddingLeft: string;
+  paddingRight: string;
+}
+
 interface Colors {
   text: TextColors;
   button: ButtonColors;
@@ -61,6 +71,10 @@ export interface Theme {
     borderOptions: ButtonBorders;
     paddingOptions: ButtonPadding;
   };
+  inputs: {
+    borderOptions: InputBorders;
+    paddingOptions: InputPadding;
+  };
   links: Link;
   font: Font;
   separators: Separators;
@@ -90,6 +104,16 @@ const defaultTheme: Theme = {
     borderOptions: {
       borderWidth: "0",
       borderRadius: "4rem"
+    },
+    paddingOptions: {
+      paddingRight: "2rem",
+      paddingLeft: "2rem"
+    }
+  },
+  inputs: {
+    borderOptions: {
+      borderWidth: "0",
+      borderRadius: "1rem"
     },
     paddingOptions: {
       paddingRight: "2rem",
