@@ -6,6 +6,7 @@ import { WhatWeDo } from "./WhatWeDo";
 import { Theme } from "../../theme/theme";
 import { useStyle } from "../../theme/useStyle";
 import { LineList } from "./LineList";
+import { CreateLineButton } from "../create/CreateLineButton";
 
 const landingStyles = ({
   colors: { background, text },
@@ -39,6 +40,7 @@ export const Landing = () => {
     <div css={style.page}>
       <Logo />
       <WhatWeDo />
+      <CreateLineButton />
       <div css={style.lines}>
         <div css={style.available}>Available Lines</div>
         <LineList lineNames={lineNames} />

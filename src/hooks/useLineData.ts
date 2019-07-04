@@ -3,7 +3,7 @@ import { useFirestore } from "../context/firestoreContext";
 import { useEffect, useState } from "react";
 import { firestore } from "firebase";
 
-export const useLineData = (key: string) => {
+export const useLineData = (key: string): string => {
   const db = useFirestore();
   const lineName = useLineName();
   const [value, setValue] = useState<firestore.DocumentData | undefined>(

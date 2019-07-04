@@ -15,6 +15,7 @@ import { useStyle } from "../theme/useStyle";
 import { Dashboard } from "./Dashboard";
 import { Terminal } from "./Terminal";
 import { Manage } from "./Manage";
+import { Preferences } from "./preferences/Preferences";
 
 const styleBuilder = ({ colors: { background, text }, font }: Theme) => ({
   pageLayout: {
@@ -41,6 +42,9 @@ export const Main: React.SFC<RouteComponentProps> = ({ match }) => {
           </Route>
           <Route path={`${match.url}/manage`}>
             <Manage />
+          </Route>
+          <Route path={`${match.url}/preferences`}>
+            <Preferences />
           </Route>
           <Route path={match.url} exact={true}>
             <User />

@@ -2,6 +2,7 @@ interface TextColors {
   primary: string;
   secondary: string;
   important: string;
+  error: string;
 }
 
 interface ButtonColors {
@@ -9,6 +10,7 @@ interface ButtonColors {
   cancel: string;
   secondary: string;
   tertiary: string;
+  disabled: string;
 }
 
 interface ButtonBorders {
@@ -17,6 +19,16 @@ interface ButtonBorders {
 }
 
 interface ButtonPadding {
+  paddingLeft: string;
+  paddingRight: string;
+}
+
+interface InputBorders {
+  borderWidth: string;
+  borderRadius: string;
+}
+
+interface InputPadding {
   paddingLeft: string;
   paddingRight: string;
 }
@@ -59,6 +71,10 @@ export interface Theme {
     borderOptions: ButtonBorders;
     paddingOptions: ButtonPadding;
   };
+  inputs: {
+    borderOptions: InputBorders;
+    paddingOptions: InputPadding;
+  };
   links: Link;
   font: Font;
   separators: Separators;
@@ -69,13 +85,15 @@ const defaultTheme: Theme = {
     text: {
       primary: "white",
       secondary: "#dddddd",
-      important: "#3de57b"
+      important: "#3de57b",
+      error: "#e2544c"
     },
     button: {
       primary: "#008E43",
       secondary: "#483E56",
       cancel: "#AA3F39",
-      tertiary: "#8E6D97"
+      tertiary: "#8E6D97",
+      disabled: "#a0a0a0"
     },
     lowLight: "#0A020F",
     background: "#331D44",
@@ -86,6 +104,16 @@ const defaultTheme: Theme = {
     borderOptions: {
       borderWidth: "0",
       borderRadius: "4rem"
+    },
+    paddingOptions: {
+      paddingRight: "2rem",
+      paddingLeft: "2rem"
+    }
+  },
+  inputs: {
+    borderOptions: {
+      borderWidth: "0",
+      borderRadius: "1rem"
     },
     paddingOptions: {
       paddingRight: "2rem",
