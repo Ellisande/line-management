@@ -1,4 +1,4 @@
-import { Line } from "./../Line";
+import { Line, GroupPreference, SkipPreference, CallPreference, DurationPreference, CapacityPreference } from "./../Line";
 import { useFirestore } from "../context/firestoreContext";
 import { useLineName } from "../context/lineNameContext";
 import { useCallback } from "react";
@@ -9,7 +9,7 @@ const useLineDataUpdater = () => {
   const db = useFirestore();
   const lineName = useLineName();
   const callback = useCallback(
-    (field: keyof Line, value: string) => {
+    (field: keyof Line, value: string | number) => {
       if (!db || !lineName || !field) {
         return Promise.resolve();
       }
@@ -31,10 +31,36 @@ export const useStartedAcceptingUpdater = () => {
   return (time: moment.Moment) => updater("startedAcceptingAt", time.format());
 };
 
+export const useGroupPreferenceUpdater = () => {
+  const updater = useLineDataUpdater();
+  return (groupPreference: GroupPreference) => updater("groupPreference", groupPreference);
+}
+
+export const useSkipPreferenceUpdater = () => {
+  const updater = useLineDataUpdater();
+  return (skipPreference: SkipPreference) => updater("skipPreference", skipPreference);
+}
+
+export const useCallPreferenceUpdater = () => {
+  const updater = useLineDataUpdater();
+  return (callPreference: CallPreference) => updater("callPreference", callPreference);
+}
+
 export const useStoppedAcceptingUpdater = () => {
   const updater = useLineDataUpdater();
   return (time: moment.Moment) => updater("stoppedAcceptingAt", time.format());
 };
+
+export const useDurationPreferenceUpdater = () => {
+  const updater = useLineDataUpdater();
+  return (maxDuration: number | DurationPreference) => 
+    updater('maxDuration', maxDuration);
+}
+
+export const useCapacityPreferenceUpdater = () => {
+  const updater = useLineDataUpdater();
+  return (maxCapacity: number | CapacityPreference) => updater('maximumCapacity', maxCapacity)
+}
 
 export const useStoppedAcceptingRemover = () => {
   const db = useFirestore();
