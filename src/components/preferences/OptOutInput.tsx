@@ -2,7 +2,7 @@
 import { jsx } from "@emotion/core";
 import { useStyle } from "../../theme/useStyle";
 import { Theme } from "../../theme/theme";
-import { ReactNode, useState, ChangeEvent } from "react";
+import { ReactNode, useState, ChangeEvent, useEffect } from "react";
 
 const styleBuilder = ({
   colors: { text, button },
@@ -72,7 +72,10 @@ export const OptOutInput: React.SFC<Props> = ({
 }) => {
   const styles = useStyle(styleBuilder);
   const [inputValue, setInputValue] = useState(value);
-  const noneSelected = inputValue === noneValue || inputValue.length == 0;
+  useEffect(() => {
+    setInputValue(value)
+  }, [value]);
+  const noneSelected = inputValue === noneValue || (inputValue && inputValue.length == 0);
   const buttonStyle = noneSelected
     ? styles.noneSelected
     : styles.noneDeselected;
