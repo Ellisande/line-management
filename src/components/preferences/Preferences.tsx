@@ -7,10 +7,18 @@ import {
   SkipPreference,
   CallPreference,
   DurationPreference,
-  CapacityPreference
+  CapacityPreference,
+  groupPreferenceMap,
+  callPreferenceMap,
+  skipPreferenceMap,
+  durationPreferenceMap,
+  capacityPreferenceMap
 } from "../../Line";
 import { ButtonGroup } from "./ButtonGroup";
 import { OptOutInput } from "./OptOutInput";
+import { useLineData } from "../../hooks/useLineData";
+import { useGroupPreferenceUpdater, useCallPreferenceUpdater, useSkipPreferenceUpdater, useDurationPreferenceUpdater, useCapacityPreferenceUpdater } from "../../hooks/useLineDataUpdater";
+import { duration } from "moment";
 
 const styleBuilder = ({ colors: { text, button }, buttons }: Theme) => ({
   layout: {
@@ -33,15 +41,27 @@ const mockPreferences = {
   maximumCapacity: CapacityPreference.NO_MAXIMUM_CAPACITY
 };
 
-export const Preferences: React.SFC<Props> = () => {
+const toDurationValue = (value: string | number) => durationPreferenceMap[value] || value;
+const toCapacityValue = (value: string | number) => capacityPreferenceMap[value] || value;
+
+export const Preferences: React.FunctionComponent<Props> = () => {
   const styles = useStyle(styleBuilder);
-  const {
-    groupPreference,
-    skipPrefence,
-    callPreference,
-    maxDuration,
-    maximumCapacity
-  } = mockPreferences;
+
+  const groupPreference = groupPreferenceMap[useLineData('groupPreference')];
+  const groupPrefenceUpdater = useGroupPreferenceUpdater();
+
+  const callPreference = callPreferenceMap[useLineData('callPreference')];
+  const callPreferenceUpdater = useCallPreferenceUpdater();
+
+  const skipPreference = skipPreferenceMap[useLineData('skipPreference')];
+  const skipPreferenceUpdater = useSkipPreferenceUpdater();
+
+  const maxDuration = toDurationValue(useLineData('maxDuration'));
+  const maxDurationUpdater = useDurationPreferenceUpdater();
+  
+  const maximumCapacity = toCapacityValue(useLineData('maximumCapacity'));
+  const maximumCapacityUpdater = useCapacityPreferenceUpdater();
+
   return (
     <div css={styles.layout}>
       <ButtonGroup
@@ -55,13 +75,17 @@ export const Preferences: React.SFC<Props> = () => {
           GroupPreference.FIVE
         ]}
         value={groupPreference}
+        onChange={groupPrefenceUpdater}
+        pro
       />
       <ButtonGroup
         label="What should happen to people who are skipped?"
         name="skipPreference"
         options={[SkipPreference.REMOVE]}
         proOptions={[SkipPreference.NEXT, SkipPreference.LOW_PRIORITY]}
-        value={skipPrefence}
+        value={skipPreference}
+        onChange={skipPreferenceUpdater}
+        pro
       />
       <ButtonGroup
         label="How do you want to call numbers?"
@@ -69,24 +93,24 @@ export const Preferences: React.SFC<Props> = () => {
         options={[CallPreference.ORDERED]}
         proOptions={[CallPreference.PICK_NUMBERS]}
         value={callPreference}
+        onChange={callPreferenceUpdater}
+        pro
       />
       <OptOutInput
-        value={CapacityPreference.NO_MAXIMUM_CAPACITY}
+        value={maximumCapacity}
         noneLabel="No limit"
         noneValue={CapacityPreference.NO_MAXIMUM_CAPACITY}
         label="Maximum number of people in line"
-        onChange={a => {
-          console.log(a);
-        }}
+        onChange={maximumCapacityUpdater}
+        pro
       />
       <OptOutInput
-        value={DurationPreference.NO_MAXIMUM_DURATION}
+        value={maxDuration}
         noneLabel="No limit"
         noneValue={DurationPreference.NO_MAXIMUM_DURATION}
         label="Maximum wait time in minutes"
-        onChange={a => {
-          console.log(a);
-        }}
+        onChange={maxDurationUpdater}
+        pro
       />
     </div>
   );
