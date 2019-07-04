@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useStyle } from "../../theme/useStyle";
 import { Theme } from "../../theme/theme";
 
@@ -48,6 +48,7 @@ interface ButtonGroupProps<T> {
   proOptions?: T[];
   value: T;
   label: React.ReactNode;
+  onChange?: (newValue: T) => void;
   pro?: boolean;
 }
 
@@ -59,11 +60,18 @@ export const ButtonGroup: ButtonGroupComponent<any> = ({
   value,
   label,
   proOptions = [],
+  onChange = () => {},
   pro
 }) => {
   const styles = useStyle(styleBuilder);
-  const [selected, setSelected] = useState(value);
-  const clickable = (nextValue: any) => setSelected(nextValue);
+  const [selected, setSelected] = useState("");
+  useEffect(() => {
+    setSelected(value);
+  }, [value])
+  const clickable = (nextValue: any) => {
+    setSelected(nextValue);
+    onChange(nextValue);
+  };
   return (
     <div css={styles.layout}>
       <h3>{label}</h3>
@@ -73,7 +81,7 @@ export const ButtonGroup: ButtonGroupComponent<any> = ({
             name={name}
             label={option}
             value={option}
-            selected={selected == option}
+            selected={selected === option}
             onClick={clickable}
             key={option}
           />
@@ -83,7 +91,7 @@ export const ButtonGroup: ButtonGroupComponent<any> = ({
             name={name}
             label={option}
             value={option}
-            selected={selected == option}
+            selected={selected === option}
             onClick={clickable}
             key={option}
             disabled={!pro}
