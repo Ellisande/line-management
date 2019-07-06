@@ -55,6 +55,7 @@ interface Link {
 interface Font {
   size: {
     huge: string;
+    xl: string;
     large: string;
     normal: string;
     small: string;
@@ -133,6 +134,7 @@ const defaultTheme: Theme = {
   font: {
     size: {
       huge: "7rem",
+      xl: '4rem',
       large: "3rem",
       normal: "2rem",
       small: "1.5rem",

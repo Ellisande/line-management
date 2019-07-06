@@ -6,7 +6,7 @@ import { useStyle } from "../../theme/useStyle";
 
 const whatWeDoStyles = ({ colors, font }: Theme) => ({
   color: colors.text.secondary,
-  fontSize: font.size.small,
+  fontSize: font.size.normal,
   textAlign: "center"
 });
 
