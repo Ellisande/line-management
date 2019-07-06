@@ -72,7 +72,9 @@ export const defaultLinePreferences = {
 }
 
 export interface Line extends Preferences {
+  name: string;
   current: string;
   startedAcceptingAt: string;
   stoppedAcceptingAt: string;
+  owner: string;
 }
