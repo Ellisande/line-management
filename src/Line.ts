@@ -8,7 +8,7 @@ export enum GroupPreference {
   FIVE = "Five"
 }
 
-export const groupPreferenceMap: {[key: string]: GroupPreference} = {
+export const groupPreferenceMap: { [key: string]: GroupPreference } = {
   "One": GroupPreference.ONE,
   "Two": GroupPreference.TWO,
   "Three": GroupPreference.THREE,
@@ -23,7 +23,7 @@ export enum SkipPreference {
   LOW_PRIORITY = "Low Priority"
 }
 
-export const skipPreferenceMap: {[key: string]: SkipPreference} = {
+export const skipPreferenceMap: { [key: string]: SkipPreference } = {
   "Remove": SkipPreference.REMOVE,
   "Next": SkipPreference.NEXT,
   "Low Priority": SkipPreference.LOW_PRIORITY
@@ -34,7 +34,7 @@ export enum CallPreference {
   PICK_NUMBERS = "Pick Numbers"
 }
 
-export const callPreferenceMap: {[key: string]: CallPreference} = {
+export const callPreferenceMap: { [key: string]: CallPreference } = {
   "Ordered": CallPreference.ORDERED,
   "Pick Numbers": CallPreference.PICK_NUMBERS
 }
@@ -43,7 +43,7 @@ export enum DurationPreference {
   NO_MAXIMUM_DURATION = "No Maximum Duration"
 }
 
-export const durationPreferenceMap: {[key: string]: DurationPreference} = {
+export const durationPreferenceMap: { [key: string]: DurationPreference } = {
   "No Maximum Duration": DurationPreference.NO_MAXIMUM_DURATION
 }
 
@@ -51,7 +51,7 @@ export enum CapacityPreference {
   NO_MAXIMUM_CAPACITY = "No Maximum Capacity"
 }
 
-export const capacityPreferenceMap: {[key: string]: CapacityPreference} = {
+export const capacityPreferenceMap: { [key: string]: CapacityPreference } = {
   "No Maximum Capacity": CapacityPreference.NO_MAXIMUM_CAPACITY
 }
 
@@ -61,6 +61,14 @@ export interface Preferences {
   callPreference: CallPreference;
   maxDuration: moment.Duration | DurationPreference;
   maximumCapacity: number | CapacityPreference;
+}
+
+export const defaultLinePreferences = {
+  groupPreference: GroupPreference.ONE,
+  skipPreference: SkipPreference.REMOVE,
+  callPreference: CallPreference.PICK_NUMBERS,
+  maxDuration: DurationPreference.NO_MAXIMUM_DURATION,
+  maximumCapacity: CapacityPreference.NO_MAXIMUM_CAPACITY
 }
 
 export interface Line extends Preferences {

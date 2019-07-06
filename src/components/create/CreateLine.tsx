@@ -4,6 +4,11 @@ import { useStyle } from "../../theme/useStyle";
 import { Theme } from "../../theme/theme";
 import { useState, ChangeEvent, Fragment, useCallback } from "react";
 import { useLines } from "../../hooks/useLines";
+import { useLineCreator } from "../../hooks/useLineCreator";
+import { useAuthenticated } from "../../hooks/useAuthenticated";
+import { Authenticated } from "../Authenticated";
+import { match } from "react-router";
+import { History } from "history";
 
 const styleBuilder = ({
   colors: { text, background, button },
@@ -58,7 +63,10 @@ const styleBuilder = ({
   }
 });
 
-interface Props {}
+interface Props {
+  match: match,
+  history: History
+}
 
 const validate = (newName: string, lineNames: string[]) => {
   const violations: string[] = [];
@@ -88,17 +96,20 @@ const InputError: React.SFC<{ violations: string[] }> = ({ violations }) => {
   );
 };
 
-export const CreateLine: React.SFC<Props> = () => {
+export const CreateLine: React.SFC<Props> = (
+  { history, match }
+) => {
   const [newName, setNewName] = useState("");
   const [touched, setTouched] = useState(false);
   const styles = useStyle(styleBuilder);
-  //   const lineNames = useLines();
+  const lineNames = useLines();
+  const lineCreator = useLineCreator();
+  const authenticated = useAuthenticated();
   const createLine = useCallback(() => {
     const safeName = encodeURI(newName);
-    // submit unencoded name to Firebase
-    console.log(`https://line.management/lines/${safeName}`);
-  }, [newName]);
-  const lineNames = ["fanfusion"];
+    lineCreator(newName);
+    history.push(`line/${safeName}`)
+  }, [newName, lineCreator]);
   const updateName = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const pendingName = e.target.value;
@@ -111,29 +122,31 @@ export const CreateLine: React.SFC<Props> = () => {
   );
   const violations = validate(newName, lineNames);
   const valid = violations.length == 0;
-  const buttonStyle = valid ? styles.createButton : styles.disabledButton;
+  const buttonStyle = valid && authenticated ? styles.createButton : styles.disabledButton;
   return (
-    <div css={styles.page}>
-      <label htmlFor="line_name">Choose a descriptive name for your line</label>
-      <input
-        css={styles.input}
-        type="text"
-        name="line_name"
-        id="line_name"
-        onChange={updateName}
-      />
+    <Authenticated>
+      <div css={styles.page}>
+        <label htmlFor="line_name">Choose a descriptive name for your line</label>
+        <input
+          css={styles.input}
+          type="text"
+          name="line_name"
+          id="line_name"
+          onChange={updateName}
+        />
 
-      <button
-        css={[styles.button, buttonStyle]}
-        disabled={!valid}
-        onClick={createLine}
-      >
-        Create
+        <button
+          css={[styles.button, buttonStyle]}
+          disabled={!valid || !authenticated}
+          onClick={createLine}
+        >
+          Create
       </button>
 
-      {touched && violations.length >= 1 && (
-        <InputError violations={violations} />
-      )}
-    </div>
+        {touched && violations.length >= 1 && (
+          <InputError violations={violations} />
+        )}
+      </div>
+    </Authenticated>
   );
 };
