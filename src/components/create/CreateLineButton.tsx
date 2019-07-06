@@ -16,7 +16,7 @@ const styleBuilder = ({ font, colors, buttons }: Theme) => ({
   }
 });
 
-interface Props {}
+interface Props { }
 
 export const CreateLineButton: React.SFC<Props> = () => {
   const styles = useStyle(styleBuilder);
