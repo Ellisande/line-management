@@ -101,7 +101,7 @@ export const CreateLine: React.SFC<Props> = (
   const [newName, setNewName] = useState("");
   const [touched, setTouched] = useState(false);
   const styles = useStyle(styleBuilder);
-  const lineNames = useLines();
+  const lineNames = useLines().map(line => line.name);
   const lineCreator = useLineCreator();
   const authenticated = useAuthenticated();
   const createLine = useCallback(() => {
