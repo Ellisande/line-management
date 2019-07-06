@@ -6,7 +6,7 @@ import { useStyle } from "../theme/useStyle";
 
 const logoStyles = ({ colors, font }: Theme) => ({
   color: colors.text.important,
-  fontSize: font.size.large,
+  fontSize: font.size.xl,
   textAlign: "center",
   lineHeight: 0.8,
   marginBottom: "1rem",
