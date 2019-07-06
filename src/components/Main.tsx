@@ -43,9 +43,7 @@ export const Main: React.SFC<RouteComponentProps> = ({ match }) => {
           <Route path={`${match.url}/manage`}>
             <Manage />
           </Route>
-          <Route path={`${match.url}/preferences`}>
-            <Preferences />
-          </Route>
+          <Route path={`${match.url}/preferences`} component={Preferences} />
           <Route path={match.url} exact={true}>
             <User />
           </Route>
