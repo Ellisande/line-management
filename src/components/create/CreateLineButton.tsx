@@ -6,13 +6,14 @@ import { Link } from "react-router-dom";
 
 const styleBuilder = ({ font, colors, buttons }: Theme) => ({
   createButton: {
-    fontSize: font.size.normal,
+    fontSize: font.size.xl,
     color: colors.text.primary,
     ...buttons.borderOptions,
     ...buttons.paddingOptions,
     cursor: "pointer",
     textDecoration: "none",
-    backgroundColor: colors.button.primary
+    backgroundColor: colors.button.primary,
+    whiteSpace: 'nowrap'
   }
 });
 
