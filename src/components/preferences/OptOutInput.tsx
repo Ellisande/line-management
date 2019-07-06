@@ -32,7 +32,7 @@ const styleBuilder = ({
     borderWidth: "2px"
   },
   noneSelected: {
-    backgroundColor: button.primary,
+    backgroundColor: button.option,
     color: text.primary
   },
   noneDeselected: {
@@ -90,7 +90,7 @@ export const OptOutInput: React.SFC<Props> = ({
     onChange(noneValue);
   };
   const notProValue = "Requires Pro";
-  const displayValue = (function() {
+  const displayValue = (function () {
     if (!pro) {
       return notProValue;
     }
