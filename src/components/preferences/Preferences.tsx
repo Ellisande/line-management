@@ -19,6 +19,7 @@ import { OptOutInput } from "./OptOutInput";
 import { useLineData } from "../../hooks/useLineData";
 import { useGroupPreferenceUpdater, useCallPreferenceUpdater, useSkipPreferenceUpdater, useDurationPreferenceUpdater, useCapacityPreferenceUpdater } from "../../hooks/useLineDataUpdater";
 import { duration } from "moment";
+import { Authenticated } from "../Authenticated";
 
 const styleBuilder = ({ colors: { text, button }, buttons }: Theme) => ({
   layout: {
@@ -31,7 +32,7 @@ const styleBuilder = ({ colors: { text, button }, buttons }: Theme) => ({
   }
 });
 
-interface Props {}
+interface Props { }
 
 const mockPreferences = {
   groupPreference: GroupPreference.ONE,
@@ -58,60 +59,62 @@ export const Preferences: React.FunctionComponent<Props> = () => {
 
   const maxDuration = toDurationValue(useLineData('maxDuration'));
   const maxDurationUpdater = useDurationPreferenceUpdater();
-  
+
   const maximumCapacity = toCapacityValue(useLineData('maximumCapacity'));
   const maximumCapacityUpdater = useCapacityPreferenceUpdater();
 
   return (
-    <div css={styles.layout}>
-      <ButtonGroup
-        label={"How many people are called at a time?"}
-        name={"groupPreference"}
-        options={[GroupPreference.ONE]}
-        proOptions={[
-          GroupPreference.TWO,
-          GroupPreference.THREE,
-          GroupPreference.FOUR,
-          GroupPreference.FIVE
-        ]}
-        value={groupPreference}
-        onChange={groupPrefenceUpdater}
-        pro
-      />
-      <ButtonGroup
-        label="What should happen to people who are skipped?"
-        name="skipPreference"
-        options={[SkipPreference.REMOVE]}
-        proOptions={[SkipPreference.NEXT, SkipPreference.LOW_PRIORITY]}
-        value={skipPreference}
-        onChange={skipPreferenceUpdater}
-        pro
-      />
-      <ButtonGroup
-        label="How do you want to call numbers?"
-        name="callPreference"
-        options={[CallPreference.ORDERED]}
-        proOptions={[CallPreference.PICK_NUMBERS]}
-        value={callPreference}
-        onChange={callPreferenceUpdater}
-        pro
-      />
-      <OptOutInput
-        value={maximumCapacity}
-        noneLabel="No limit"
-        noneValue={CapacityPreference.NO_MAXIMUM_CAPACITY}
-        label="Maximum number of people in line"
-        onChange={maximumCapacityUpdater}
-        pro
-      />
-      <OptOutInput
-        value={maxDuration}
-        noneLabel="No limit"
-        noneValue={DurationPreference.NO_MAXIMUM_DURATION}
-        label="Maximum wait time in minutes"
-        onChange={maxDurationUpdater}
-        pro
-      />
-    </div>
+    <Authenticated>
+      <div css={styles.layout}>
+        <ButtonGroup
+          label={"How many people are called at a time?"}
+          name={"groupPreference"}
+          options={[GroupPreference.ONE]}
+          proOptions={[
+            GroupPreference.TWO,
+            GroupPreference.THREE,
+            GroupPreference.FOUR,
+            GroupPreference.FIVE
+          ]}
+          value={groupPreference}
+          onChange={groupPrefenceUpdater}
+          pro
+        />
+        <ButtonGroup
+          label="What should happen to people who are skipped?"
+          name="skipPreference"
+          options={[SkipPreference.REMOVE]}
+          proOptions={[SkipPreference.NEXT, SkipPreference.LOW_PRIORITY]}
+          value={skipPreference}
+          onChange={skipPreferenceUpdater}
+          pro
+        />
+        <ButtonGroup
+          label="How do you want to call numbers?"
+          name="callPreference"
+          options={[CallPreference.ORDERED]}
+          proOptions={[CallPreference.PICK_NUMBERS]}
+          value={callPreference}
+          onChange={callPreferenceUpdater}
+          pro
+        />
+        <OptOutInput
+          value={maximumCapacity}
+          noneLabel="No limit"
+          noneValue={CapacityPreference.NO_MAXIMUM_CAPACITY}
+          label="Maximum number of people in line"
+          onChange={maximumCapacityUpdater}
+          pro
+        />
+        <OptOutInput
+          value={maxDuration}
+          noneLabel="No limit"
+          noneValue={DurationPreference.NO_MAXIMUM_DURATION}
+          label="Maximum wait time in minutes"
+          onChange={maxDurationUpdater}
+          pro
+        />
+      </div>
+    </Authenticated>
   );
 };
