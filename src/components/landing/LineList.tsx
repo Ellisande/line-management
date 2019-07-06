@@ -20,7 +20,7 @@ const listStyle = () => ({
 });
 
 const linkLinkStyle = ({ colors, links, font }: Theme) => ({
-  fontSize: font.size.normal,
+  fontSize: font.size.large,
   color: colors.text.important,
   textDecoration: links.textDecoration,
   marginBottom: "3px",
