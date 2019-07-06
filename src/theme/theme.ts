@@ -11,6 +11,7 @@ interface ButtonColors {
   secondary: string;
   tertiary: string;
   disabled: string;
+  option: string;
 }
 
 interface ButtonBorders {
@@ -93,7 +94,8 @@ const defaultTheme: Theme = {
       secondary: "#483E56",
       cancel: "#AA3F39",
       tertiary: "#8E6D97",
-      disabled: "#a0a0a0"
+      disabled: "#a0a0a0",
+      option: '#AA3F39'
     },
     lowLight: "#0A020F",
     background: "#331D44",

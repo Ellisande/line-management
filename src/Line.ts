@@ -66,7 +66,7 @@ export interface Preferences {
 export const defaultLinePreferences = {
   groupPreference: GroupPreference.ONE,
   skipPreference: SkipPreference.REMOVE,
-  callPreference: CallPreference.PICK_NUMBERS,
+  callPreference: CallPreference.ORDERED,
   maxDuration: DurationPreference.NO_MAXIMUM_DURATION,
   maximumCapacity: CapacityPreference.NO_MAXIMUM_CAPACITY
 }

@@ -18,29 +18,36 @@ import { ButtonGroup } from "./ButtonGroup";
 import { OptOutInput } from "./OptOutInput";
 import { useLineData } from "../../hooks/useLineData";
 import { useGroupPreferenceUpdater, useCallPreferenceUpdater, useSkipPreferenceUpdater, useDurationPreferenceUpdater, useCapacityPreferenceUpdater } from "../../hooks/useLineDataUpdater";
-import { duration } from "moment";
 import { Authenticated } from "../Authenticated";
+import { Link } from "react-router-dom";
 
-const styleBuilder = ({ colors: { text, button }, buttons }: Theme) => ({
+
+const styleBuilder = ({ colors, buttons, font }: Theme) => ({
   layout: {
     display: "flex",
     flex: 1,
     flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "center",
-    paddingBottom: "5rem"
+    paddingBottom: "5rem",
+  },
+  manageButton: {
+    ...buttons.borderOptions,
+    ...buttons.paddingOptions,
+    cursor: "pointer",
+    fontSize: font.size.large,
+    backgroundColor: colors.button.primary,
+    color: colors.text.primary,
+    marginTop: '4rem',
+    borderWidth: '3px',
+    borderColor: colors.text.primary,
+    paddingTop: '1rem',
+    paddingBottom: "1rem",
+    textDecoration: "none"
   }
 });
 
 interface Props { }
-
-const mockPreferences = {
-  groupPreference: GroupPreference.ONE,
-  skipPrefence: SkipPreference.REMOVE,
-  callPreference: CallPreference.ORDERED,
-  maxDuration: DurationPreference.NO_MAXIMUM_DURATION,
-  maximumCapacity: CapacityPreference.NO_MAXIMUM_CAPACITY
-};
 
 const toDurationValue = (value: string | number) => durationPreferenceMap[value] || value;
 const toCapacityValue = (value: string | number) => capacityPreferenceMap[value] || value;
@@ -114,6 +121,7 @@ export const Preferences: React.FunctionComponent<Props> = () => {
           onChange={maxDurationUpdater}
           pro
         />
+        <Link css={styles.manageButton} to="manage">ManageLine</Link>
       </div>
     </Authenticated>
   );

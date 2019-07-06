@@ -30,7 +30,7 @@ const styleBuilder = ({ colors: { text, button }, font }: Theme) => ({
     display: "none"
   },
   selected: {
-    backgroundColor: button.primary
+    backgroundColor: button.option
   },
   disabled: {
     backgroundColor: button.disabled,
@@ -60,7 +60,7 @@ export const ButtonGroup: ButtonGroupComponent<any> = ({
   value,
   label,
   proOptions = [],
-  onChange = () => {},
+  onChange = () => { },
   pro
 }) => {
   const styles = useStyle(styleBuilder);
@@ -113,7 +113,7 @@ export const Radio: React.SFC<{
   onClick?: (value: any) => void;
   disabled?: boolean;
   className?: string;
-}> = ({ label, name, value, selected, onClick = () => {}, disabled }) => {
+}> = ({ label, name, value, selected, onClick = () => { }, disabled }) => {
   const styles = useStyle(styleBuilder);
   const selectedStyle = selected ? styles.selected : undefined;
   const whenClicked = (e: any) => {

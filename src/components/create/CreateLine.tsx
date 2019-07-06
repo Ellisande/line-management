@@ -64,7 +64,6 @@ const styleBuilder = ({
 });
 
 interface Props {
-  match: match,
   history: History
 }
 
@@ -97,7 +96,7 @@ const InputError: React.SFC<{ violations: string[] }> = ({ violations }) => {
 };
 
 export const CreateLine: React.SFC<Props> = (
-  { history, match }
+  { history }
 ) => {
   const [newName, setNewName] = useState("");
   const [touched, setTouched] = useState(false);
@@ -108,7 +107,7 @@ export const CreateLine: React.SFC<Props> = (
   const createLine = useCallback(() => {
     const safeName = encodeURI(newName);
     lineCreator(newName);
-    history.push(`line/${safeName}`)
+    history.push(`line/${safeName}/preferences`)
   }, [newName, lineCreator]);
   const updateName = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
