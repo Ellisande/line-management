@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from "react";
 import { FirestoreContext } from "../context/firestoreContext";
-import { firestore } from "firebase";
 import { Line } from "../Line";
 
 export const useLines = () => {
