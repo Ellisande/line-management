@@ -5,7 +5,7 @@ import { Theme } from "../theme/theme";
 import { useStyle } from "../theme/useStyle";
 import { useCurrentQueuer } from "../hooks/useCurrentQueuer";
 import { BigNumber } from "./user/YourNumber";
-import { useCallback } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useMarkServiced, usePullNumber } from "../hooks/useQueuerUpdater";
 import { useNextQueuer } from "../hooks/useNextQueuer";
 import { SkipNumber } from "./SkipNumber";
@@ -19,6 +19,8 @@ import {
   useStoppedAcceptingRemover,
   useCurrentUpdater
 } from "../hooks/useLineDataUpdater";
+import { useClearLine } from "../hooks/useClearLine";
+import { useLineName } from "../context/lineNameContext";
 
 const styleBuilder = ({ colors, font, buttons }: Theme) => ({
   bigNumber: {
@@ -70,6 +72,13 @@ const styleBuilder = ({ colors, font, buttons }: Theme) => ({
     backgroundColor: colors.button.cancel,
     color: colors.text.primary,
     fontSize: font.size.normal
+  },
+  loadingButton: {
+    ...buttons.borderOptions,
+    ...buttons.paddingOptions,
+    backgroundColor: colors.button.disabled,
+    color: colors.text.primary,
+    fontSize: font.size.normal
   }
 });
 
@@ -92,6 +101,12 @@ export const Manage = () => {
   const stopAccepting = useStoppedAcceptingUpdater();
   const startAccepting = useStartedAcceptingUpdater();
   const removeStopAccepting = useStoppedAcceptingRemover();
+  const lineClearer = useClearLine();
+  const lineName = useLineName();
+  const [resetting, setResetting] = useState(false);
+  const resetStyle = resetting ? styles.loadingButton : styles.sadButton;
+
+  useEffect(() => setResetting(false), [currentQueuer, peopleWaiting]);
 
   const markAndPull = useCallback(() => {
     if (!currentQueuer) {
@@ -133,6 +148,11 @@ export const Manage = () => {
     removeStopAccepting();
     startAccepting(moment());
   }, [acceptingNumbers]);
+
+  const clearLine = useCallback(() => {
+    setResetting(true);
+    lineClearer(lineName);
+  }, [lineName]);
   return (
     <Authenticated>
       <div css={styles.layout}>
@@ -187,7 +207,7 @@ export const Manage = () => {
               Start Accepting
             </button>
           )}
-          <button css={styles.sadButton} onClick={() => {}}>
+          <button css={resetStyle} onClick={clearLine}>
             Reset All Numbers
           </button>
         </div>
