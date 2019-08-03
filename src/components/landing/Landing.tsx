@@ -58,10 +58,11 @@ export const Landing = () => {
   const style = useStyle(landingStyles);
   const lines = useLines();
   const userId = useAuthenticated();
-  const myLines = lines.filter(line => line.owner === userId);
-  const myLineNames = myLines.map(line => line.name);
+  const myManagedLines = lines.filter(line => line.owner === userId);
+  const myLineNames = myManagedLines.map(line => line.name);
   const hasLines = myLineNames.length > 0;
-  const canCreate = useAuthorized(userId, Permissions.LINE_CREATE);
+  const canCreate =
+    useAuthorized(userId, Permissions.LINE_CREATE) && myLineNames.length < 3;
 
   return (
     <div css={style.page}>
