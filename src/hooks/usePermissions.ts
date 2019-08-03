@@ -1,6 +1,7 @@
 import { Permission, PermissionEnum } from "./../Permission";
 import { useFirestore } from "../context/firestoreContext";
 import { useEffect, useState } from "react";
+import { useAuthenticated } from "./useAuthenticated";
 
 export const usePermissions = (
   userId: string | undefined | null
@@ -47,4 +48,14 @@ export const useAuthorized = (
       )
   );
   return hasRequired;
+};
+
+export const useHasAnyPermission = (): boolean => {
+  const userId = useAuthenticated();
+  const permissions = usePermissions(userId);
+  if (!userId) {
+    return false;
+  }
+  const hasAtLeastOnePermission = permissions && permissions.length > 0;
+  return hasAtLeastOnePermission || false;
 };
