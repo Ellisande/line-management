@@ -1,4 +1,4 @@
-import { Permission, PermissionEnum } from "./../User";
+import { Permission, PermissionEnum } from "./../Permission";
 import { useFirestore } from "../context/firestoreContext";
 import { useEffect, useState } from "react";
 
