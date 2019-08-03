@@ -4,6 +4,7 @@ import { Lock } from "../icons/Lock";
 import { Theme } from "../theme/theme";
 import { useStyle } from "../theme/useStyle";
 import { Link, Route } from "react-router-dom";
+import { useHasAnyPermission } from "../hooks/usePermissions";
 
 const styleBuilder = ({ colors, font }: Theme) => ({
   icon: {
@@ -25,15 +26,21 @@ const styleBuilder = ({ colors, font }: Theme) => ({
 
 export const Navigation = () => {
   const styles = useStyle(styleBuilder);
+  const canViewOptions = useHasAnyPermission();
+
   return (
     <Route path="/line/:line_name">
-      {({ match }) => (
-        <div css={styles.layout}>
-          <Link to={`${match && match.url}/options`} css={styles.icon}>
-            <Lock />
-          </Link>
-        </div>
-      )}
+      {({ match }) =>
+        canViewOptions ? (
+          <div css={styles.layout}>
+            <Link to={`${match && match.url}/options`} css={styles.icon}>
+              <Lock />
+            </Link>
+          </div>
+        ) : (
+          <div css={styles.layout} />
+        )
+      }
     </Route>
   );
 };
