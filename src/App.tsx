@@ -10,6 +10,7 @@ import { Options } from "./components/Options";
 import { Main } from "./components/Main";
 import { FirebaseAuthContext } from "./context/firebaseAuthContext";
 import { CreateLine } from "./components/create/CreateLine";
+import { FirebaseFunctionsContext } from "./context/firebaseFunctionsContext";
 
 const App = () => {
   const [intialized, setInitialized] = useState(false);
@@ -24,6 +25,7 @@ const App = () => {
     <Router>
       <FirestoreContext.Provider value={firebase.firestore()}>
         <FirebaseAuthContext.Provider value={firebase.auth()}>
+          <FirebaseFunctionsContext.Provider value={firebase.functions()}>
           <Switch>
             <Route path="/create" component={CreateLine} />
             <Route path="/line/:line_name/options" component={Options} />
@@ -32,6 +34,7 @@ const App = () => {
               <Landing />
             </Route>
           </Switch>
+          </FirebaseFunctionsContext.Provider>
         </FirebaseAuthContext.Provider>
       </FirestoreContext.Provider>
     </Router>
