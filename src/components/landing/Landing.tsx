@@ -8,6 +8,8 @@ import { useStyle } from "../../theme/useStyle";
 import { LineList } from "./LineList";
 import { CreateLineButton } from "../create/CreateLineButton";
 import { useAuthenticated } from "../../hooks/useAuthenticated";
+import { useAuthorized } from "../../hooks/usePermissions";
+import { PermissionEnum } from "../../Permission";
 
 const landingStyles = ({
   colors: { background, text },
@@ -28,27 +30,27 @@ const landingStyles = ({
     fontSize: font.size.xl,
     borderBottom: `1px solid ${separators.color}`,
     marginBottom: "5px",
-    textAlign: 'center'
+    textAlign: "center"
   },
   lines: {
     marginTop: "20px",
     ":nth-child(n) > * + *": {
-      marginTop: '3rem'
+      marginTop: "3rem"
     }
   },
   emptyState: {
-    marginTop: '20px',
+    marginTop: "20px",
     fontSize: font.size.large,
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
-    alignItems: 'center',
+    alignItems: "center",
     ":nth-child(n) > * + *": {
-      marginTop: '3rem'
+      marginTop: "3rem"
     }
   },
   center: {
-    textAlign: 'center'
+    textAlign: "center"
   }
 });
 
@@ -59,26 +61,28 @@ export const Landing = () => {
   const myLines = lines.filter(line => line.owner === userId);
   const myLineNames = myLines.map(line => line.name);
   const hasLines = myLineNames.length > 0;
+  const canCreate = useAuthorized(userId, PermissionEnum.LINE_CREATE);
+
   return (
     <div css={style.page}>
       <Logo />
       <WhatWeDo />
-      {
-        !hasLines && <div css={style.emptyState}>
+      {!hasLines && canCreate && (
+        <div css={style.emptyState}>
           <div css={style.center}>Create a new line to get started</div>
           <CreateLineButton />
         </div>
-      }
-      {
-        hasLines && <div css={style.lines}>
-          <CreateLineButton />
+      )}
+      {hasLines && (
+        <div css={style.lines}>
+          {canCreate && <CreateLineButton />}
           <div>
             <div css={style.available}>Your Lines</div>
 
             <LineList lineNames={myLineNames} />
           </div>
         </div>
-      }
+      )}
     </div>
   );
 };
