@@ -17,10 +17,17 @@ import {
 import { ButtonGroup } from "./ButtonGroup";
 import { OptOutInput } from "./OptOutInput";
 import { useLineData } from "../../hooks/useLineData";
-import { useGroupPreferenceUpdater, useCallPreferenceUpdater, useSkipPreferenceUpdater, useDurationPreferenceUpdater, useCapacityPreferenceUpdater } from "../../hooks/useLineDataUpdater";
+import {
+  useGroupPreferenceUpdater,
+  useCallPreferenceUpdater,
+  useSkipPreferenceUpdater,
+  useDurationPreferenceUpdater,
+  useCapacityPreferenceUpdater
+} from "../../hooks/useLineDataUpdater";
 import { Authenticated } from "../Authenticated";
 import { Link } from "react-router-dom";
-
+import { Authorized } from "../Authorized";
+import { Permissions } from "../../Permission";
 
 const styleBuilder = ({ colors, buttons, font }: Theme) => ({
   layout: {
@@ -29,7 +36,7 @@ const styleBuilder = ({ colors, buttons, font }: Theme) => ({
     flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "center",
-    paddingBottom: "5rem",
+    paddingBottom: "5rem"
   },
   manageButton: {
     ...buttons.borderOptions,
@@ -38,40 +45,42 @@ const styleBuilder = ({ colors, buttons, font }: Theme) => ({
     fontSize: font.size.large,
     backgroundColor: colors.button.primary,
     color: colors.text.primary,
-    marginTop: '4rem',
-    borderWidth: '3px',
+    marginTop: "4rem",
+    borderWidth: "3px",
     borderColor: colors.text.primary,
-    paddingTop: '1rem',
+    paddingTop: "1rem",
     paddingBottom: "1rem",
     textDecoration: "none"
   }
 });
 
-interface Props { }
+interface Props {}
 
-const toDurationValue = (value: string | number) => durationPreferenceMap[value] || value;
-const toCapacityValue = (value: string | number) => capacityPreferenceMap[value] || value;
+const toDurationValue = (value: string | number) =>
+  durationPreferenceMap[value] || value;
+const toCapacityValue = (value: string | number) =>
+  capacityPreferenceMap[value] || value;
 
 export const Preferences: React.FunctionComponent<Props> = () => {
   const styles = useStyle(styleBuilder);
 
-  const groupPreference = groupPreferenceMap[useLineData('groupPreference')];
+  const groupPreference = groupPreferenceMap[useLineData("groupPreference")];
   const groupPrefenceUpdater = useGroupPreferenceUpdater();
 
-  const callPreference = callPreferenceMap[useLineData('callPreference')];
+  const callPreference = callPreferenceMap[useLineData("callPreference")];
   const callPreferenceUpdater = useCallPreferenceUpdater();
 
-  const skipPreference = skipPreferenceMap[useLineData('skipPreference')];
+  const skipPreference = skipPreferenceMap[useLineData("skipPreference")];
   const skipPreferenceUpdater = useSkipPreferenceUpdater();
 
-  const maxDuration = toDurationValue(useLineData('maxDuration'));
+  const maxDuration = toDurationValue(useLineData("maxDuration"));
   const maxDurationUpdater = useDurationPreferenceUpdater();
 
-  const maximumCapacity = toCapacityValue(useLineData('maximumCapacity'));
+  const maximumCapacity = toCapacityValue(useLineData("maximumCapacity"));
   const maximumCapacityUpdater = useCapacityPreferenceUpdater();
 
   return (
-    <Authenticated>
+    <Authorized permissions={Permissions.MANAGE}>
       <div css={styles.layout}>
         <ButtonGroup
           label={"How many people are called at a time?"}
@@ -121,8 +130,10 @@ export const Preferences: React.FunctionComponent<Props> = () => {
           onChange={maxDurationUpdater}
           pro
         />
-        <Link css={styles.manageButton} to="manage">ManageLine</Link>
+        <Link css={styles.manageButton} to="manage">
+          ManageLine
+        </Link>
       </div>
-    </Authenticated>
+    </Authorized>
   );
 };

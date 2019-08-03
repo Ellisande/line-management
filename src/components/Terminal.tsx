@@ -14,6 +14,8 @@ import { useStyle } from "../theme/useStyle";
 import { useQueuer } from "../hooks/useQueuer";
 import { Authenticated } from "./Authenticated";
 import { LineQrLink } from "./LineQrLink";
+import { Authorized } from "./Authorized";
+import { Permissions } from "../Permission";
 
 const styleBuilder = ({ colors, buttons, font }: Theme) => ({
   layout: {
@@ -76,7 +78,7 @@ export const Terminal = () => {
     );
   }
   return (
-    <Authenticated>
+    <Authorized permissions={Permissions.TERMINAL}>
       <div css={styles.layout}>
         <LineQrLink />
         <NumberDispenser onDispense={id => setTakenQueuer(id)} />
@@ -85,6 +87,6 @@ export const Terminal = () => {
           estimatedWait={estimatedWait}
         />
       </div>
-    </Authenticated>
+    </Authorized>
   );
 };
