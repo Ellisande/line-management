@@ -1,4 +1,4 @@
-import { Permission, PermissionEnum } from "./../Permission";
+import { Permission, Permissions } from "./../Permission";
 import { useFirestore } from "../context/firestoreContext";
 import { useEffect, useState } from "react";
 import { useAuthenticated } from "./useAuthenticated";
@@ -30,7 +30,7 @@ export const usePermissions = (
 
 export const useAuthorized = (
   userId: string | undefined,
-  requiredPermissions: PermissionEnum[] | PermissionEnum
+  requiredPermissions: Permissions[] | Permissions
 ): boolean => {
   const permissions = usePermissions(userId);
   const requiredPermissionsConverted =
