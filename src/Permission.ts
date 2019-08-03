@@ -1,4 +1,4 @@
-export enum PermissionEnum {
+export enum Permissions {
   LINE_CREATE = "line_create",
   SUPER_ADMIN = "super_admin",
   TERMINAL = "terminal",

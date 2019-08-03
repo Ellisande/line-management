@@ -6,7 +6,7 @@ import { useStyle } from "../theme/useStyle";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { useAuthorized } from "../hooks/usePermissions";
 import { useAuthenticated } from "../hooks/useAuthenticated";
-import { PermissionEnum } from "../Permission";
+import { Permissions } from "../Permission";
 
 const listStyleBuilder = ({ colors, font, buttons }: Theme) => ({
   layout: {
@@ -38,8 +38,8 @@ const listStyleBuilder = ({ colors, font, buttons }: Theme) => ({
 const LinkList: React.SFC<{ basePath: string }> = ({ basePath }) => {
   const styles = useStyle(listStyleBuilder);
   const userId = useAuthenticated();
-  const hasTerminalPermissoin = useAuthorized(userId, PermissionEnum.TERMINAL);
-  const hasManagePermission = useAuthorized(userId, PermissionEnum.MANAGE);
+  const hasTerminalPermissoin = useAuthorized(userId, Permissions.TERMINAL);
+  const hasManagePermission = useAuthorized(userId, Permissions.MANAGE);
   return (
     <ul css={styles.layout}>
       <Link css={[styles.link, styles.user]} to={`${basePath}`}>

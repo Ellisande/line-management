@@ -9,7 +9,7 @@ import { LineList } from "./LineList";
 import { CreateLineButton } from "../create/CreateLineButton";
 import { useAuthenticated } from "../../hooks/useAuthenticated";
 import { useAuthorized } from "../../hooks/usePermissions";
-import { PermissionEnum } from "../../Permission";
+import { Permissions } from "../../Permission";
 
 const landingStyles = ({
   colors: { background, text },
@@ -61,7 +61,7 @@ export const Landing = () => {
   const myLines = lines.filter(line => line.owner === userId);
   const myLineNames = myLines.map(line => line.name);
   const hasLines = myLineNames.length > 0;
-  const canCreate = useAuthorized(userId, PermissionEnum.LINE_CREATE);
+  const canCreate = useAuthorized(userId, Permissions.LINE_CREATE);
 
   return (
     <div css={style.page}>
