@@ -7,8 +7,9 @@ import { useLines } from "../../hooks/useLines";
 import { useLineCreator } from "../../hooks/useLineCreator";
 import { useAuthenticated } from "../../hooks/useAuthenticated";
 import { Authenticated } from "../Authenticated";
-import { match } from "react-router";
 import { History } from "history";
+import { Authorized } from "../Authorized";
+import { Permissions } from "../../Permission";
 
 const styleBuilder = ({
   colors: { text, background, button },
@@ -64,7 +65,7 @@ const styleBuilder = ({
 });
 
 interface Props {
-  history: History
+  history: History;
 }
 
 const validate = (newName: string, lineNames: string[]) => {
@@ -95,9 +96,7 @@ const InputError: React.SFC<{ violations: string[] }> = ({ violations }) => {
   );
 };
 
-export const CreateLine: React.SFC<Props> = (
-  { history }
-) => {
+export const CreateLine: React.SFC<Props> = ({ history }) => {
   const [newName, setNewName] = useState("");
   const [touched, setTouched] = useState(false);
   const styles = useStyle(styleBuilder);
@@ -107,7 +106,7 @@ export const CreateLine: React.SFC<Props> = (
   const createLine = useCallback(() => {
     const safeName = encodeURI(newName);
     lineCreator(newName);
-    history.push(`line/${safeName}/preferences`)
+    history.push(`line/${safeName}/preferences`);
   }, [newName, lineCreator]);
   const updateName = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -121,11 +120,14 @@ export const CreateLine: React.SFC<Props> = (
   );
   const violations = validate(newName, lineNames);
   const valid = violations.length == 0;
-  const buttonStyle = valid && authenticated ? styles.createButton : styles.disabledButton;
+  const buttonStyle =
+    valid && authenticated ? styles.createButton : styles.disabledButton;
   return (
-    <Authenticated>
+    <Authorized permissions={Permissions.LINE_CREATE}>
       <div css={styles.page}>
-        <label htmlFor="line_name">Choose a descriptive name for your line</label>
+        <label htmlFor="line_name">
+          Choose a descriptive name for your line
+        </label>
         <input
           css={styles.input}
           type="text"
@@ -140,12 +142,12 @@ export const CreateLine: React.SFC<Props> = (
           onClick={createLine}
         >
           Create
-      </button>
+        </button>
 
         {touched && violations.length >= 1 && (
           <InputError violations={violations} />
         )}
       </div>
-    </Authenticated>
+    </Authorized>
   );
 };

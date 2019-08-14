@@ -1,9 +1,12 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
+import { Fragment } from "react";
 import { Theme } from "../theme/theme";
 import { useStyle } from "../theme/useStyle";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { Authenticated } from "./Authenticated";
+import { useAuthorized } from "../hooks/usePermissions";
+import { useAuthenticated } from "../hooks/useAuthenticated";
+import { Permissions } from "../Permission";
 
 const listStyleBuilder = ({ colors, font, buttons }: Theme) => ({
   layout: {
@@ -34,23 +37,40 @@ const listStyleBuilder = ({ colors, font, buttons }: Theme) => ({
 
 const LinkList: React.SFC<{ basePath: string }> = ({ basePath }) => {
   const styles = useStyle(listStyleBuilder);
+  const userId = useAuthenticated();
+  const hasTerminalPermissoin = useAuthorized(userId, Permissions.TERMINAL);
+  const hasManagePermission = useAuthorized(userId, Permissions.MANAGE);
   return (
     <ul css={styles.layout}>
       <Link css={[styles.link, styles.user]} to={`${basePath}`}>
         User
       </Link>
-      <Link css={[styles.link, styles.utility]} to={`${basePath}/terminal`}>
-        Terminal
-      </Link>
-      <Link css={[styles.link, styles.utility]} to={`${basePath}/dashboard`}>
-        Dashboard
-      </Link>
-      <Link css={[styles.link, styles.manage]} to={`${basePath}/manage`}>
-        Manage
-      </Link>
-      <Link css={[styles.link, styles.manage]} to={`${basePath}/preferences`}>
-        Preferences
-      </Link>
+      {hasTerminalPermissoin && (
+        <Fragment>
+          <Link css={[styles.link, styles.utility]} to={`${basePath}/terminal`}>
+            Terminal
+          </Link>
+          <Link
+            css={[styles.link, styles.utility]}
+            to={`${basePath}/dashboard`}
+          >
+            Dashboard
+          </Link>
+        </Fragment>
+      )}
+      {hasManagePermission && (
+        <Fragment>
+          <Link css={[styles.link, styles.manage]} to={`${basePath}/manage`}>
+            Manage
+          </Link>
+          <Link
+            css={[styles.link, styles.manage]}
+            to={`${basePath}/preferences`}
+          >
+            Preferences
+          </Link>
+        </Fragment>
+      )}
     </ul>
   );
 };

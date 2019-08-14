@@ -21,6 +21,8 @@ import {
 } from "../hooks/useLineDataUpdater";
 import { useClearLine } from "../hooks/useClearLine";
 import { useLineName } from "../context/lineNameContext";
+import { Authorized } from "./Authorized";
+import { Permissions } from "../Permission";
 
 const styleBuilder = ({ colors, font, buttons }: Theme) => ({
   bigNumber: {
@@ -154,7 +156,7 @@ export const Manage = () => {
     lineClearer(lineName);
   }, [lineName]);
   return (
-    <Authenticated>
+    <Authorized permissions={Permissions.MANAGE}>
       <div css={styles.layout}>
         {currentQueuer && (
           <BigNumber
@@ -212,6 +214,6 @@ export const Manage = () => {
           </button>
         </div>
       </div>
-    </Authenticated>
+    </Authorized>
   );
 };

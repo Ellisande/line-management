@@ -10,6 +10,8 @@ import { Serving } from "./Serving";
 import { LineQrLink } from "./LineQrLink";
 import { useAcceptingNumbers } from "../hooks/useAcceptingNumbers";
 import { useSignOut } from "../hooks/useSignOut";
+import { Authorized } from "./Authorized";
+import { Permissions } from "../Permission";
 
 const styleBuilder = ({ colors: { text }, font }: Theme) => ({
   layout: {
@@ -32,11 +34,12 @@ export const Dashboard = () => {
   const averageWait = useAverageServiceTime();
   const estimatedWait = moment.duration(lineCount * averageWait);
   const accepting = useAcceptingNumbers();
-  useSignOut();
   return (
-    <div css={styles.layout}>
-      {accepting && <LineQrLink />}
-      <Serving currentNumber={current.number} estimatedWait={estimatedWait} />
-    </div>
+    <Authorized permissions={Permissions.TERMINAL}>
+      <div css={styles.layout}>
+        {accepting && <LineQrLink />}
+        <Serving currentNumber={current.number} estimatedWait={estimatedWait} />
+      </div>
+    </Authorized>
   );
 };
