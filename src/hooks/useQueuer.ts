@@ -29,7 +29,7 @@ export const useQueuer = (
   return queuer;
 };
 
-export const useUserQueuer = (
+export const useLoggedInQueuer = (
   queuerId: string | undefined | null
 ): Queuer | undefined => {
   const lineName = useLineName();
