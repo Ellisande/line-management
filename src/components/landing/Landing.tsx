@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
-import { useLines } from "../../hooks/useLines";
+import { useManagedLines, useActiveLines } from "../../hooks/useLines";
 import { Logo } from "../Logo";
 import { WhatWeDo } from "./WhatWeDo";
 import { Theme } from "../../theme/theme";
@@ -56,13 +56,20 @@ const landingStyles = ({
 
 export const Landing = () => {
   const style = useStyle(landingStyles);
-  const lines = useLines();
   const userId = useAuthenticated();
-  const myManagedLines = lines.filter(line => line.owner === userId);
-  const myLineNames = myManagedLines.map(line => line.name);
+  const myManagedLines = useManagedLines(userId);
+  const myManagedLineNames = myManagedLines.map(line => line.name);
+
+  const myActiveLines = useActiveLines(userId);
+  const myActiveLineNames = myActiveLines.map(line => line.name);
+
+  const myLineNames = [...myManagedLineNames, ...myActiveLineNames]
+    .sort()
+    .reverse();
+
   const hasLines = myLineNames.length > 0;
   const canCreate =
-    useAuthorized(userId, Permissions.LINE_CREATE) && myLineNames.length < 3;
+    useAuthorized(userId, Permissions.LINE_CREATE) && myManagedLines.length < 3;
 
   return (
     <div css={style.page}>
