@@ -5,6 +5,7 @@ import { useStyle } from "../theme/useStyle";
 import { Theme } from "../theme/theme";
 import { useHighestNumber } from "../hooks/useHighestNumber";
 import { useCallback } from "react";
+import { useAuthenticated } from "../hooks/useAuthenticated";
 
 const styleBuilder = ({ colors, buttons, font }: Theme) => ({
   bigButton: {
@@ -28,14 +29,18 @@ export const NumberDispenser: React.SFC<Props> = ({ onDispense }) => {
   const highestNumber = useHighestNumber();
   const addNumber = useLineAppender();
   const styles = useStyle(styleBuilder);
+  const userId = useAuthenticated();
   const createAndSet = useCallback(() => {
-    const newQueuer = { number: highestNumber + 1, userId: "1" };
+    if (!userId) {
+      return () => {};
+    }
+    const newQueuer = { number: highestNumber + 1, userId };
     addNumber(newQueuer).then(doc => {
       if (doc && doc.id) {
         onDispense(doc.id);
       }
     });
-  }, [highestNumber, addNumber, onDispense]);
+  }, [highestNumber, addNumber, onDispense, userId]);
   return (
     <button css={styles.bigButton} onClick={createAndSet}>
       Take A Number
