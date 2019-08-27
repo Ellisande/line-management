@@ -31,10 +31,7 @@ export const NumberDispenser: React.SFC<Props> = ({ onDispense }) => {
   const styles = useStyle(styleBuilder);
   const userId = useAuthenticated();
   const createAndSet = useCallback(() => {
-    if (!userId) {
-      return () => {};
-    }
-    const newQueuer = { number: highestNumber + 1, userId };
+    const newQueuer = { number: highestNumber + 1, userId: userId || "0" };
     addNumber(newQueuer).then(doc => {
       if (doc && doc.id) {
         onDispense(doc.id);
